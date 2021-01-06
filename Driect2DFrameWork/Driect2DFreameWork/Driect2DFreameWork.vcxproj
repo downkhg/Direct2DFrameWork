@@ -125,6 +125,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DX2DClasses\Driect2DFramework.cpp" />
+    <ClCompile Include="DX2DClasses\Image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="DX2DClasses\ColorBush.cpp" />
     <ClCompile Include="DX2DClasses\Shape.cpp" />
@@ -135,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX2DClasses\Driect2DFramework.h" />
+    <ClInclude Include="DX2DClasses\Image.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="DX2DClasses\ColorBush.h" />
     <ClInclude Include="DX2DClasses\GameManagaer.h" />

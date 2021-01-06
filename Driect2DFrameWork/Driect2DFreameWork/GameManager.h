@@ -18,14 +18,16 @@ namespace DX2DClasses
 		CPolygon* m_pPolygon;
 		CTriangle* m_pTriangle;
 		CCircle* m_pCircle;
+
+		CImage* m_pImage;
 	public:
 		CGameManager();
 		~CGameManager();
 
-		void Initialize(); //초기화
-		void Release(); //동적객체 제거
+		void Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework) override; //초기화
+		void Release() override; //동적객체 제거
 
-		void Update(); //정보변경
-		void Draw(); //객체 그리기
+		void Update() override; //정보변경
+		void Draw() override; //객체 그리기
 	};
 }

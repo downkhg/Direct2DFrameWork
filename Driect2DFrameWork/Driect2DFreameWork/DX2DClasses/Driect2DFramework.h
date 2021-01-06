@@ -13,6 +13,10 @@ namespace DX2DClasses
 		ID2D1HwndRenderTarget* m_pRenderTarget = nullptr;
 		IWICImagingFactory* m_pWICImagingFactory = nullptr;
 	public:
+		ID2D1Factory* GetD2DFactory() { return m_pD2DFactory; }
+		ID2D1HwndRenderTarget* GetD2DRenderTarget() { return m_pRenderTarget; }
+		IWICImagingFactory* GetImagingFactory(){ return m_pWICImagingFactory; }
+
 		void Initialize(HWND hWnd);
 		void Release();
 	private:
