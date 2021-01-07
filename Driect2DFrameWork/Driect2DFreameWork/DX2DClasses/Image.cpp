@@ -9,9 +9,9 @@
 
 using namespace DX2DClasses;
 
-SVector2 CImage::GetSize() { return m_sPointSize; }
-SVector2 CImage::GetCenter() { return SVector2(m_sPointSize.x / 2, m_sPointSize.y / 2); }
-
+SVector2 CImage::GetImageSize() { return m_sPointSize; }
+SVector2 CImage::GetImageCenter() { return SVector2(m_sPointSize.x / 2, m_sPointSize.y / 2); }
+int CImage::GetAnimationCount() { return m_pD2DBitmap.size(); }
 
 CImage::CImage(ID2D1HwndRenderTarget* pRenderTarget, IWICImagingFactory* pWICFactory, int nSize)
 {
@@ -23,11 +23,7 @@ CImage::CImage(ID2D1HwndRenderTarget* pRenderTarget, IWICImagingFactory* pWICFac
 
 void CImage::_CreateD2DBitmapFromFile(HWND hWnd, TCHAR* pImageFullPath, int idx)
 {
-	int nConverterIdx = 0;
 	IWICFormatConverter* &ipConvertedSrcBmp = m_pConvertedSrcBmp;
-	//if(ipConvertedSrcBmp->Release();
-
-
 	ID2D1Bitmap* &ipD2DBitmap = m_pD2DBitmap[idx];
 
 	assert(pImageFullPath != nullptr);
@@ -121,12 +117,12 @@ void CImage::DrawBitmap(const SVector2& pos, const SVector2& size, const float& 
 	m_pRenderTarget->DrawBitmap(bitmap, sArea);//비트맵을 그릴 영역은 회전을 적용한 랜더링이 되지않음.
 }
 
-//void CImage::DrawBitmap(const D2D1::Matrix3x2F &mat, int idx)
-//{
-//	const D2D1_POINT_2F size = m_sPointSize;
-//	ID2D1Bitmap* bitmap = m_pD2DBitmap[idx];
-//
-//	D2D1_RECT_F sArea = D2D1::RectF(0, 0, m_sPointSize.x, m_sPointSize.y);
-//	m_ipRT->SetTransform(mat);//트랜스폼을 셋팅하여 위치를 이동한다.
-//	m_pRT->DrawBitmap(bitmap, sArea);//비트맵을 그릴 영역은 회전을 적용한 랜더링이 되지않음.
-//}
+void CImage::DrawBitmap(const D2D1::Matrix3x2F &mat, int idx)
+{
+	const SVector2 size = m_sPointSize;
+	ID2D1Bitmap* bitmap = m_pD2DBitmap[idx];
+
+	D2D1_RECT_F sArea = D2D1::RectF(0, 0, m_sPointSize.x, m_sPointSize.y);
+	m_pRenderTarget->SetTransform(mat);//트랜스폼을 셋팅하여 위치를 이동한다.
+	m_pRenderTarget->DrawBitmap(bitmap, sArea);//비트맵을 그릴 영역은 회전을 적용한 랜더링이 되지않음.
+}

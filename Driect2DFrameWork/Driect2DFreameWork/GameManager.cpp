@@ -44,6 +44,8 @@ void CGameManager::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 
 void CGameManager::Release()
 {
+	delete m_pImage;
+
 	delete m_pRect;
 	delete m_pCircle;
 	delete m_pTriangle;
@@ -59,7 +61,6 @@ void CGameManager::Update()
 	m_pTriangle->Set(0, 0, 0, 50, 50, 50);
 	SVector2 rect[5] = { {0,0},{0,100},{50,150},{100,100},{100,0} };
 	m_pPolygon->Set(rect, 5);
-
 }
 
 void CGameManager::Draw()

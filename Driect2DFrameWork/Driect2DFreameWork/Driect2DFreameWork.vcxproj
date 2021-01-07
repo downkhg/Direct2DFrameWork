@@ -124,6 +124,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DX2DClasses\CollisionCheck.cpp" />
     <ClCompile Include="DX2DClasses\Driect2DFramework.cpp" />
     <ClCompile Include="DX2DClasses\Image.cpp" />
     <ClCompile Include="main.cpp" />
@@ -135,6 +136,7 @@
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DX2DClasses\CollisionCheck.h" />
     <ClInclude Include="DX2DClasses\Driect2DFramework.h" />
     <ClInclude Include="DX2DClasses\Image.h" />
     <ClInclude Include="main.h" />
