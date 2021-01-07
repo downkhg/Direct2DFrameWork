@@ -18,13 +18,16 @@ CImage::CImage(ID2D1HwndRenderTarget* pRenderTarget, IWICImagingFactory* pWICFac
 	m_pRenderTarget = pRenderTarget;
 	m_pWICFactory = pWICFactory;
 
-	m_pConvertedSrcBmp.resize(nSize);
 	m_pD2DBitmap.resize(nSize);
 }
 
 void CImage::_CreateD2DBitmapFromFile(HWND hWnd, TCHAR* pImageFullPath, int idx)
 {
-	IWICFormatConverter* &ipConvertedSrcBmp = m_pConvertedSrcBmp[idx];
+	int nConverterIdx = 0;
+	IWICFormatConverter* &ipConvertedSrcBmp = m_pConvertedSrcBmp;
+	//if(ipConvertedSrcBmp->Release();
+
+
 	ID2D1Bitmap* &ipD2DBitmap = m_pD2DBitmap[idx];
 
 	assert(pImageFullPath != nullptr);

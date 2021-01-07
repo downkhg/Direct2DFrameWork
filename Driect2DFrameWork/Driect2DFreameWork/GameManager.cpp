@@ -64,9 +64,16 @@ void CGameManager::Update()
 
 void CGameManager::Draw()
 {
+	static int nAniIdx = 0;
+
 	m_pRect->Draw(m_pColorBrush);
 	m_pCircle->Draw(m_pColorBrush);
 	m_pTriangle->Draw(m_pColorBrush);
 	m_pPolygon->Draw(m_pColorBrush);
-	m_pImage->DrawBitmap(SVector2(), SVector2(1, 1), 0, 0);
+	m_pImage->DrawBitmap(SVector2(), SVector2(1, 1), 0, nAniIdx);
+
+	if (nAniIdx < 6)
+		nAniIdx++;
+	else
+		nAniIdx = 0;
 }
