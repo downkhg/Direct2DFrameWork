@@ -36,23 +36,11 @@ bool CCollisionCheck::OverlapPointToAABB(SVector2& vPos, SVector2& tl, SVector2&
 	else
 		return false;
 }
-
+//3D버전 변경함. 문제점 수정필요
 bool CCollisionCheck::OverlapAABBtoAABB(SVector2& vTL_A, SVector2& vBR_A, SVector2& vTL_B, SVector2& vBR_B)
 {
-	SVector2 vMinA = vTL_A;
-	SVector2 vMaxA = vBR_A;
-
-	SVector2 vMinB = vTL_B;
-	SVector2 vMaxB = vBR_B;
-
-	if (vMaxA.x < vMinB.x ||
-		vMinB.x < vMaxB.x)
-		return false;
-
-	if (vMaxA.y < vMinB.y ||
-		vMinA.y < vMaxB.y)
-		return false;
+	if(vBR_A.x < vTL_B.x || vTL_A.x > vBR_B.x) return false;
+	if(vBR_A.y < vTL_B.y || vTL_A.y > vBR_B.y) return false;
 
 	return true;
-
 }

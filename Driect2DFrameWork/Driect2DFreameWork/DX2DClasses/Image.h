@@ -12,6 +12,8 @@ namespace D2D1 { class Matrix3x2F; }
 
 namespace DX2DClasses
 {
+	class CColorBrush;
+
 	class CImage
 	{
 		IWICFormatConverter*	m_pConvertedSrcBmp; //포맷변환기
@@ -31,7 +33,7 @@ namespace DX2DClasses
 
 		void ManualLoadImage(HWND hWnd, const TCHAR* format);
 
-		void DrawBitmap(const SVector2& pos, const SVector2& size, const float& angle, int idx);
+		void DrawBitmap(const SVector2& pos, const SVector2& size, const float& angle, int idx, CColorBrush* pColorBrush = NULL);
 		void DrawBitmap(const D2D1::Matrix3x2F &mat, int idx);
 	};
 }

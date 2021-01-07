@@ -1,4 +1,5 @@
 #include "Image.h"
+#include "ColorBush.h"
 #include <cassert>
 #include <commdlg.h>
 
@@ -90,7 +91,7 @@ void CImage::ManualLoadImage(HWND hWnd, const TCHAR* format)
 	}
 }
 
-void CImage::DrawBitmap(const SVector2& pos, const SVector2& size, const float& angle, int idx)
+void CImage::DrawBitmap(const SVector2& pos, const SVector2& size, const float& angle, int idx, CColorBrush* pColorBrush)
 {
 	ID2D1Bitmap* bitmap = m_pD2DBitmap[idx];
 
@@ -103,17 +104,9 @@ void CImage::DrawBitmap(const SVector2& pos, const SVector2& size, const float& 
 	D2D1::Matrix3x2F matTS = matT * matS;
 	D2D1::Matrix3x2F matTrans = matT * matR * matS; //회전을 먼저시키고 이동시킬 경우, 2D에서 케릭터의 모양만 회전시키는 식으로 처리가 가능하다. 
 
-	D2D1_POINT_2F sTL = D2D1::Point2F(0, 0);
-	D2D1_POINT_2F sTR = D2D1::Point2F(m_sPointSize.x, 0);
-	D2D1_POINT_2F sBL = D2D1::Point2F(0, m_sPointSize.y);
-	D2D1_POINT_2F sBR = D2D1::Point2F(m_sPointSize.x, m_sPointSize.y);
+	D2D1_RECT_F sArea = D2D1::RectF(0, 0, m_sPointSize.x, m_sPointSize.y);
 
-	D2D1_POINT_2F sRectTL = sTL * matT;
-	D2D1_POINT_2F sRectBR = sBR * matT;
-
-	D2D1_RECT_F sArea = D2D1::RectF(sRectTL.x, sRectTL.y, sRectBR.x, sRectBR.y);
-
-	m_pRenderTarget->SetTransform(matR * matT * matS);
+	m_pRenderTarget->SetTransform(matTrans);
 	m_pRenderTarget->DrawBitmap(bitmap, sArea);//비트맵을 그릴 영역은 회전을 적용한 랜더링이 되지않음.
 }
 

@@ -4,6 +4,11 @@
 
 using namespace DX2DClasses;
 
+void CRect::Set(SVector2& pos, SVector2& size)
+{
+	m_vPos = pos;
+	m_vSize = size;
+}
 
 void CRect::Set(float x, float y, float width, float height)
 {
@@ -32,7 +37,6 @@ void CRect::Draw(CColorBrush* pColorBrush, float stroke, bool feel)
 		pRenderTarget->FillRectangle(D2D1::RectF(sTL.x, sTL.y, sBR.x, sBR.y), pColorBlush);
 }
 
-
 void CCircle::Set(float x, float y, float radius)
 {
 	m_vPos.x = x;
@@ -49,6 +53,13 @@ void CCircle::Draw(CColorBrush* pColorBrush, float stroke, bool feel)
 		pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(m_vPos.x, m_vPos.y), m_fRadius, m_fRadius), pColorBrush->GetColorBrush());
 }
 
+
+void CTriangle::Set(SVector2& a, SVector2& b, SVector2& c)
+{
+	m_arrPos[0] = a;
+	m_arrPos[1] = b;
+	m_arrPos[2] = c;
+}
 
 void CTriangle::Set(float ax, float ay, float bx, float by, float cx, float cy)
 {
