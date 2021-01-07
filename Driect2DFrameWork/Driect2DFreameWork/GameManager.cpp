@@ -36,9 +36,9 @@ void CGameManager::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 
 	m_pPolygon = new CPolygon();
 	
-	m_pImage = new CImage();
-	m_pImage->m_pWICFactory = pDX2DFramework->GetImagingFactory();
-	m_pImage->m_pRenderTarget = pDX2DFramework->GetD2DRenderTarget();
+	m_pImage = new CImage(pDX2DFramework->GetD2DRenderTarget(), pDX2DFramework->GetImagingFactory(),7);
+	//m_pImage->m_pWICFactory = pDX2DFramework->GetImagingFactory();
+	//m_pImage->m_pRenderTarget = pDX2DFramework->GetD2DRenderTarget();
 	m_pImage->ManualLoadImage(hWnd, L"Images\\sonic_%04d.png");
 }
 

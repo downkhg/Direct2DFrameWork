@@ -12,7 +12,17 @@ using namespace DX2DClasses;
 SVector2 CImage::GetSize() { return m_sPointSize; }
 SVector2 CImage::GetCenter() { return SVector2(m_sPointSize.x / 2, m_sPointSize.y / 2); }
 
-void CImage::CreateD2DBitmapFromFile(HWND hWnd, TCHAR* pImageFullPath, int idx)
+
+CImage::CImage(ID2D1HwndRenderTarget* pRenderTarget, IWICImagingFactory* pWICFactory, int nSize)
+{
+	m_pRenderTarget = pRenderTarget;
+	m_pWICFactory = pWICFactory;
+
+	m_pConvertedSrcBmp.resize(nSize);
+	m_pD2DBitmap.resize(nSize);
+}
+
+void CImage::_CreateD2DBitmapFromFile(HWND hWnd, TCHAR* pImageFullPath, int idx)
 {
 	IWICFormatConverter* &ipConvertedSrcBmp = m_pConvertedSrcBmp[idx];
 	ID2D1Bitmap* &ipD2DBitmap = m_pD2DBitmap[idx];
@@ -69,10 +79,10 @@ void CImage::ManualLoadImage(HWND hWnd, const TCHAR* format)
 {
 	TCHAR szFullPath[1024];
 
-	for (int i = 0; i < ANI_SIZE; i++)
+	for (int i = 0; i < m_pD2DBitmap.size(); i++)
 	{
 		wsprintf(szFullPath, format, i);
-		CreateD2DBitmapFromFile(hWnd, szFullPath, i);
+		_CreateD2DBitmapFromFile(hWnd, szFullPath, i);
 
 		RECT rc;
 		m_sPointSize = SVector2(m_pD2DBitmap[i]->GetSize().width, m_pD2DBitmap[i]->GetSize().height);
