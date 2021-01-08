@@ -1,7 +1,7 @@
 #pragma once
 //이미지 이동시 위치가 변경됨? 고칠때까지 사용금지. 전반적인 렌더타겟 그리기에서 문제가 발생함.
 #include "Vector2.h"
-#include "ColorBush.h"
+#include "ColorBrush.h"
 #include "SingletonRenderTarget.h"
 #include <list>
 

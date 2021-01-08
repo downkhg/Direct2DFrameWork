@@ -24,9 +24,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="DX2DClasses\ColorBush.cpp">
-      <Filter>소스 파일\DX2DClasses</Filter>
-    </ClCompile>
     <ClCompile Include="DX2DClasses\Shape.cpp">
       <Filter>소스 파일\DX2DClasses</Filter>
     </ClCompile>
@@ -54,14 +51,17 @@
     <ClCompile Include="DX2DClasses\InputManager.cpp">
       <Filter>소스 파일\DX2DClasses</Filter>
     </ClCompile>
+    <ClCompile Include="DX2DClasses\DebugHelper.cpp">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="DX2DClasses\ColorBrushPalettet.cpp">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="DX2DClasses\ColorBrush.cpp">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DX2DClasses\ColorBush.h">
-      <Filter>소스 파일\DX2DClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="DX2DClasses\GameManagaer.h">
-      <Filter>소스 파일\DX2DClasses</Filter>
-    </ClInclude>
     <ClInclude Include="DX2DClasses\Shape.h">
       <Filter>소스 파일\DX2DClasses</Filter>
     </ClInclude>
@@ -96,6 +96,18 @@
       <Filter>소스 파일\DX2DClasses</Filter>
     </ClInclude>
     <ClInclude Include="DX2DClasses\InputManager.h">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="DX2DClasses\GameManager.h">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="DX2DClasses\DebugHelper.h">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="DX2DClasses\ColorBrushPalettet.h">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="DX2DClasses\ColorBrush.h">
       <Filter>소스 파일\DX2DClasses</Filter>
     </ClInclude>
   </ItemGroup>

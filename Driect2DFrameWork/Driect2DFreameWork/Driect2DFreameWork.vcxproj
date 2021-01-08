@@ -125,11 +125,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DX2DClasses\CollisionCheck.cpp" />
+    <ClCompile Include="DX2DClasses\ColorBrushPalettet.cpp" />
+    <ClCompile Include="DX2DClasses\DebugHelper.cpp" />
     <ClCompile Include="DX2DClasses\Driect2DFramework.cpp" />
     <ClCompile Include="DX2DClasses\Image.cpp" />
     <ClCompile Include="DX2DClasses\InputManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="DX2DClasses\ColorBush.cpp" />
+    <ClCompile Include="DX2DClasses\ColorBrush.cpp" />
     <ClCompile Include="DX2DClasses\Shape.cpp" />
     <ClCompile Include="DX2DClasses\SingletonRenderTarget.cpp" />
     <ClCompile Include="DX2DClasses\Vector2.cpp" />
@@ -138,12 +140,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX2DClasses\CollisionCheck.h" />
+    <ClInclude Include="DX2DClasses\ColorBrushPalettet.h" />
+    <ClInclude Include="DX2DClasses\DebugHelper.h" />
     <ClInclude Include="DX2DClasses\Driect2DFramework.h" />
     <ClInclude Include="DX2DClasses\Image.h" />
     <ClInclude Include="DX2DClasses\InputManager.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="DX2DClasses\ColorBush.h" />
-    <ClInclude Include="DX2DClasses\GameManagaer.h" />
+    <ClInclude Include="DX2DClasses\ColorBrush.h" />
+    <ClInclude Include="DX2DClasses\GameManager.h" />
     <ClInclude Include="DX2DClasses\Shape.h" />
     <ClInclude Include="DX2DClasses\SingletonRenderTarget.h" />
     <ClInclude Include="DX2DClasses\Vector2.h" />

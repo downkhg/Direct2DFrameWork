@@ -1,5 +1,5 @@
 #pragma once
-#include "DX2DClasses/GameManagaer.h"
+#include "DX2DClasses/GameManager.h"
 #include "DX2DClasses/Vector2.h"
 
 namespace DX2DClasses
@@ -10,18 +10,21 @@ namespace DX2DClasses
 	class CCircle;
 	class CImage;
 	class CColorBrush;
+	class CColorBrushPalettet;
 
 	class CGameManager : public IGameManager
 	{
-		CColorBrush* m_pColorBrush;
-		CColorBrush* m_pRedBrush;
+		
+		CColorBrushPalettet* m_pColorBrushPalettet;
 
-		CRect* m_pRect;
-		CPolygon* m_pPolygon;
-		CTriangle* m_pTriangle;
-		CCircle* m_pCircle;
+		CImage* m_pPlayer;
+		CImage* m_pOpossum;
+		CImage* m_pEagle;
+		CImage* m_pCherry;
+		CImage* m_pGem;
+		CImage* m_pItemEffect;
+		CImage* m_pDeathEffect;
 
-		CImage* m_pImage;
 		SVector2 m_vPos;
 	public:
 		CGameManager();

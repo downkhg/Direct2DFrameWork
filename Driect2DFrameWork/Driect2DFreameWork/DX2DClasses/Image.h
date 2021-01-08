@@ -33,7 +33,7 @@ namespace DX2DClasses
 
 		void ManualLoadImage(HWND hWnd, const TCHAR* format);
 
-		void DrawBitmap(const SVector2& pos, const SVector2& size, const float& angle, int idx, CColorBrush* pColorBrush = NULL);
+		void DrawBitmap(const SVector2& pos, const SVector2& size, const float& angle, int idx);
 		void DrawBitmap(const D2D1::Matrix3x2F &mat, int idx);
 	};
 }

@@ -1,5 +1,5 @@
 #include "Image.h"
-#include "ColorBush.h"
+#include "ColorBrush.h"
 #include <cassert>
 #include <commdlg.h>
 
@@ -91,7 +91,7 @@ void CImage::ManualLoadImage(HWND hWnd, const TCHAR* format)
 	}
 }
 
-void CImage::DrawBitmap(const SVector2& pos, const SVector2& size, const float& angle, int idx, CColorBrush* pColorBrush)
+void CImage::DrawBitmap(const SVector2& pos, const SVector2& size, const float& angle, int idx)
 {
 	ID2D1Bitmap* bitmap = m_pD2DBitmap[idx];
 
@@ -108,6 +108,7 @@ void CImage::DrawBitmap(const SVector2& pos, const SVector2& size, const float& 
 
 	m_pRenderTarget->SetTransform(matTrans);
 	m_pRenderTarget->DrawBitmap(bitmap, sArea);//비트맵을 그릴 영역은 회전을 적용한 랜더링이 되지않음.
+
 }
 
 void CImage::DrawBitmap(const D2D1::Matrix3x2F &mat, int idx)
