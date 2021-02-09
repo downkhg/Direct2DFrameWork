@@ -20,6 +20,7 @@ CImage::CImage(ID2D1HwndRenderTarget* pRenderTarget, IWICImagingFactory* pWICFac
 	m_pWICFactory = pWICFactory;
 
 	m_pD2DBitmap.resize(nSize);
+	m_nAnimSize = nSize;
 }
 
 void CImage::_CreateD2DBitmapFromFile(HWND hWnd, TCHAR* pImageFullPath, int idx)

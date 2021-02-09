@@ -4,11 +4,16 @@
 #include <math.h>
 #include <conio.h>
 
+
 using namespace DX2DClasses;
 
 SVector2::SVector2(float x, float y) 
 { 
 	this->x = x; this->y = y;
+}
+SVector2::SVector2(D2D1_POINT_2F& pos)
+{
+	this->x = pos.x; this->y = pos.y;
 }
 SVector2 SVector2::operator+(const SVector2& vec)
 {
@@ -35,6 +40,13 @@ SVector2 SVector2::Normalize()
 	SVector2 vDir(x / fDist, y / fDist);
 	return vDir;
 }
+
+D2D1_POINT_2F SVector2::ToPoint()
+{
+	D2D1_POINT_2F sPoint = D2D1::Point2F(x, y);
+	return sPoint;
+}
+
 const char* SVector2::GetChar(const char* msg)
 {
 	static char strName[256];
@@ -45,6 +57,11 @@ const char* SVector2::GetChar(const char* msg)
 float SVector2::Dot(const SVector2& a, const SVector2& b)
 {
 	return a.x * b.x + a.y * b.y;
+}
+
+float SVector2::Cross(const SVector2& a, const SVector2& b)
+{
+	return a.x * b.y - a.y * b.x;
 }
 
 float SVector2::Angle(const SVector2& a, const SVector2& b)

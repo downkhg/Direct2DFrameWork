@@ -25,6 +25,12 @@ void CDebugHelper::LogConsole(const char* msg, ...)
 	__crt_va_end(arglist);
 }
 
+void CDebugHelper::DrawLine(SVector2& start, SVector2& end, CColorBrush* pColorBrush, float stroke)
+{
+	ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();
+	pRenderTarget->DrawLine(start.ToPoint(), end.ToPoint(), pColorBrush->GetColorBrush(), stroke);
+}
+
 void CDebugHelper::DrawCircle(SVector2& pos, float rad, CColorBrush* pColorBrush, float stroke)
 {
 	ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();
@@ -39,8 +45,14 @@ void CDebugHelper::DrawPolygon(SVector2 posArr[], int size, CColorBrush* pColorB
 {
 	for (int i = 0; i < size; i++)
 	{
-		SVector2& vStart = posArr[i];
-		SVector2& vEnd = posArr[i+1];
+		SVector2 vStart = posArr[i];
+		SVector2 vEnd;
+		if(i == size-1) 
+			vEnd = posArr[0];
+		else
+			vEnd = posArr[i + 1];
+		//if(i == size-1) 
+		//	vEnd = posArr[0];
 		D2D1_POINT_2F posStart = D2D1::Point2F(vStart.x, vStart.y);
 		D2D1_POINT_2F posEnd = D2D1::Point2F(vEnd.x, vEnd.y);
 		ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();

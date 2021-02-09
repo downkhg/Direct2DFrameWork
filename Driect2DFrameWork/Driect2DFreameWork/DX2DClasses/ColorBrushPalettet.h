@@ -10,6 +10,9 @@ namespace DX2DClasses
 {
 	class CColorBrushPalettet
 	{
+		static CColorBrushPalettet* m_pColorBrushPalettet;
+	public:
+		static CColorBrushPalettet* GetInstance() { return m_pColorBrushPalettet; }
 	public:
 		enum E_BRUSH_COLOR { RED, GREEN, BLUE, YELLOW, WHITE, BLACK, MAX };
 	protected:

@@ -19,6 +19,7 @@ namespace DX2DClasses
 		IWICFormatConverter*	m_pConvertedSrcBmp; //포맷변환기
 		std::vector<ID2D1Bitmap*>	m_pD2DBitmap; //비트맵
 		SVector2				m_sPointSize;
+		int m_nAnimSize;
 
 		ID2D1HwndRenderTarget*		m_pRenderTarget;
 		IWICImagingFactory*			m_pWICFactory;

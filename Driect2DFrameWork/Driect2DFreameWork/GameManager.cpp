@@ -2,13 +2,13 @@
 #include "DX2DClasses/Driect2DFramework.h"
 #include "DX2DClasses/SingletonRenderTarget.h"
 #include "DX2DClasses/ColorBrush.h"
-#include "DX2DClasses/Shape.h"
 #include "DX2DClasses/Vector2.h"
 #include "DX2DClasses/Image.h"
 #include "DX2DClasses/InputManager.h"
 #include "DX2DClasses/CollisionCheck.h"
 #include "DX2DClasses/ColorBrushPalettet.h"
 #include "DX2DClasses/DebugHelper.h"
+#include "DX2DClasses/GameObject.h"
 #include <conio.h>
 
 using namespace DX2DClasses;
@@ -50,10 +50,16 @@ void CGameManager::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 
 	m_pDeathEffect = new CImage(pDX2DFramework->GetD2DRenderTarget(), pDX2DFramework->GetImagingFactory(), 6);
 	m_pDeathEffect->ManualLoadImage(hWnd, L"Images\\death%02d.png");
+
+	m_pPlayerObject = new CGameObject();
+	m_pPlayerObject->Initialize(m_pPlayer, true);
 }
 
 void CGameManager::Release()
 {
+	m_pPlayerObject->Release();
+	delete m_pPlayerObject;
+
 	delete m_pDeathEffect;
 	delete m_pItemEffect;
 	delete m_pGem;
@@ -75,33 +81,91 @@ void CGameManager::Update()
 		m_vPos.y++;
 	if (CInputManager::GetAsyncKeyStatePress(VK_UP))
 		m_vPos.y--;
+
+	
 }
 
 void CGameManager::Draw()
 {
 	ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();
 	static int nAniIdx = 0;
+	static CAnimator2D cAnimator(m_pPlayer->GetAnimationCount());
+	static float fAngle = 0;
 
 	SVector2 vScale(1,1);
 	SVector2 vSize = m_pPlayer->GetImageSize();
 	SVector2 vTL_A = vSize;
 	SVector2 vBR_A = vTL_A + vSize;
+	SVector2 vTR_A(vBR_A.x, vTL_A.y);
+	SVector2 vBL_A(vTL_A.x, vBR_A.y);
+
+	SVector2 vTL_B;
+	//SVector2 vTL_B = m_vPos;
+	SVector2 vBR_B = vTL_B + vSize;
+	SVector2 vTR_B(vBR_B.x, vTL_B.y);
+	SVector2 vBL_B(vTL_B.x, vBR_B.y);
+
+	CTransform& cTrnasform = m_pPlayerObject->GetTransform();
+
+	cTrnasform.SetTransrate(m_vPos);
+	SVector2 vAsix = vSize * 0.5f;
+	//vAsix = m_vPos + vAsix;
+	cTrnasform.SetAsixPoint(vAsix);
+	cTrnasform.SetTRS(m_vPos, fAngle, vScale);
+	//cTrnasform.Rotate(fAngle);
+	//cTrnasform.Scale(SVector2(2, 2));
 	
-
-	SVector2 vTL_B = m_vPos;
-	SVector2 vBR_B = m_vPos + vSize;
-
 
 	m_pPlayer->DrawBitmap(vTL_A, vScale, 0, nAniIdx);
-	m_pPlayer->DrawBitmap(m_vPos, vScale, 0, nAniIdx);
-
+	//m_pPlayer->DrawBitmap(m_vPos, vScale, 0, nAniIdx);
+	//m_pPlayer->DrawBitmap(cTrnasform.GetTransfrom(), nAniIdx);
+	//cAnimator.DrawImage(m_pPlayer, cTrnasform);
+	m_pPlayerObject->Draw();
 	m_pOpossum->DrawBitmap(SVector2(), vScale, 0, 0);
 
-	
+	//cAnimator.UpdateFrame();
+	m_pPlayerObject->Update();
 	CColorBrush* pRedBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::RED);
 	CColorBrush* pBlackBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::BLACK);
+	
+	SVector2 vCirclePos = vTL_A + vAsix;
+	float fCircleRadius = 10;
+	SVector2 rect[] = { vTL_B, vTR_B, vBR_B, vBL_B };
+	for (int i = 0; i < 4; i++)
+		rect[i] = CTransform::MutipleVectorToMatrix(rect[i], cTrnasform.GetTransfrom());
+	if (CCollisionCheck::OverlapCircleToOBB(vCirclePos, fCircleRadius, rect[0], rect[1], rect[2], rect[3]))
+	{
 
-	if (CCollisionCheck::OverlapAABBtoAABB(vTL_A, vBR_A, vTL_B, vBR_B))
+	}
+
+	//SVector2 vCirclePos = m_vPos + vAsix;
+	//float fCircleRadius = vSize.y * 0.5f;
+	/*
+	if (CCollisionCheck::OverlapPointToOBB(vCirclePos, vTL_A, vTR_A, vBR_A, vBL_A))
+	{
+		CDebugHelper::DrawRect(vTL_A, vBR_A, pRedBrush);
+		CDebugHelper::DrawCircle(vCirclePos, fCircleRadius, pRedBrush);
+
+	}
+	else
+	{
+		CDebugHelper::DrawRect(vTL_A, vBR_A, pBlackBrush);
+		CDebugHelper::DrawCircle(vCirclePos, fCircleRadius, pBlackBrush);
+	}*/
+
+	/*if (CCollisionCheck::OverlapAABBtoCircle(vTL_A, vBR_A, vCirclePos, fCircleRadius))
+	{
+		CDebugHelper::DrawRect(vTL_A, vBR_A, pRedBrush);
+		CDebugHelper::DrawCircle(vCirclePos, fCircleRadius, pRedBrush);
+		
+	}
+	else
+	{
+		CDebugHelper::DrawRect(vTL_A, vBR_A, pBlackBrush);
+		CDebugHelper::DrawCircle(vCirclePos, fCircleRadius, pBlackBrush);	
+	}*/
+
+	/*if (CCollisionCheck::OverlapAABBtoAABB(vTL_A, vBR_A, vTL_B, vBR_B))
 	{
 		CDebugHelper::LogConsole("A: %s,", vTL_A.GetChar());
 		CDebugHelper::LogConsole("%s\n", vBR_A.GetChar());
@@ -115,10 +179,15 @@ void CGameManager::Draw()
 	{
 		CDebugHelper::DrawRect(vTL_A, vBR_A, pBlackBrush);
 		CDebugHelper::DrawRect(vTL_B, vBR_B, pBlackBrush);
-	}
+	}*/
 
 	if (nAniIdx < m_pPlayer->GetAnimationCount() - 1)
 		nAniIdx++;
 	else
 		nAniIdx = 0;
+
+	if (fAngle < 360)
+		fAngle++;
+	else
+		fAngle = 0;
 }

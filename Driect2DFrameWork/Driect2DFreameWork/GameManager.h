@@ -11,6 +11,7 @@ namespace DX2DClasses
 	class CImage;
 	class CColorBrush;
 	class CColorBrushPalettet;
+	class CGameObject;
 
 	class CGameManager : public IGameManager
 	{
@@ -24,6 +25,8 @@ namespace DX2DClasses
 		CImage* m_pGem;
 		CImage* m_pItemEffect;
 		CImage* m_pDeathEffect;
+
+		CGameObject* m_pPlayerObject;
 
 		SVector2 m_vPos;
 	public:

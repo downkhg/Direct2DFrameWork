@@ -3,6 +3,8 @@
 
 using namespace DX2DClasses;
 
+CColorBrushPalettet* CColorBrushPalettet::m_pColorBrushPalettet = NULL;
+
 void CColorBrushPalettet::_CreateBrush(ID2D1HwndRenderTarget* pRenderTarget, E_BRUSH_COLOR brushColor)
 {
 	CColorBrush* pColorBrush = new CColorBrush();
@@ -25,6 +27,7 @@ void CColorBrushPalettet::Initialize(ID2D1HwndRenderTarget* pRenderTarget)
 	m_ColorBlushs.resize(E_BRUSH_COLOR::MAX);
 	for (int color = 0; color < E_BRUSH_COLOR::MAX; color++)
 		_CreateBrush(pRenderTarget, (E_BRUSH_COLOR)color);
+	m_pColorBrushPalettet = this;
 }
 
 void CColorBrushPalettet::Release()

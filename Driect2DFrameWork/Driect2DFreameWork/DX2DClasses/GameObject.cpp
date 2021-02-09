@@ -1,0 +1,129 @@
+#include "GameObject.h"
+#include "Image.h"
+#include "Vector2.h"
+
+using namespace DX2DClasses;
+
+
+CTransform::CTransform()
+{
+	matTransform = D2D1::Matrix3x2F::Identity();
+}
+
+void CTransform::SetAsixPoint(SVector2& asix)
+{
+	sAsixPoint = D2D1::Point2F(asix.x, asix.x);
+}
+
+void CTransform::SetTRS(const SVector2& pos, const float angle, const SVector2& size)
+{
+	D2D1::Matrix3x2F matT = D2D1::Matrix3x2F::Translation(pos.x, pos.y);
+	D2D1::Matrix3x2F matR = D2D1::Matrix3x2F::Rotation(angle, D2D1::Point2F(sAsixPoint.x, sAsixPoint.y));
+	D2D1::Matrix3x2F matS = D2D1::Matrix3x2F::Scale(size.x, size.y);
+
+	matTransform = matR * matT  * matS;
+}
+
+void CTransform::SetTransrate(const SVector2& pos)
+{
+	matTransform = D2D1::Matrix3x2F::Translation(pos.x, pos.y);
+}
+void CTransform::SetRotate(const float angle)
+{
+	matTransform = D2D1::Matrix3x2F::Rotation(angle, D2D1::Point2F(sAsixPoint.x, sAsixPoint.y));
+}
+void CTransform::SetScale(const SVector2& size)
+{
+	matTransform = D2D1::Matrix3x2F::Scale(size.x, size.y);
+}
+
+void CTransform::Transrate(const SVector2& pos)
+{
+	D2D1::Matrix3x2F matT = D2D1::Matrix3x2F::Translation(pos.x, pos.y);
+	matTransform = matTransform * matT;
+}
+void CTransform::Rotate(const float angle)
+{
+	D2D1::Matrix3x2F matR = D2D1::Matrix3x2F::Rotation(angle, D2D1::Point2F(sAsixPoint.x, sAsixPoint.y));
+	matTransform = matTransform * matR;
+}
+void CTransform::Scale(const SVector2& size)
+{
+	D2D1::Matrix3x2F matS = D2D1::Matrix3x2F::Scale(size.x, size.y);
+	matTransform = matTransform * matS;
+}
+
+D2D1::Matrix3x2F& CTransform::GetTransfrom()
+{
+	return matTransform;
+}
+
+SVector2 CTransform::MutipleVectorToMatrix(SVector2& vec, D2D1::Matrix3x2F& mat)
+{
+	D2D1_POINT_2F sPos = vec.ToPoint();
+	sPos = sPos * mat;
+	return SVector2(sPos);
+}
+
+CAnimator2D::CAnimator2D(int MaxSize)
+{
+	m_nMaxSize = MaxSize;
+}
+
+void CAnimator2D::SetFrame(int idx)
+{
+	m_nAnimIdx = idx;
+}
+void CAnimator2D::UpdateFrame()
+{
+	if (m_nAnimIdx < m_nMaxSize - 1)
+		m_nAnimIdx++;
+	else
+		m_nAnimIdx = 0;
+}
+void CAnimator2D::DrawImage(CImage* pImage, CTransform& transform)
+{
+	pImage->DrawBitmap(transform.GetTransfrom(), m_nAnimIdx);
+}
+
+void CAnimator2D::SetMaxSize(int size)
+{
+	m_nMaxSize = size;
+}
+int CAnimator2D::GetAnimIndex()
+{
+	return m_nAnimIdx;
+}
+
+CTransform& CGameObject::GetTransform()
+{
+	return m_cTransform;
+}
+void CGameObject::SetImage(CImage* img)
+{
+	m_pImage = img;
+}
+CImage* CGameObject::GetImage()
+{
+	return m_pImage;
+}
+
+void CGameObject::Initialize(CImage* img, bool anim)
+{
+	m_pImage = img;
+	if (anim)
+		m_pAnimator = new CAnimator2D(m_pImage->GetAnimationCount());
+}
+void CGameObject::Release()
+{
+	if (m_pAnimator)
+		delete m_pAnimator;
+}
+void CGameObject::Update()
+{
+	m_pAnimator->UpdateFrame();
+}
+void CGameObject::Draw()
+{
+	m_pAnimator->DrawImage(m_pImage, m_cTransform);
+}
