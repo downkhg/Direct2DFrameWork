@@ -18,6 +18,6 @@ namespace DX2DClasses
 		static bool OverlapCircleToOBB(SVector2& vCenter, const float fRad, SVector2& vTL, SVector2& vTR, SVector2& vBR, SVector2& vBL);
 		
 		static bool OverlapAABBtoAABB(SVector2& vTL_A, SVector2& vBR_A, SVector2& vTL_B, SVector2& vTR_B);
-		static bool OverlapAABBtoCircle(SVector2& vTL, SVector2& vBR, SVector2& vPos, float fRad);
+		static bool OverlapAABBtoOBB(SVector2& vTL_A, SVector2& vBR_A, SVector2& vTL_B, SVector2& vTR_B, SVector2& vBR_B, SVector2& vBL_B);
 	};
 }

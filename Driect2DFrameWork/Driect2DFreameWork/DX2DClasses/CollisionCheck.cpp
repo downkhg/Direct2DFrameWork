@@ -8,6 +8,10 @@ using namespace DX2DClasses;
 
 bool CCollisionCheck::OverlapPointToLine(SVector2& vPos, SVector2& vStart, SVector2& vEnd)
 {
+	SVector2 vDist = vEnd - vStart;
+	SVector2 vDistNor = vDist.Normalize();
+
+				
 	
 
 	return false;
@@ -118,6 +122,12 @@ bool CCollisionCheck::OverlapPointToOBB(SVector2& vPos, SVector2& vTL, SVector2&
 
 bool CCollisionCheck::OverlapCircleToLine(SVector2& vPos, float fRadius, SVector2& vStart, SVector2& vEnd)
 {
+#ifdef DEBUG_OVERLAP	
+	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::RED);
+	CColorBrush* pBlackBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::BLACK);
+	CDebugHelper::DrawLine(vStart, vEnd, pBlackBrush);
+	CDebugHelper::DrawCircle(vPos, fRadius, pBlackBrush);
+#endif
 	//p1 = start, p2 = end , cp = pos 
 	//  POINT cp_p1 = {p1.x - cp.x, p1.y - cp.y};   // p1-cp를 원점기준으로 옮긴 것
 	SVector2 vPosToStart = vStart - vPos;   // p1-cp를 원점기준으로 옮긴 것
@@ -149,7 +159,11 @@ bool CCollisionCheck::OverlapCircleToLine(SVector2& vPos, float fRadius, SVector
 		//if (p2.x * cp_right.y - p2.y * cp_right.x > 0)
 		if (SVector2::Cross(vStartToEnd, vStartToPosRight) > 0)
 		{
-			return TRUE;
+#ifdef DEBUG_OVERLAP	
+			CDebugHelper::DrawLine(vStart, vEnd, pRedBrush);
+			CDebugHelper::DrawCircle(vPos, fRadius, pRedBrush);
+#endif
+			return true;
 		}
 		else
 			return FALSE;
@@ -164,13 +178,29 @@ bool CCollisionCheck::OverlapCircleToLine(SVector2& vPos, float fRadius, SVector
 
 bool CCollisionCheck::OverlapCircleToCircle(SVector2& vCenterA, const float fRadA, SVector2& vCenterB, const float fRadB)
 {
+#ifdef DEBUG_OVERLAP	
+	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::RED);
+	CColorBrush* pBlackBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::BLACK);
+#endif
 	SVector2 vDist = vCenterB - vCenterA;
 	float fDist = vDist.Magnitude();
 
 	if (fDist < (fRadA + fRadB))
+	{
+#ifdef DEBUG_OVERLAP	
+		CDebugHelper::DrawCircle(vCenterA, fRadA, pRedBrush);
+		CDebugHelper::DrawCircle(vCenterA, fRadA, pRedBrush);
+#endif
 		return true;
+	}
 	else
+	{
+#ifdef DEBUG_OVERLAP	
+		CDebugHelper::DrawCircle(vCenterB, fRadB, pBlackBrush);
+		CDebugHelper::DrawCircle(vCenterB, fRadB, pBlackBrush);
+#endif
 		return false;
+	}
 }
 
 bool CCollisionCheck::OverlapCircleToAABB(SVector2& vPos, float fRadius, SVector2& vTL, SVector2& vBR)
@@ -522,47 +552,56 @@ bool CCollisionCheck::OverlapCircleToOBB(SVector2& vPos, float fRadius, SVector2
 
 bool CCollisionCheck::OverlapAABBtoAABB(SVector2& vTL_A, SVector2& vBR_A, SVector2& vTL_B, SVector2& vBR_B)
 {
+#ifdef DEBUG_OVERLAP	
+	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::RED);
+	CColorBrush* pBlackBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::BLACK);
+	CDebugHelper::DrawRect(vTL_A, vBR_A, pBlackBrush);
+	CDebugHelper::DrawRect(vTL_B, vBR_B, pBlackBrush);
+#endif
 	if (vBR_A.x < vTL_B.x || vTL_A.x > vBR_B.x) return false;
 	if (vBR_A.y < vTL_B.y || vTL_A.y > vBR_B.y) return false;
-
+#ifdef DEBUG_OVERLAP	
+	CDebugHelper::DrawRect(vTL_A, vBR_A, pRedBrush);
+	CDebugHelper::DrawRect(vTL_B, vBR_B, pRedBrush);
+#endif
 	return true;
 }
 
-bool CCollisionCheck::OverlapAABBtoCircle(SVector2& vTL, SVector2& vBR, SVector2& vPos, float fRad)
-{
-	float fRadHalf = fRad * 0.5f;
-	SVector2 sCircleTL = vPos - SVector2(fRadHalf, fRadHalf);
-	SVector2 sCircleBR = vPos + SVector2(fRadHalf, fRadHalf);
-	if (vBR.x < sCircleTL.x || vTL.x > sCircleBR.x)
-	{
-		goto NO_CHECK;
-	}
-	if (vBR.y < sCircleTL.y || vTL.y > sCircleBR.y)
-	{
-		goto NO_CHECK;
-	}
-
-	NO_CHECK:
-	{
-		//SVector2 vTR(vBR.x, vTL.y);
-		//SVector2 vBL(vTL.x, vBR.y);
-
-		//SVector2 vTLtoPos = vPos - vTL;
-		//SVector2 vTRtoPos = vPos - vTR;
-		//SVector2 vBRtoPos = vPos - vBR;
-		//SVector2 vBLtoPos = vPos - vBL;
-
-		//float fTLtoPosDist = vTLtoPos.Magnitude();
-		//float fTRtoPosDist = vTRtoPos.Magnitude();
-		//float fBRtoPosDist = vBRtoPos.Magnitude();
-		//float fBLtoPosDist = vBLtoPos.Magnitude();
-		////충돌이 되지않더라도 충돌면에 거리가 반지름보다 작은경우 충돌된다.
-		//if (fvTLtoPosDist < fRad || fTRtoPosDist < fRad ||
-		//	fBRtoPosDist < fRad || fBLtoPosDist < fRad)
-		//	return true;
-
-		return false;
-	}
-
-	return true;
-}
+//bool CCollisionCheck::OverlapAABBtoCircle(SVector2& vTL, SVector2& vBR, SVector2& vPos, float fRad)
+//{
+//	float fRadHalf = fRad * 0.5f;
+//	SVector2 sCircleTL = vPos - SVector2(fRadHalf, fRadHalf);
+//	SVector2 sCircleBR = vPos + SVector2(fRadHalf, fRadHalf);
+//	if (vBR.x < sCircleTL.x || vTL.x > sCircleBR.x)
+//	{
+//		goto NO_CHECK;
+//	}
+//	if (vBR.y < sCircleTL.y || vTL.y > sCircleBR.y)
+//	{
+//		goto NO_CHECK;
+//	}
+//
+//	NO_CHECK:
+//	{
+//		//SVector2 vTR(vBR.x, vTL.y);
+//		//SVector2 vBL(vTL.x, vBR.y);
+//
+//		//SVector2 vTLtoPos = vPos - vTL;
+//		//SVector2 vTRtoPos = vPos - vTR;
+//		//SVector2 vBRtoPos = vPos - vBR;
+//		//SVector2 vBLtoPos = vPos - vBL;
+//
+//		//float fTLtoPosDist = vTLtoPos.Magnitude();
+//		//float fTRtoPosDist = vTRtoPos.Magnitude();
+//		//float fBRtoPosDist = vBRtoPos.Magnitude();
+//		//float fBLtoPosDist = vBLtoPos.Magnitude();
+//		////충돌이 되지않더라도 충돌면에 거리가 반지름보다 작은경우 충돌된다.
+//		//if (fvTLtoPosDist < fRad || fTRtoPosDist < fRad ||
+//		//	fBRtoPosDist < fRad || fBLtoPosDist < fRad)
+//		//	return true;
+//
+//		return false;
+//	}
+//
+//	return true;
+//}

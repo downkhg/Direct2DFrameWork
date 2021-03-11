@@ -16,6 +16,7 @@ namespace DX2DClasses
 		float Magnitude();
 		SVector2 Normalize();
 		D2D1_POINT_2F ToPoint();
+		SVector2 LineToNormalVector();
 
 		const char* GetChar(const char* msg =  "");
 

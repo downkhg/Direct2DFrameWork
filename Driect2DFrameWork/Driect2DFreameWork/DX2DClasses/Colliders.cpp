@@ -33,7 +33,12 @@ bool CCircleCollider::ToPoint(SVector2& pos)
 
 bool CCircleCollider::ToRect(CRectCollider& rect)
 {
-	return CCollisionCheck::OverlapAABBtoCircle(rect.GetTopLeft(), rect.GetBottomRight(), m_vPos, m_fRadius);
+	return CCollisionCheck::OverlapCircleToAABB(m_vPos, m_fRadius, rect.GetTopLeft(), rect.GetBottomRight());
+}
+
+bool CCircleCollider::ToBox(CBoxCollider& box)
+{
+	return CCollisionCheck::OverlapCircleToOBB(m_vPos, m_fRadius, box.GetTopLeft(), box.GetTopRight(), box.GetBottomRight(), box.GetTopLeft());
 }
 
 bool CCircleCollider::ToCircle(CCircleCollider& circle)
