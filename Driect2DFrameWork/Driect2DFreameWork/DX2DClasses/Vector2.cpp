@@ -64,6 +64,27 @@ float SVector2::Cross(const SVector2& a, const SVector2& b)
 	return a.x * b.y - a.y * b.x;
 }
 
+SVector2 SVector2::CrossZ(const SVector2& dir)
+{
+	return SVector2(dir.y, -dir.x);
+}
+
+//SVector2 SVector2::CrossZ(const SVector2& a)
+//{
+//	//임의의 z축 b를 생성하고, 3차원에 외적을 연산한다.
+//	//여기서 결과가 유효함을 확인하고, 나머지 필요없는 연산을 걷어낸다.
+//	SVector2 b;
+//	float fbZ = 1;
+//	SVector2 temp;
+//	float faZ = 0;
+//	//faZ는 0이므로 연산이 필요없는 결과
+//	temp.x = a.y;// *fbZ;// -faZ * b.y;
+//	temp.y = /*faZ * b.y*/ -a.x;// *fbZ; //z가1이므로 곱하는의미가없음.
+//	//결과적으로 a,y, -a.x가 남으므로 다음이 z축과의 수직인 벡터이다.
+//	//float ftZ = a.x * b.y - a.y* b.x;
+//	return temp;
+//}
+
 float SVector2::Angle(const SVector2& a, const SVector2& b)
 {
 	const float fRad2Deg = 57.29578f;
@@ -87,6 +108,35 @@ void SVector2::TestMain()
 	_cprintf("dot: %f / cosA: %f / cosAtoRad: %f \n", fDot, fCosA, fCosAtoRad);
 	_cprintf("vTan %s / tanA: %f / tanAtoRad1/2: %f/%f \n", vTan.GetChar(), fTanA, fTanAToRad, fTanA2ToRad);
 	_cprintf("Angle: %f \n", fAngle);
+
+	//디버그 라인은 해당 헤더를 가져와야하므로 주석처리함.
+	//드로우에 가져다가 사용하며 테스트해봐야함.
+	/*CColorBrush* pRedBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::RED);
+	CColorBrush* pGreenBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::GREEN);
+	CColorBrush* pYellowBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::YELLOW);
+	CColorBrush* pBlackBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::BLACK);*/
+	SVector2 vRight(1, 0);
+	SVector2 vUp(0, 1);
+	SVector2 vRU(1, 1);
+	vRU = vRU.Normalize();
+	SVector2 vLineStart(100, 100);
+	SVector2 vLineEnd;
+	float fLineDist = 100;
+	vLineEnd = vLineStart + vRight * fLineDist;
+	//CDebugHelper::DrawLine(vLineStart, vLineEnd, pRedBrush);
+	vLineEnd = vLineStart + vUp * fLineDist;
+	//CDebugHelper::DrawLine(vLineStart, vLineEnd, pGreenBrush);
+	SVector2 vCrossZRight = SVector2::CrossZ(vRight);
+	vLineEnd = vLineStart + vCrossZRight * fLineDist;
+	//CDebugHelper::DrawLine(vLineStart, vLineEnd, pYellowBrush);
+	SVector2 vCrossZUp = SVector2::CrossZ(vUp);
+	vLineEnd = vLineStart + vCrossZUp * fLineDist;
+	//CDebugHelper::DrawLine(vLineStart, vLineEnd, pBlackBrush);
+	vLineEnd = vLineStart + vRU * fLineDist;
+	//CDebugHelper::DrawLine(vLineStart, vLineEnd, pRedBrush);
+	SVector2 vCrossZRU = SVector2::CrossZ(vRU);
+	vLineEnd = vLineStart + vCrossZRU * fLineDist;
+	//CDebugHelper::DrawLine(vLineStart, vLineEnd, pYellowBrush);
 }
 
 float CosAtoAngle(float fDot)
