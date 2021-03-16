@@ -1,4 +1,5 @@
 #pragma once
+#include <typeinfo>
 
 namespace DX2DClasses
 {

@@ -8,11 +8,31 @@ using namespace DX2DClasses;
 
 bool CCollisionCheck::OverlapPointToLine(SVector2& vPos, SVector2& vStart, SVector2& vEnd)
 {
+#ifdef DEBUG_OVERLAP
+	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::E_BRUSH_COLOR::RED);
+	CColorBrush* pYellowBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::E_BRUSH_COLOR::YELLOW);
+	CColorBrush* pGreenBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::E_BRUSH_COLOR::GREEN);
+	CColorBrush* pWhiteBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::E_BRUSH_COLOR::WHITE);
+	CColorBrush* pBlackBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::E_BRUSH_COLOR::BLACK);
+#endif
 	SVector2 vDist = vEnd - vStart;
 	SVector2 vDistNor = vDist.Normalize();
+	SVector2 vLineCrossZ = SVector2::CrossZ(vDistNor);//평면(선분)의 방향
+	SVector2 vPosToStart = vPos - vStart; //시작위치와 지정된점의 사이거리구하기
+	SVector2 vPosToStartNor = vPos.Normalize();
+#ifdef DEBUG_OVERLAP
+	CDebugHelper::DrawLine(vStart, vEnd, pRedBrush);
+#endif
+	float fDot = SVector2::Dot(vDist, vPosToStart);
 
-				
-	
+#ifdef DEBUG_OVERLAP
+	if (fDot == 0)
+		CDebugHelper::DrawLine(vStart, vPos, pWhiteBrush);
+	else if(fDot > 0)
+		CDebugHelper::DrawLine(vStart, vPos, pGreenBrush);
+	else
+		CDebugHelper::DrawLine(vStart, vPos, pYellowBrush);
+#endif
 
 	return false;
 }

@@ -56,6 +56,8 @@ namespace DX2DClasses
 		void SetImage(CImage* img);
 		CImage* GetImage();
 	public:
+		CGameObject();
+
 		void Initialize(CImage* img = NULL, bool anim = false);
 		void Release();
 		void Update();

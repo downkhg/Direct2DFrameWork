@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "Image.h"
 #include "Vector2.h"
+#include "DebugHelper.h"
 
 using namespace DX2DClasses;
 
@@ -108,16 +109,26 @@ CImage* CGameObject::GetImage()
 	return m_pImage;
 }
 
+CGameObject::CGameObject()
+{
+	m_pAnimator = NULL;
+}
+
 void CGameObject::Initialize(CImage* img, bool anim)
 {
+	m_pAnimator = NULL;
 	m_pImage = img;
 	if (anim)
 		m_pAnimator = new CAnimator2D(m_pImage->GetAnimationCount());
 }
 void CGameObject::Release()
 {
+	CDebugHelper::LogConsole("%s:%d", typeid((*this)).name(), this);
 	if (m_pAnimator)
+	{
 		delete m_pAnimator;
+		m_pAnimator = NULL;
+	}
 }
 void CGameObject::Update()
 {

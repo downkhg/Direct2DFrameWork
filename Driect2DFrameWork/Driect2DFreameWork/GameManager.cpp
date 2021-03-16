@@ -20,7 +20,7 @@ CGameManager::CGameManager()
 
 CGameManager::~CGameManager()
 {
-	Release();
+	//Release();
 }
 
 void CGameManager::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
@@ -89,7 +89,7 @@ void CGameManager::Draw()
 {
 	ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();
 	static int nAniIdx = 0;
-	static CAnimator2D cAnimator(m_pPlayer->GetAnimationCount());
+	//static CAnimator2D cAnimator(m_pPlayer->GetAnimationCount());
 	static float fAngle = 0;
 
 	SVector2 vScale(1,1);
@@ -116,12 +116,12 @@ void CGameManager::Draw()
 	//cTrnasform.Scale(SVector2(2, 2));
 	
 
-	//m_pPlayer->DrawBitmap(vTL_A, vScale, 0, nAniIdx);
-	//m_pPlayer->DrawBitmap(m_vPos, vScale, 0, nAniIdx);
-	//m_pPlayer->DrawBitmap(cTrnasform.GetTransfrom(), nAniIdx);
+	m_pPlayer->DrawBitmap(vTL_A, vScale, 0, nAniIdx);
+	m_pPlayer->DrawBitmap(m_vPos, vScale, 0, nAniIdx);
+	m_pPlayer->DrawBitmap(cTrnasform.GetTransfrom(), nAniIdx);
 	//cAnimator.DrawImage(m_pPlayer, cTrnasform);
-	//m_pPlayerObject->Draw();
-	//m_pOpossum->DrawBitmap(SVector2(), vScale, 0, 0);
+	m_pPlayerObject->Draw();
+	m_pOpossum->DrawBitmap(SVector2(), vScale, 0, 0);
 
 	//cAnimator.UpdateFrame();
 	m_pPlayerObject->Update();
@@ -130,7 +130,7 @@ void CGameManager::Draw()
 	CColorBrush* pYellowBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::YELLOW);
 	CColorBrush* pBlackBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::BLACK);
 	
-	/*SVector2 vCirclePos = vTL_A + vAsix;
+	SVector2 vCirclePos = vTL_A + vAsix;
 	float fCircleRadius = 10;
 	SVector2 rect[] = { vTL_B, vTR_B, vBR_B, vBL_B };
 	for (int i = 0; i < 4; i++)
@@ -138,13 +138,13 @@ void CGameManager::Draw()
 	if (CCollisionCheck::OverlapCircleToOBB(vCirclePos, fCircleRadius, rect[0], rect[1], rect[2], rect[3]))
 	{
 
-	}*/
+	}
 
 	SVector2 vRight(1, 0);
 	SVector2 vUp(0, 1);
 	SVector2 vRU(1, 1);
 	vRU = vRU.Normalize();
-	SVector2 vLineStart(100, 100);
+	SVector2 vLineStart(0, 100);
 	SVector2 vLineEnd;
 	float fLineDist = 100;
 	/*vLineEnd = vLineStart + vRight * fLineDist;
@@ -162,13 +162,21 @@ void CGameManager::Draw()
 	SVector2 vCrossZRU = SVector2::CrossZ(vRU);
 	vLineEnd = vLineStart + vCrossZRU * fLineDist;
 	CDebugHelper::DrawLine(vLineStart, vLineEnd, pYellowBrush);*/
-	SVector2 vDir = m_vPos - vLineStart;
+	/*SVector2 vDir = m_vPos - vLineStart;
 	vDir = vDir.Normalize();
 	vLineEnd = vLineStart + vDir * fLineDist;
 	CDebugHelper::DrawLine(vLineStart, m_vPos, pRedBrush);
 	SVector2 vCrossZ = SVector2::CrossZ(vDir);
 	vLineEnd = vLineStart + vCrossZ * fLineDist;
 	CDebugHelper::DrawLine(vLineStart, vLineEnd, pYellowBrush);
+	*/
+	vLineEnd = vLineStart + SVector2::down() * fLineDist;
+	//CDebugHelper::DrawLine(vLineStart, vLineEnd, pBlackBrush);
+
+	CDebugHelper::DrawCircle(m_vPos, 1, pRedBrush);
+	CCollisionCheck::OverlapPointToLine(m_vPos, vLineStart, vLineEnd);
+
+
 	//SVector2 vCirclePos = m_vPos + vAsix;
 	//float fCircleRadius = vSize.y * 0.5f;
 	/*
