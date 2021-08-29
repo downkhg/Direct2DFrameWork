@@ -24,7 +24,7 @@ void CDebugHelper::LogConsole(const char* msg, ...)
 	_vcprintf_l(msg, NULL, arglist);
 	__crt_va_end(arglist);
 }
-
+ 
 void CDebugHelper::DrawLine(SVector2& start, SVector2& end, CColorBrush* pColorBrush, float stroke)
 {
 	ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();

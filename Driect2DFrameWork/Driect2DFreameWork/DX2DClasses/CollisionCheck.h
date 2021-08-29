@@ -7,7 +7,9 @@ namespace DX2DClasses
 	class CCollisionCheck
 	{
 	public:
-		static bool OverlapPointToLine(SVector2& vPos, SVector2& vStart, SVector2& vEnd);
+		enum E_LINE_CHECK { UP, ON, DOWN };
+	public:
+		static bool OverlapPointToLine(SVector2& vPos, SVector2& vStart, SVector2& vEnd, int& check);
 		static bool OverlapPointToCircle(SVector2& vPos, SVector2& vCenter, const float fRad);
 		static bool OverlapPointToAABB(SVector2& vPos, SVector2& vTL, SVector2& br);
 		static bool OverlapPointToOBB(SVector2& vPos, SVector2& vTL, SVector2& vTR, SVector2& vBR, SVector2& vBL);

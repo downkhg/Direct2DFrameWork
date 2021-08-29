@@ -24,9 +24,9 @@ namespace DX2DClasses
 		static SVector2 CrossZ(const SVector2& dir);//2D선분의 직각이되는 선분을 구할때 사용할것.
 		static float Angle(const SVector2& a, const SVector2& b);
 
-		static SVector2& up() { static SVector2 up(1, 0); return up; };
-		static SVector2& right() { static SVector2 right(0, 1); return right; }
-		static SVector2& down() { static SVector2 down(0, -1); return down; }
+		static SVector2& up() { static SVector2 up(0, -1); return up; };
+		static SVector2& right() { static SVector2 right(1, 0); return right; }
+		static SVector2& down() { static SVector2 down(0, 1); return down; }
 		static SVector2& left() { static SVector2 left(-1, 0); return left; }
 
 		static void TestMain();

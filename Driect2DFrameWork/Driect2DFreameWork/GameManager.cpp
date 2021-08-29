@@ -81,8 +81,6 @@ void CGameManager::Update()
 		m_vPos.y++;
 	if (CInputManager::GetAsyncKeyStatePress(VK_UP))
 		m_vPos.y--;
-
-	
 }
 
 void CGameManager::Draw()
@@ -144,7 +142,7 @@ void CGameManager::Draw()
 	SVector2 vUp(0, 1);
 	SVector2 vRU(1, 1);
 	vRU = vRU.Normalize();
-	SVector2 vLineStart(0, 100);
+	SVector2 vLineStart(100, 100);
 	SVector2 vLineEnd;
 	float fLineDist = 100;
 	/*vLineEnd = vLineStart + vRight * fLineDist;
@@ -170,11 +168,12 @@ void CGameManager::Draw()
 	vLineEnd = vLineStart + vCrossZ * fLineDist;
 	CDebugHelper::DrawLine(vLineStart, vLineEnd, pYellowBrush);
 	*/
-	vLineEnd = vLineStart + SVector2::down() * fLineDist;
+	vLineEnd = vLineStart + (SVector2::left() * fLineDist);
 	//CDebugHelper::DrawLine(vLineStart, vLineEnd, pBlackBrush);
 
 	CDebugHelper::DrawCircle(m_vPos, 1, pRedBrush);
-	CCollisionCheck::OverlapPointToLine(m_vPos, vLineStart, vLineEnd);
+	int nCheck;
+	CCollisionCheck::OverlapPointToLine(m_vPos, vLineStart, vLineEnd, nCheck);
 
 
 	//SVector2 vCirclePos = m_vPos + vAsix;
