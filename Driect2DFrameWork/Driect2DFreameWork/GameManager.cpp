@@ -68,6 +68,7 @@ void CGameManager::Release()
 	delete m_pOpossum;
 	delete m_pPlayer;
 
+	m_pColorBrushPalettet->Release();
 	delete m_pColorBrushPalettet;
 }
 
