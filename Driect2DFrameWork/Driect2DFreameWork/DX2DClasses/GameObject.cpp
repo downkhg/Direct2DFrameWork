@@ -29,6 +29,10 @@ void CTransform::SetTransrate(const SVector2& pos)
 {
 	matTransform = D2D1::Matrix3x2F::Translation(pos.x, pos.y);
 }
+void CTransform::SetTransrate(float x, float y)
+{
+	matTransform = D2D1::Matrix3x2F::Translation(x, y);
+}
 void CTransform::SetRotate(const float angle)
 {
 	matTransform = D2D1::Matrix3x2F::Rotation(angle, D2D1::Point2F(sAsixPoint.x, sAsixPoint.y));
@@ -123,7 +127,7 @@ void CGameObject::Initialize(CImage* img, bool anim)
 }
 void CGameObject::Release()
 {
-	CDebugHelper::LogConsole("%s:%d", typeid((*this)).name(), this);
+	//CDebugHelper::LogConsole("%s:%d", typeid((*this)).name(), this);
 	if (m_pAnimator)
 	{
 		delete m_pAnimator;

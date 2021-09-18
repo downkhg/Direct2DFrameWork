@@ -5,7 +5,7 @@ namespace DX2DClasses
 {
 	class CDriect2DFramwork;
 
-	__interface IGameManager
+	__interface ISceneManager
 	{
 	public:
 		virtual void Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework) = 0; //√ ±‚»≠

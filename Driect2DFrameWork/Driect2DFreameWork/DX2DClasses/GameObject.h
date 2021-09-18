@@ -18,6 +18,7 @@ namespace DX2DClasses
 
 		void SetTRS(const SVector2& pos, const float fAngle, const SVector2& size);
 		void SetTransrate(const SVector2& pos);
+		void SetTransrate(float x, float y);
 		void SetRotate(const float fAngle);
 		void SetScale(const SVector2& size);
 

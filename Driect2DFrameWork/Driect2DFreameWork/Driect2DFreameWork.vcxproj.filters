@@ -63,6 +63,9 @@
     <ClCompile Include="DX2DClasses\Colliders.cpp">
       <Filter>소스 파일\DX2DClasses</Filter>
     </ClCompile>
+    <ClCompile Include="SampleScene.cpp">
+      <Filter>소스 파일\UserDefine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX2DClasses\SingletonRenderTarget.h">
@@ -98,7 +101,7 @@
     <ClInclude Include="DX2DClasses\InputManager.h">
       <Filter>소스 파일\DX2DClasses</Filter>
     </ClInclude>
-    <ClInclude Include="DX2DClasses\GameManager.h">
+    <ClInclude Include="DX2DClasses\SceneManager.h">
       <Filter>소스 파일\DX2DClasses</Filter>
     </ClInclude>
     <ClInclude Include="DX2DClasses\DebugHelper.h">
@@ -118,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="UtilityDefine.h">
       <Filter>소스 파일\DX2DClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="SampleScene.h">
+      <Filter>소스 파일\UserDefine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

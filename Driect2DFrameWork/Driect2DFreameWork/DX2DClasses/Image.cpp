@@ -12,15 +12,18 @@ using namespace DX2DClasses;
 
 SVector2 CImage::GetImageSize() { return m_sPointSize; }
 SVector2 CImage::GetImageCenter() { return SVector2(m_sPointSize.x / 2, m_sPointSize.y / 2); }
-int CImage::GetAnimationCount() { return m_pD2DBitmap.size(); }
+int CImage::GetAnimationCount() { return m_nAnimSize; }
 
 CImage::CImage(ID2D1HwndRenderTarget* pRenderTarget, IWICImagingFactory* pWICFactory, int nSize)
 {
 	m_pRenderTarget = pRenderTarget;
 	m_pWICFactory = pWICFactory;
-
 	m_pD2DBitmap.resize(nSize);
 	m_nAnimSize = nSize;
+}
+CImage::~CImage()
+{
+	//delete[] m_pD2DBitmap;
 }
 
 void CImage::_CreateD2DBitmapFromFile(HWND hWnd, TCHAR* pImageFullPath, int idx)
@@ -80,7 +83,7 @@ void CImage::ManualLoadImage(HWND hWnd, const TCHAR* format)
 {
 	TCHAR szFullPath[1024];
 
-	for (int i = 0; i < m_pD2DBitmap.size(); i++)
+	for (int i = 0; i < m_nAnimSize; i++)
 	{
 		wsprintf(szFullPath, format, i);
 		_CreateD2DBitmapFromFile(hWnd, szFullPath, i);

@@ -27,8 +27,8 @@ void CGameManager::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 {
 	ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();
 
-	m_pColorBrushPalettet = new CColorBrushPalettet();
-	m_pColorBrushPalettet->Initialize(pRenderTarget);
+	//m_pColorBrushPalettet = new CColorBrushPalettet();
+	//m_pColorBrushPalettet->Initialize(pRenderTarget);
 	
 	m_pPlayer= new CImage(pDX2DFramework->GetD2DRenderTarget(), pDX2DFramework->GetImagingFactory(),6);
 	m_pPlayer->ManualLoadImage(hWnd, L"Images\\player%02d.png");
@@ -53,12 +53,17 @@ void CGameManager::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 
 	m_pPlayerObject = new CGameObject();
 	m_pPlayerObject->Initialize(m_pPlayer, true);
+
+	m_pOpossumObject = new CGameObject();
+	m_pOpossumObject->Initialize(m_pOpossum, true);
 }
 
 void CGameManager::Release()
 {
 	m_pPlayerObject->Release();
 	delete m_pPlayerObject;
+	m_pOpossumObject->Release();
+	delete m_pOpossumObject;
 
 	delete m_pDeathEffect;
 	delete m_pItemEffect;
@@ -68,8 +73,8 @@ void CGameManager::Release()
 	delete m_pOpossum;
 	delete m_pPlayer;
 
-	m_pColorBrushPalettet->Release();
-	delete m_pColorBrushPalettet;
+	//m_pColorBrushPalettet->Release();
+	//delete m_pColorBrushPalettet;
 }
 
 void CGameManager::Update()
@@ -113,17 +118,19 @@ void CGameManager::Draw()
 	cTrnasform.SetTRS(m_vPos, fAngle, vScale);
 	//cTrnasform.Rotate(fAngle);
 	//cTrnasform.Scale(SVector2(2, 2));
-	
+	m_pPlayerObject->Update();
+	m_pOpossumObject->Update();
 
-	m_pPlayer->DrawBitmap(vTL_A, vScale, 0, nAniIdx);
-	m_pPlayer->DrawBitmap(m_vPos, vScale, 0, nAniIdx);
-	m_pPlayer->DrawBitmap(cTrnasform.GetTransfrom(), nAniIdx);
+	//m_pPlayer->DrawBitmap(vTL_A, vScale, 0, nAniIdx);
+	//m_pPlayer->DrawBitmap(m_vPos, vScale, 0, nAniIdx);
+	//m_pPlayer->DrawBitmap(cTrnasform.GetTransfrom(), nAniIdx);
 	//cAnimator.DrawImage(m_pPlayer, cTrnasform);
 	m_pPlayerObject->Draw();
-	m_pOpossum->DrawBitmap(SVector2(), vScale, 0, 0);
+	//m_pOpossum->DrawBitmap(SVector2(), vScale, 0, 0);
+	m_pOpossumObject->Draw();
 
 	//cAnimator.UpdateFrame();
-	m_pPlayerObject->Update();
+	
 	CColorBrush* pRedBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::RED);
 	CColorBrush* pGreenBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::GREEN);
 	CColorBrush* pYellowBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::YELLOW);

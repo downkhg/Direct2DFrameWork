@@ -36,7 +36,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -77,6 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -103,7 +104,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
@@ -137,6 +138,7 @@
     <ClCompile Include="DX2DClasses\SingletonRenderTarget.cpp" />
     <ClCompile Include="DX2DClasses\Vector2.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="SampleScene.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -150,11 +152,12 @@
     <ClInclude Include="DX2DClasses\InputManager.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="DX2DClasses\ColorBrush.h" />
-    <ClInclude Include="DX2DClasses\GameManager.h" />
+    <ClInclude Include="DX2DClasses\SceneManager.h" />
     <ClInclude Include="DX2DClasses\SingletonRenderTarget.h" />
     <ClInclude Include="DX2DClasses\Vector2.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SampleScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UtilityDefine.h" />

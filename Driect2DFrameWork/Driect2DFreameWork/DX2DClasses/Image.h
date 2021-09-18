@@ -17,7 +17,7 @@ namespace DX2DClasses
 	class CImage
 	{
 		IWICFormatConverter*	m_pConvertedSrcBmp; //포맷변환기
-		std::vector<ID2D1Bitmap*>	m_pD2DBitmap; //비트맵
+		std::vector<ID2D1Bitmap*>	m_pD2DBitmap; //비트맵 
 		SVector2				m_sPointSize;
 		int m_nAnimSize;
 
@@ -27,7 +27,7 @@ namespace DX2DClasses
 		void _CreateD2DBitmapFromFile(HWND hWnd, TCHAR* pImageFullPath, int idx);
 	public:
 		CImage(ID2D1HwndRenderTarget* pRenderTarget, IWICImagingFactory* pWICFactory, int nSize = 1);
-
+		~CImage();
 		SVector2 GetImageSize();
 		SVector2 GetImageCenter();
 		int GetAnimationCount();
