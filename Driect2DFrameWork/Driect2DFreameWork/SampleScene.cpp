@@ -55,7 +55,7 @@ void CSampleScene::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 	m_pItemEffectImage = new CImage(pDX2DFramework->GetD2DRenderTarget(), pDX2DFramework->GetImagingFactory(), 4);
 	m_pItemEffectImage->ManualLoadImage(hWnd, L"Images\\itemeffect%02d.png");
 	m_pItemEffectObject = new CGameObject();
-	m_pItemEffectObject->Initialize(m_pPlayerImage, true);
+	m_pItemEffectObject->Initialize(m_pItemEffectImage, true);
 
 	m_pDeathEffectImage = new CImage(pDX2DFramework->GetD2DRenderTarget(), pDX2DFramework->GetImagingFactory(), 5);
 	m_pDeathEffectImage->ManualLoadImage(hWnd, L"Images\\death%02d.png");
@@ -72,11 +72,11 @@ void CSampleScene::Release()
 	m_pEagleObject->Release();
 	delete m_pEagleObject;
 	m_pCherryObject->Release();
-	delete m_pCherryImage;
+	delete m_pCherryObject;
 	m_pGemObject->Release();
 	delete m_pGemObject;
 	m_pItemEffectObject->Release();
-	delete m_pItemEffectImage;
+	delete m_pItemEffectObject;
 	m_pDeathEffectObject->Release();
 	delete m_pDeathEffectObject;
 
@@ -85,7 +85,7 @@ void CSampleScene::Release()
 	delete m_pEagleImage;
 	delete m_pCherryImage;
 	delete m_pGemImage;
-	//delete m_pItemEffectImage;
+	delete m_pItemEffectImage;
 	delete m_pDeathEffectImage;
 }
 

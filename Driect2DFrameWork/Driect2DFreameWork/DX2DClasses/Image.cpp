@@ -18,12 +18,18 @@ CImage::CImage(ID2D1HwndRenderTarget* pRenderTarget, IWICImagingFactory* pWICFac
 {
 	m_pRenderTarget = pRenderTarget;
 	m_pWICFactory = pWICFactory;
+	//m_pD2DBitmap = new ID2D1Bitmap*[nSize];
 	m_pD2DBitmap.resize(nSize);
 	m_nAnimSize = nSize;
 }
 CImage::~CImage()
 {
-	//delete[] m_pD2DBitmap;
+	/*if (m_pD2DBitmap)
+	{
+		delete[] m_pD2DBitmap;
+		m_pD2DBitmap = NULL;
+	}*/
+	m_pD2DBitmap.clear();
 }
 
 void CImage::_CreateD2DBitmapFromFile(HWND hWnd, TCHAR* pImageFullPath, int idx)
