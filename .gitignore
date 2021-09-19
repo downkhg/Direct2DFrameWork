@@ -348,3 +348,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/Driect2DFrameWork/Driect2DFreameWork/TestScene.cpp
+/Driect2DFrameWork/Driect2DFreameWork/TestScene.h
+/Driect2DFrameWork/Driect2DFreameWork/CollisionTestScene.h
+/Driect2DFrameWork/Driect2DFreameWork/CollisionTestScene.cpp

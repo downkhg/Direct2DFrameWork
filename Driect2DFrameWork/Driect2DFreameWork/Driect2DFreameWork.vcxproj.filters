@@ -30,7 +30,7 @@
     <ClCompile Include="DX2DClasses\Vector2.cpp">
       <Filter>소스 파일\DX2DClasses</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
+    <ClCompile Include="TestScene.cpp">
       <Filter>소스 파일\UserDefine</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
@@ -63,7 +63,10 @@
     <ClCompile Include="DX2DClasses\Colliders.cpp">
       <Filter>소스 파일\DX2DClasses</Filter>
     </ClCompile>
-    <ClCompile Include="SampleScene.cpp">
+    <ClCompile Include="MoveSampleScene.cpp">
+      <Filter>소스 파일\UserDefine</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionTestScene.cpp">
       <Filter>소스 파일\UserDefine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,7 +86,7 @@
     <ClInclude Include="targetver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
+    <ClInclude Include="TestScene.h">
       <Filter>소스 파일\UserDefine</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
@@ -122,7 +125,10 @@
     <ClInclude Include="UtilityDefine.h">
       <Filter>소스 파일\DX2DClasses</Filter>
     </ClInclude>
-    <ClInclude Include="SampleScene.h">
+    <ClInclude Include="MoveSampleScene.h">
+      <Filter>소스 파일\UserDefine</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionTestScene.h">
       <Filter>소스 파일\UserDefine</Filter>
     </ClInclude>
   </ItemGroup>

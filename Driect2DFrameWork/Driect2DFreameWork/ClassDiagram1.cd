@@ -83,7 +83,7 @@
   <Class Name="DX2DClasses::CImage">
     <Position X="13" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAQAAAAQAAJAAAAgAAAAgAAAEgAAAECAQAAACAAAE=</HashCode>
+      <HashCode>AAAAQAAAAQAAJAAAAgAAAAgAAAEgAAAECAQAAACAQAE=</HashCode>
       <FileName>DX2DClasses\Image.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -97,7 +97,7 @@
   <Class Name="DX2DClasses::CGameObject">
     <Position X="13.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAEAAAAAAwAAAABAAAFQAAIAAAAAAAQAABAAAAA=</HashCode>
+      <HashCode>AAQAAAEAAAAAAwAAEABAAAFQAAIAAAAAAAQIAJAAAAA=</HashCode>
       <FileName>DX2DClasses\GameObject.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -132,11 +132,11 @@
       <FileName>C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\d2d1helper.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DX2DClasses::CGameManager">
+  <Class Name="DX2DClasses::CTestScene">
     <Position X="8.75" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>wQQAIAAAQAABBxAIMAAAAAAAAQAAAwAAAACAgBAAQAA=</HashCode>
-      <FileName>GameManager.h</FileName>
+      <FileName>TestScene.h</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>

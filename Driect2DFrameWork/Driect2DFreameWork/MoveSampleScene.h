@@ -13,31 +13,37 @@ namespace DX2DClasses
 	class CColorBrushPalettet;
 	class CGameObject;
 
-	class CSampleScene : public ISceneManager
+	class CMoveSampleScene : public ISceneManager
 	{
+		//색상정보가 설정된 객체 디버그도우미와 함께 사용한다.
 		CColorBrushPalettet* m_pColorBrushPalettet;
 
+		//게임이 필요한 이미지를 가져오는 객체
 		CImage* m_pPlayerImage;
-		CGameObject* m_pPlayerObject;
 		CImage* m_pOpossumImage;
-		CGameObject* m_pOpossumObject;
 		CImage* m_pEagleImage;
-		CGameObject* m_pEagleObject;
 
 		CImage* m_pCherryImage;
-		CGameObject* m_pCherryObject;
 		CImage* m_pGemImage;
-		CGameObject* m_pGemObject;
 
 		CImage* m_pItemEffectImage;
-		CGameObject* m_pItemEffectObject;
 		CImage* m_pDeathEffectImage;
+
+		//실제로 로드된 이미지를 토대로 애니메이션 및 변형을 수행한다.
+		//게임오브젝트는 실제복제된 객체도 포함도므로 더 많은게 일반적이다.
+		CGameObject* m_pPlayerObject;
+		CGameObject* m_pOpossumObject;
+		CGameObject* m_pEagleObject;
+		
+		CGameObject* m_pCherryObject;
+		CGameObject* m_pGemObject;
+
+		CGameObject* m_pItemEffectObject;
 		CGameObject* m_pDeathEffectObject;
 		
-		SVector2 m_vPos;
 	public:
-		CSampleScene();
-		~CSampleScene();
+		CMoveSampleScene();
+		~CMoveSampleScene();
 
 		void Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework) override; //초기화
 		void Release() override; //동적객체 제거

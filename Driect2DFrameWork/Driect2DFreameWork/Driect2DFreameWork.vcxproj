@@ -137,9 +137,10 @@
     <ClCompile Include="DX2DClasses\ColorBrush.cpp" />
     <ClCompile Include="DX2DClasses\SingletonRenderTarget.cpp" />
     <ClCompile Include="DX2DClasses\Vector2.cpp" />
-    <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="SampleScene.cpp" />
+    <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="MoveSampleScene.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="CollisionTestScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX2DClasses\Colliders.h" />
@@ -155,11 +156,12 @@
     <ClInclude Include="DX2DClasses\SceneManager.h" />
     <ClInclude Include="DX2DClasses\SingletonRenderTarget.h" />
     <ClInclude Include="DX2DClasses\Vector2.h" />
-    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="TestScene.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SampleScene.h" />
+    <ClInclude Include="MoveSampleScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="CollisionTestScene.h" />
     <ClInclude Include="UtilityDefine.h" />
   </ItemGroup>
   <ItemGroup>

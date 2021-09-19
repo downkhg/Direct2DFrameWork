@@ -52,14 +52,18 @@ namespace DX2DClasses
 		CTransform m_cTransform;
 		CAnimator2D* m_pAnimator = NULL;
 		CImage* m_pImage = NULL;
+		bool m_isActive;
 	public:
 		CTransform& GetTransform();
 		void SetImage(CImage* img);
 		CImage* GetImage();
+
+		void SetActive(bool use) { m_isActive = use; };
+		bool GetActive() { return m_isActive; };
 	public:
 		CGameObject();
 
-		void Initialize(CImage* img = NULL, bool anim = false);
+		void Initialize(CImage* img = NULL, bool anim = false, bool acive = true);
 		void Release();
 		void Update();
 		void Draw();

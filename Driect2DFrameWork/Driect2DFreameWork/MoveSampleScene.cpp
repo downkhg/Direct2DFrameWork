@@ -1,4 +1,4 @@
-#include "SampleScene.h"
+#include "MoveSampleScene.h"
 #include "DX2DClasses/Driect2DFramework.h"
 #include "DX2DClasses/SingletonRenderTarget.h"
 #include "DX2DClasses/ColorBrush.h"
@@ -13,19 +13,22 @@
 
 using namespace DX2DClasses;
 
-CSampleScene::CSampleScene()
+CMoveSampleScene::CMoveSampleScene()
 {
 	//Initialize();
 }
 
-CSampleScene::~CSampleScene()
+CMoveSampleScene::~CMoveSampleScene()
 {
 	//Release();
 }
 
-void CSampleScene::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
+void CMoveSampleScene::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 {
 	ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();
+
+	m_pColorBrushPalettet = new CColorBrushPalettet();
+	m_pColorBrushPalettet->Initialize(pRenderTarget);
 
 	m_pPlayerImage = new CImage(pDX2DFramework->GetD2DRenderTarget(), pDX2DFramework->GetImagingFactory(), 6);
 	m_pPlayerImage->ManualLoadImage(hWnd, L"Images\\player%02d.png");
@@ -63,7 +66,7 @@ void CSampleScene::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 	m_pDeathEffectObject->Initialize(m_pDeathEffectImage, true);
 }
 
-void CSampleScene::Release()
+void CMoveSampleScene::Release()
 {
 	m_pPlayerObject->Release();
 	delete m_pPlayerObject;
@@ -87,28 +90,36 @@ void CSampleScene::Release()
 	delete m_pGemImage;
 	delete m_pItemEffectImage;
 	delete m_pDeathEffectImage;
+
+	m_pColorBrushPalettet->Release();
+	delete m_pColorBrushPalettet;
 }
 
-void CSampleScene::Update()
+void CMoveSampleScene::Update()
 {
+	static SVector2 vPlayerPos;
+	float fPlayerSpeed = 2;
+	float fOpossumSpeed = 3;
+	float fEangleSpeed = 5;
+	//벡터방식 연산보다는 효률적이다.
 	if (CInputManager::GetAsyncKeyStatePress(VK_RIGHT))
-		m_vPos.x++;
+		vPlayerPos.x += fPlayerSpeed; //vPlayerPos = vPlayerPos + SVector2::right() * fPlayerSpeed;
 	if (CInputManager::GetAsyncKeyStatePress(VK_LEFT))
-		m_vPos.x--;
+		vPlayerPos = vPlayerPos + SVector2::left()* fPlayerSpeed;//vPlayerPos.x -= fPlayerSpeed;
 	if (CInputManager::GetAsyncKeyStatePress(VK_DOWN))
-		m_vPos.y++;
+		vPlayerPos = vPlayerPos + SVector2::down() * fPlayerSpeed;//vPlayerPos.y += fPlayerSpeed;
 	if (CInputManager::GetAsyncKeyStatePress(VK_UP))
-		m_vPos.y--;
+		vPlayerPos.y -= fPlayerSpeed;//vPlayerPos = vPlayerPos + SVector2::up() * fPlayerSpeed;
 
 	static float fAngle = 0;
 	{
 		CTransform& cTrnasform = m_pPlayerObject->GetTransform();
 		SVector2 vSize = m_pPlayerObject->GetImage()->GetImageSize();
 		SVector2 vScale(1, 1);
-		cTrnasform.SetTransrate(m_vPos);
+		cTrnasform.SetTransrate(vPlayerPos);
 		SVector2 vAsix = vSize * 0.5f;
 		cTrnasform.SetAsixPoint(vAsix);
-		cTrnasform.SetTRS(m_vPos, fAngle, vScale);
+		cTrnasform.SetTRS(vPlayerPos, fAngle, vScale);
 	}
 	m_pPlayerObject->Update();
 
@@ -122,9 +133,22 @@ void CSampleScene::Update()
 		cTrnasform.SetAsixPoint(vAsix);
 		cTrnasform.SetTRS(vOpossumPos, 0, vScale);
 	}
-	vOpossumPos.x--;
+	vOpossumPos = vOpossumPos + SVector2::left() * fOpossumSpeed;
 	m_pOpossumObject->Update();
 
+	static SVector2 vEaglePos(1000, 500);
+	{
+		CTransform& cTrnasform = m_pEagleObject->GetTransform();
+		SVector2 vSize = m_pEagleObject->GetImage()->GetImageSize();
+		SVector2 vScale(1, 1);
+		cTrnasform.SetTransrate(vEaglePos);
+		SVector2 vAsix = vSize * 0.5f;
+		cTrnasform.SetAsixPoint(vAsix);
+		cTrnasform.SetTRS(vEaglePos, 0, vScale);
+
+		SVector2 vDir = vPlayerPos - vEaglePos;
+		vEaglePos = vEaglePos + vDir.Normalize() * fEangleSpeed;
+	}
 	m_pEagleObject->Update();
 
 	m_pCherryObject->Update();
@@ -137,7 +161,7 @@ void CSampleScene::Update()
 	m_pDeathEffectObject->GetTransform().SetTransrate(0, 120);
 }
 
-void CSampleScene::Draw()
+void CMoveSampleScene::Draw()
 {
 	ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();
 	

@@ -118,12 +118,13 @@ CGameObject::CGameObject()
 	m_pAnimator = NULL;
 }
 
-void CGameObject::Initialize(CImage* img, bool anim)
+void CGameObject::Initialize(CImage* img, bool anim, bool active)
 {
 	m_pAnimator = NULL;
 	m_pImage = img;
 	if (anim)
 		m_pAnimator = new CAnimator2D(m_pImage->GetAnimationCount());
+	m_isActive = active;
 }
 void CGameObject::Release()
 {
@@ -136,9 +137,11 @@ void CGameObject::Release()
 }
 void CGameObject::Update()
 {
-	m_pAnimator->UpdateFrame();
+	if (m_isActive)
+		m_pAnimator->UpdateFrame();
 }
 void CGameObject::Draw()
 {
-	m_pAnimator->DrawImage(m_pImage, m_cTransform);
+	if(m_isActive)
+		m_pAnimator->DrawImage(m_pImage, m_cTransform);
 }
