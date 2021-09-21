@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CollisionTestScene.cpp" />
     <ClCompile Include="DX2DClasses\Colliders.cpp" />
     <ClCompile Include="DX2DClasses\CollisionCheck.cpp" />
     <ClCompile Include="DX2DClasses\ColorBrushPalettet.cpp" />
@@ -140,9 +141,9 @@
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="MoveSampleScene.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="CollisionTestScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollisionTestScene.h" />
     <ClInclude Include="DX2DClasses\Colliders.h" />
     <ClInclude Include="DX2DClasses\CollisionCheck.h" />
     <ClInclude Include="DX2DClasses\ColorBrushPalettet.h" />
@@ -161,7 +162,6 @@
     <ClInclude Include="MoveSampleScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="CollisionTestScene.h" />
     <ClInclude Include="UtilityDefine.h" />
   </ItemGroup>
   <ItemGroup>

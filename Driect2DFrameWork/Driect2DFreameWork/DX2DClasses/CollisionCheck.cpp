@@ -872,13 +872,14 @@ bool CCollisionCheck::OverlapOBBtoOBB(SVector2& vTL_A, SVector2& vTR_A, SVector2
 	CColorBrush* pBlackBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::BLACK);
 	CColorBrush* pGreenBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::GREEN);
 #endif
+	//하단 부분 충돌체크에 문제가 있음 검토해볼것.
 	int nSizeA = 4;
 	int nSizeB = 4;
 	SVector2 boxAPoints[4]; 
 	boxAPoints[0] = vTL_A; boxAPoints[1] = vTR_A; boxAPoints[2] = vBR_A; boxAPoints[3] = vBL_A;
 	SVector2 boxBPoints[4]; 
 	boxBPoints[0] = vTL_B; boxBPoints[1] = vTR_B; boxBPoints[2] = vBR_B; boxBPoints[3] = vBL_B;
-
+	//guswo
 	for (int i = 0; i < nSizeA; i++)
 	{
 		//선분은 노말이 없으므로 선분을 계산해 z측과 외적을 이용하여 노말을 구한다.
