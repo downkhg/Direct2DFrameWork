@@ -63,6 +63,26 @@ D2D1::Matrix3x2F& CTransform::GetTransfrom()
 	return matTransform;
 }
 
+SVector2 CTransform::GetTransrate()
+{
+	return SVector2(matTransform.dx, matTransform.dy);
+}
+
+D2D1::Matrix3x2F CTransform::GetRotate()
+{
+	D2D1::Matrix3x2F matRot = D2D1::Matrix3x2F::Identity();
+	matRot.m11 = matTransform.m11;
+	matRot.m11 = matTransform.m12;
+	matRot.m21 = matTransform.m21;
+	matRot.m21 = matTransform.m22;
+	return matRot;
+}
+
+SVector2 CTransform::GetScale()
+{
+	return SVector2(matTransform.m11, matTransform.m22);
+}
+
 SVector2 CTransform::MutipleVectorToMatrix(SVector2& vec, D2D1::Matrix3x2F& mat)
 {
 	D2D1_POINT_2F sPos = vec.ToPoint();

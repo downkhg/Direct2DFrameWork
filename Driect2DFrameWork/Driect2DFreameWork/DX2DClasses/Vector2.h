@@ -13,6 +13,8 @@ namespace DX2DClasses
 		SVector2 operator+(const SVector2& vec);
 		SVector2 operator-(const SVector2& vec);
 		SVector2 operator*(float dist);
+		//friend SVector2 operator+(const SVector2& a, const SVector2& b);
+		//friend SVector2 operator-(const SVector2& a, const SVector2& b);
 		float Magnitude();
 		SVector2 Normalize();
 		D2D1_POINT_2F ToPoint();
@@ -23,6 +25,11 @@ namespace DX2DClasses
 		static float Cross(const SVector2& a, const SVector2& b);//2D공간상에서 z축은 없으므로 계산결과 z축의 스칼라만 남는다.//출처:https://allenchou.net/2013/07/cross-product-of-2d-vectors/
 		static SVector2 CrossZ(const SVector2& dir);//2D선분의 직각이되는 선분을 구할때 사용할것.
 		static float Angle(const SVector2& a, const SVector2& b);
+		static float Distance(SVector2& a, const SVector2& b);
+
+		static SVector2 RectCenter(SVector2& tl, SVector2& br);
+		static SVector2 RectTR(SVector2& tl, SVector2& br);
+		static SVector2 RectBL(SVector2& tl, SVector2& br);
 
 		static SVector2& up() { static SVector2 up(0, -1); return up; };
 		static SVector2& right() { static SVector2 right(1, 0); return right; }

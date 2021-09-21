@@ -28,6 +28,10 @@ namespace DX2DClasses
 
 		D2D1::Matrix3x2F& GetTransfrom();
 
+		SVector2 GetTransrate();
+		D2D1::Matrix3x2F GetRotate();
+		SVector2 GetScale();
+
 		static SVector2 MutipleVectorToMatrix(SVector2& vec, D2D1::Matrix3x2F& mat);
 	};
 

@@ -3,8 +3,72 @@
 #include "ColorBrushPalettet.h"
 #include "DebugHelper.h"
 #include "UtilityDefine.h"
+#include <vector>
 
+using namespace std;
 using namespace DX2DClasses;
+//https://gamedev.stackexchange.com/questions/25397/obb-vs-obb-collision-detection
+//선분의 노말과 각 변의 점들을 내적하고 그중 가장 큰값과 작은 값을 구한다. 여기서 내적은 선분의 길이로 보면된다.
+void SATtest(const SVector2& axis, const SVector2 ptSet[], int size, float& minAlong, float& maxAlong, int& minIdx, int& maxIdx)
+{
+	minAlong = HUGE, maxAlong = -HUGE;
+	for (int i = 0; i < size; i++)
+	{
+		// just dot it to get the min/max along this axis.
+		float dotVal = SVector2::Dot(ptSet[i], axis);
+		if (dotVal < minAlong) 
+		{ 
+			minAlong = dotVal; 
+			minIdx = i; 
+		}
+		if (dotVal > maxAlong) 
+		{ 
+			maxAlong = dotVal; 
+			maxIdx = i; 
+		}
+	}
+}
+inline bool isBetweenOrdered(float val, float lowerBound, float upperBound) {
+	return lowerBound <= val && val <= upperBound;
+}
+//각 다른 도형에 최소크기가 다른도형의 최소값 최대값사이에 있다면 충돌한것으로 간주한다.
+bool overlaps(float min1, float max1, float min2, float max2)
+{
+	return isBetweenOrdered(min2, min1, max1) || isBetweenOrdered(min1, min2, max2);
+}
+// Shape1 and Shape2 must be CONVEX HULLS
+bool intersects(SVector2 shapeA_Corners[],int a_size, SVector2 shapeB_Corners[], int b_size)
+{
+	// Get the normals for one of the shapes,
+	for (int i = 0; i < a_size; i++)
+	{
+		//선분은 노말이 없으므로 선분을 계산해 z측과 내적을 이용하여 노말을 구한다.
+		SVector2 vLine;
+		if(i < a_size-1)//1-0,2-1,3-2
+			vLine = shapeA_Corners[i+1] - shapeA_Corners[i];//1-0, 2-1, 3-2, 0 - 3
+		else //3 - 0
+			vLine = shapeA_Corners[i] - shapeA_Corners[0];
+		SVector2 vNormal = SVector2::CrossZ(vLine).Normalize();
+		//각도형의 내적의 최소 최대값을 구한다.
+		float shape1Min, shape1Max, shape2Min, shape2Max;
+		int minIdxA, maxIdxA, minIdxB, maxIdxB;
+		SATtest(vNormal, shapeA_Corners,a_size, shape1Min, shape1Max, minIdxA, maxIdxA);
+		SATtest(vNormal, shapeB_Corners,b_size, shape2Min, shape2Max, minIdxB, maxIdxB);
+		//각 모든선분에 1개라도 일치하지않는 경우 충돌하지않는것으로 간주한다.
+		if (!overlaps(shape1Min, shape1Max, shape2Min, shape2Max))
+		{
+			return false; // NO INTERSECTION
+		}
+
+		// otherwise, go on with the next test
+	}
+
+	// TEST SHAPE2.normals as well
+
+	// if overlap occurred in ALL AXES, then they do intersect
+	return true;
+}
+
 
 bool CCollisionCheck::OverlapPointToLine(SVector2& vPos, SVector2& vStart, SVector2& vEnd, int& check)
 {
@@ -154,6 +218,16 @@ bool CCollisionCheck::OverlapPointToOBB(SVector2& vPos, SVector2& vTL, SVector2&
 	return false;
 }
 
+bool CCollisionCheck::OverlapLineToAABB(SVector2& vStart, SVector2& vEnd, SVector2& vTL, SVector2& vBR)
+{
+	return false;
+}
+
+bool CCollisionCheck::OverlapLineToOBB(SVector2& vStart, SVector2& vEnd, SVector2& vTL, SVector2& vTR,  SVector2& vBR, SVector2& vBL)
+{
+	return false;
+}
+
 bool CCollisionCheck::OverlapCircleToLine(SVector2& vPos, float fRadius, SVector2& vStart, SVector2& vEnd)
 {
 #ifdef DEBUG_OVERLAP	
@@ -240,8 +314,8 @@ bool CCollisionCheck::OverlapCircleToCircle(SVector2& vCenterA, const float fRad
 bool CCollisionCheck::OverlapCircleToAABB(SVector2& vPos, float fRadius, SVector2& vTL, SVector2& vBR)
 {
 	bool bCheck = false;
-	SVector2 vTR = SVector2(vBR.x, vTL.y);
-	SVector2 vBL = SVector2(vTL.x, vTR.y);
+	SVector2 vTR = SVector2::RectTR(vTL, vBR);
+	SVector2 vBL = SVector2::RectBL(vTL, vBR);
 	SVector2 vTLtoTR = vTR - vTL;
 	SVector2 vTRtoBR = vBR - vTR;
 	SVector2 vBRtoBL = vBL - vBR;
@@ -639,3 +713,215 @@ bool CCollisionCheck::OverlapAABBtoAABB(SVector2& vTL_A, SVector2& vBR_A, SVecto
 //
 //	return true;
 //}
+
+int ArrayMinIdx(float arr[], int size)
+{
+	int nMinIdx = -1;
+	float fMin = 999999999;
+	for (int i = 0; i < 4; i++)
+	{
+		if (arr[i] < fMin)
+		{
+			fMin = arr[i];
+			nMinIdx = i;
+		}
+	}
+	return nMinIdx;
+}
+
+bool CheckOBB(SVector2 vPos, SVector2 vCenter, SVector2 vBoxCenter, SVector2 vTL, SVector2 vTR, SVector2 vBR, SVector2 vBL)
+{
+	float arrDist[4];
+	arrDist[0] = SVector2::Distance(vPos, vTL);
+	arrDist[1] = SVector2::Distance(vPos, vTR);
+	arrDist[2] = SVector2::Distance(vPos, vBR);
+	arrDist[3] = SVector2::Distance(vPos, vBL);
+
+	int nMinIdx = ArrayMinIdx(arrDist, 4);
+	SVector2 vResult;
+	switch (nMinIdx)
+	{
+	case 0: vResult = vTL; break;
+	case 1: vResult = vTR; break;
+	case 2: vResult = vBR; break;
+	case 3: vResult = vBL; break;
+	}
+
+	float fCenterBtoTL = SVector2::Distance(vPos, vCenter);
+	float fCenterAtoResult = SVector2::Distance(vResult, vBoxCenter);
+
+	float fCenterAB = SVector2::Distance(vCenter, vBoxCenter);
+
+	if (fCenterAB < fCenterBtoTL + fCenterAtoResult)
+		return true;
+	else
+		return false;
+}
+
+bool CCollisionCheck::OverlapAABBtoOBB(SVector2& vTL_A, SVector2& vBR_A, SVector2& vTL_B, SVector2& vTR_B, SVector2& vBR_B, SVector2& vBL_B)
+{
+	SVector2 vTR_A = SVector2::RectTR(vTL_A, vBR_A);
+	SVector2 vBL_A = SVector2::RectBL(vTL_A, vBR_A);
+	//이유는 알수없으나 AABB는 한쪽 선분이 총돌이 다되도 나오지않음.
+	return OverlapOBBtoOBB(vTL_A, vTR_A, vBR_A, vBL_A, vTL_B, vTR_B, vBR_B, vBL_B);;
+}
+
+//bool CCollisionCheck::OverlapOBBtoOBB(SVector2& vTL_A, SVector2& vTR_A, SVector2& vBR_A, SVector2& vBL_A, SVector2& vTL_B, SVector2& vTR_B, SVector2& vBR_B, SVector2& vBL_B)
+//{
+//#ifdef DEBUG_OVERLAP	
+//	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::RED);
+//	CColorBrush* pYellowBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::YELLOW);
+//	CColorBrush* pBlackBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::BLACK);
+//	CColorBrush* pGreenBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::GREEN);
+//#endif
+//	SVector2 vCenterA = SVector2::RectCenter(vTL_A, vBR_A);
+//	SVector2 vCenterB = SVector2::RectCenter(vTL_B, vBR_B);
+//	float arrDist[16];
+//	arrDist[0] = SVector2::Distance(vTL_A, vTL_B);
+//	arrDist[1] = SVector2::Distance(vTL_A, vTR_B);
+//	arrDist[2] = SVector2::Distance(vTL_A, vBR_B);
+//	arrDist[3] = SVector2::Distance(vTL_A, vBL_B);
+//
+//	arrDist[4] = SVector2::Distance(vTR_A, vTL_B);
+//	arrDist[5] = SVector2::Distance(vTR_A, vTR_B);
+//	arrDist[6] = SVector2::Distance(vTR_A, vBR_B);
+//	arrDist[7] = SVector2::Distance(vTR_A, vBL_B);
+//
+//	arrDist[8] = SVector2::Distance(vBR_A, vTL_B);
+//	arrDist[9] = SVector2::Distance(vBR_A, vTR_B);
+//	arrDist[10] = SVector2::Distance(vBR_A, vBR_B);
+//	arrDist[11] = SVector2::Distance(vBR_A, vBL_B);
+//
+//	arrDist[12] = SVector2::Distance(vBL_A, vTL_B);
+//	arrDist[13] = SVector2::Distance(vBL_A, vTR_B);
+//	arrDist[14] = SVector2::Distance(vBL_A, vBR_B);
+//	arrDist[15] = SVector2::Distance(vBL_A, vBL_B);
+//
+//	int nMinIdx = ArrayMinIdx(arrDist, 16);
+//	SVector2 vResultA, vResultB;
+//	SVector2 vStartA, vEndA;
+//	SVector2 vStartB, vEndB;
+//	switch (nMinIdx)
+//	{
+//	case 0: vResultA = vTL_A; vResultB = vTL_B; vStartA = vTL_A; vEndA = vTR_A; vStartB = vTL_B; vEndB = vTR_B;  break;
+//	case 1: vResultA = vTL_A; vResultB = vTR_B; vStartA = vTL_A; vEndA = vTR_A; vStartB = vTR_B; vEndB = vBR_B; break;
+//	case 2: vResultA = vTL_A; vResultB = vBR_B; vStartA = vTL_A; vEndA = vTR_A; vStartB = vBR_B; vEndB = vBL_B; break;
+//	case 3: vResultA = vTL_A; vResultB = vBL_B; vStartA = vTL_A; vEndA = vTR_A; vStartB = vBL_B; vEndB = vTL_B; break;
+//
+//	case 4: vResultA = vTR_A; vResultB = vTL_B; vStartA = vTR_A; vEndA = vBR_A; vStartB = vTL_B; vEndB = vTR_B; break;
+//	case 5: vResultA = vTR_A; vResultB = vTR_B; vStartA = vTR_A; vEndA = vBR_A; vStartB = vTR_B; vEndB = vBR_B; break;
+//	case 6: vResultA = vTR_A; vResultB = vBR_B; vStartA = vTR_A; vEndA = vBR_A; vStartB = vBR_B; vEndB = vBL_B; break;
+//	case 7: vResultA = vTR_A; vResultB = vBL_B; vStartA = vTR_A; vEndA = vBR_A; vStartB = vBL_B; vEndB = vTL_B; break;
+//
+//	case 8: vResultA = vBR_A; vResultB = vTL_B; vStartA = vBR_A; vEndA = vBL_A; vStartB = vTL_B; vEndB = vTR_B; break;
+//	case 9: vResultA = vBR_A; vResultB = vTR_B; vStartA = vBR_A; vEndA = vBL_A; vStartB = vTR_B; vEndB = vBR_B; break;
+//	case 10: vResultA = vBR_A; vResultB = vBR_B; vStartA = vBR_A; vEndA = vBL_A; vStartB = vBR_B; vEndB = vBL_B; break;
+//	case 11: vResultA = vBR_A; vResultB = vBL_B; vStartA = vBR_A; vEndA = vBL_A; vStartB = vBL_B; vEndB = vTL_B; break;
+//
+//	case 12: vResultA = vBL_A; vResultB = vTL_B; vStartA = vBL_A; vEndA = vTL_A; vStartB = vTL_B; vEndB = vTR_B; break;
+//	case 13: vResultA = vBL_A; vResultB = vTR_B; vStartA = vBL_A; vEndA = vTL_A; vStartB = vTR_B; vEndB = vBR_B; break;
+//	case 14: vResultA = vBL_A; vResultB = vBR_B; vStartA = vBL_A; vEndA = vTL_A; vStartB = vBR_B; vEndB = vBL_B; break;
+//	case 15: vResultA = vBL_A; vResultB = vBL_B; vStartA = vBL_A; vEndA = vTL_A; vStartB = vBL_B; vEndB = vTL_B; break;
+//	}
+//
+//	float fCenterToResultA = SVector2::Distance(vResultA, vCenterA);
+//	float fCenterToResultB = SVector2::Distance(vResultB, vCenterB);
+//
+//	float fCenterAB = SVector2::Distance(vCenterA, vCenterB);
+//
+//	CDebugHelper::DrawLine(vCenterA, vCenterB, pYellowBrush);
+//
+////	if (OverlapCircleToOBB(vCenterA, fCenterToResultA, vTL_B, vTR_B, vBR_B, vBL_B))
+////	{
+////#ifdef DEBUG_OVERLAP	
+////		CDebugHelper::DrawLine(vResultA, vResultB, pGreenBrush);
+////#endif
+////		return true;
+////	}
+////	else
+////	{
+////#ifdef DEBUG_OVERLAP	
+////		CDebugHelper::DrawLine(vResultA, vResultB, pRedBrush);
+////#endif
+////		return false;
+////	}
+//
+//
+//	if (fCenterAB < fCenterToResultA + fCenterToResultB)
+//	{
+//#ifdef DEBUG_OVERLAP	
+//		CDebugHelper::DrawLine(vResultA, vResultB, pGreenBrush);
+//		return true;	
+//#endif
+//	}
+//	else
+//	{
+//#ifdef DEBUG_OVERLAP	
+//		CDebugHelper::DrawLine(vResultA, vResultB, pRedBrush);
+//#endif
+//	}
+//
+//	return false;
+//}
+
+bool CCollisionCheck::OverlapOBBtoOBB(SVector2& vTL_A, SVector2& vTR_A, SVector2& vBR_A, SVector2& vBL_A, SVector2& vTL_B, SVector2& vTR_B, SVector2& vBR_B, SVector2& vBL_B)
+{
+#ifdef DEBUG_OVERLAP	
+	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::RED);
+	CColorBrush* pYellowBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::YELLOW);
+	CColorBrush* pBlackBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::BLACK);
+	CColorBrush* pGreenBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::GREEN);
+#endif
+	int nSizeA = 4;
+	int nSizeB = 4;
+	SVector2 boxAPoints[4]; 
+	boxAPoints[0] = vTL_A; boxAPoints[1] = vTR_A; boxAPoints[2] = vBR_A; boxAPoints[3] = vBL_A;
+	SVector2 boxBPoints[4]; 
+	boxBPoints[0] = vTL_B; boxBPoints[1] = vTR_B; boxBPoints[2] = vBR_B; boxBPoints[3] = vBL_B;
+
+	for (int i = 0; i < nSizeA; i++)
+	{
+		//선분은 노말이 없으므로 선분을 계산해 z측과 외적을 이용하여 노말을 구한다.
+		SVector2 vLine;
+		if (i < nSizeA - 1)//1-0,2-1,3-2
+			vLine = boxAPoints[i + 1] - boxAPoints[i];//1-0, 2-1, 3-2, 0 - 3
+		else //3 - 0
+			vLine = boxAPoints[i] - boxAPoints[0];
+		SVector2 vNormal = SVector2::CrossZ(vLine).Normalize();
+		//각도형의 내적의 최소 최대값을 구한다.
+		float boxAMin, boxAMax, boxBMin, boxBMax;
+		int minIdxA = 0, maxIdxA = 0, minIdxB = 0, maxIdxB = 0;
+		SATtest(vNormal, boxAPoints, nSizeA, boxAMin, boxAMax, minIdxA, maxIdxA);
+		SATtest(vNormal, boxBPoints, nSizeB, boxBMin, boxBMax, minIdxB, maxIdxB);
+#ifdef DEBUG_OVERLAP
+		SVector2 vBoxA = SVector2::RectCenter(vTL_A, vBR_A);
+		SVector2 vBoxB = SVector2::RectCenter(vTL_B, vBR_B);
+		//SVector2 vNormalEnd = vBoxA + vNormal;
+		CDebugHelper::DrawLine(vBoxA, boxAPoints[minIdxA], pGreenBrush);
+		CDebugHelper::DrawLine(vBoxA, boxAPoints[maxIdxA], pYellowBrush);
+
+		CDebugHelper::DrawLine(vBoxB, boxBPoints[minIdxB], pGreenBrush);
+		CDebugHelper::DrawLine(vBoxB, boxBPoints[maxIdxB], pYellowBrush);
+		//CDebugHelper::DrawLine(vBoxA, vNormalEnd, pBlackBrush);
+#endif
+		//각 모든선분에 1개라도 일치하지않는 경우 충돌하지않는것으로 간주한다.
+		if (!overlaps(boxAMin, boxBMax, boxAMin, boxBMax))
+		{
+			return false; // NO INTERSECTION
+		}
+		// otherwise, go on with the next test
+	}
+#ifdef DEBUG_OVERLAP
+	//SVector2 vNormalEnd = vBoxA + vNormal;
+	CDebugHelper::DrawLine(vTL_A, vTR_A, pRedBrush);
+	CDebugHelper::DrawLine(vTR_A, vBR_A, pRedBrush);
+	CDebugHelper::DrawLine(vBR_A, vBL_A, pRedBrush);
+	CDebugHelper::DrawLine(vBL_A, vTL_A, pRedBrush);
+	//CDebugHelper::DrawLine(vBoxA, vNormalEnd, pBlackBrush);
+#endif
+	// TEST SHAPE2.normals as well
+
+	// if overlap occurred in ALL AXES, then they do intersect
+	return true;
+}
+

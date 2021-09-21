@@ -30,9 +30,18 @@ SVector2 SVector2::operator*(float dist)
 	SVector2 vTemp(x * dist, y * dist);
 	return vTemp;
 }
+//SVector2 operator+(const SVector2& a, const SVector2& b)
+//{
+//	return SVector2(a.x + b.x, a.y + b.y);
+//}
+//SVector2 operator-(const SVector2& a, const SVector2& b)
+//{
+//	return SVector2(a.x - b.x, a.y - b.y);
+//}
 float SVector2::Magnitude()
 {
-	return sqrtf(x*x + y * y);
+	float fScala = sqrtf(x * x + y * y);
+	return fScala;
 }
 SVector2 SVector2::Normalize()
 {
@@ -90,6 +99,28 @@ float SVector2::Angle(const SVector2& a, const SVector2& b)
 	const float fRad2Deg = 57.29578f;
 	int fTheta = Dot(a, b);
 	return acosf(fTheta) * fRad2Deg;
+}
+
+float SVector2::Distance(SVector2& a, const SVector2& b)
+{
+	SVector2 vDist = a - b;
+	return vDist.Magnitude();
+}
+
+SVector2 SVector2::RectCenter(SVector2& tl, SVector2& br)
+{
+	SVector2 vDist = br - tl;
+	return tl + vDist * 0.5f;
+}
+
+SVector2 SVector2::RectTR(SVector2& tl, SVector2& br)
+{
+	return SVector2(tl.x, br.y);
+}
+
+SVector2 SVector2::RectBL(SVector2& tl, SVector2& br)
+{
+	return SVector2(br.x, tl.y);
 }
 
 void SVector2::TestMain()
