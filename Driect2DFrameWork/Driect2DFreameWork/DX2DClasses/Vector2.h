@@ -3,6 +3,8 @@
 
 namespace DX2DClasses
 {
+	struct SMatrix3x3;
+
 	struct SVector2
 	{
 		float x;
@@ -12,7 +14,8 @@ namespace DX2DClasses
 		SVector2(D2D1_POINT_2F& pos);
 		SVector2 operator+(const SVector2& vec);
 		SVector2 operator-(const SVector2& vec);
-		SVector2 operator*(float dist);
+		SVector2 operator*(const float dist);
+		SVector2 operator*(SMatrix3x3& mat);
 		//friend SVector2 operator+(const SVector2& a, const SVector2& b);
 		//friend SVector2 operator-(const SVector2& a, const SVector2& b);
 		float Magnitude();
@@ -20,6 +23,7 @@ namespace DX2DClasses
 		D2D1_POINT_2F ToPoint();
 
 		const char* GetChar(const char* msg =  "");//정적지역변수사용하므로 같은줄에 두번호출하면 결과가 정상적이지않음. 참고할것.
+		static const char* GetChar(const D2D1_POINT_2F& pos, const char* msg = "");//정적지역변수사용하므로 같은줄에 두번호출하면 결과가 정상적이지않음. 참고할것.
 
 		static float Dot(const SVector2& a, const SVector2& b);
 		static float Cross(const SVector2& a, const SVector2& b);//2D공간상에서 z축은 없으므로 계산결과 z축의 스칼라만 남는다.//출처:https://allenchou.net/2013/07/cross-product-of-2d-vectors/

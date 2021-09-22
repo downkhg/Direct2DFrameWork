@@ -69,6 +69,12 @@
     <ClCompile Include="CollisionTestScene.cpp">
       <Filter>소스 파일\UserDefine</Filter>
     </ClCompile>
+    <ClCompile Include="DX2DClasses\Matrix3x3.cpp">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="DX2DClasses\Matrix3.cpp">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX2DClasses\SingletonRenderTarget.h">
@@ -122,14 +128,20 @@
     <ClInclude Include="DX2DClasses\Colliders.h">
       <Filter>소스 파일\DX2DClasses</Filter>
     </ClInclude>
-    <ClInclude Include="UtilityDefine.h">
-      <Filter>소스 파일\DX2DClasses</Filter>
-    </ClInclude>
     <ClInclude Include="MoveSampleScene.h">
       <Filter>소스 파일\UserDefine</Filter>
     </ClInclude>
     <ClInclude Include="CollisionTestScene.h">
       <Filter>소스 파일\UserDefine</Filter>
+    </ClInclude>
+    <ClInclude Include="DX2DClasses\Matrix3x3.h">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="DX2DClasses\Matrix3.h">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="DX2DClasses\UtilityDefine.h">
+      <Filter>소스 파일\DX2DClasses</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

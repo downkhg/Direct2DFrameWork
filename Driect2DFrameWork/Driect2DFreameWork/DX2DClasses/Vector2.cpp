@@ -1,9 +1,10 @@
 #include "Vector2.h"
+#include "Matrix3x3.h"
+#include "UtilityDefine.h"
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
 #include <conio.h>
-
 
 using namespace DX2DClasses;
 
@@ -25,9 +26,15 @@ SVector2 SVector2::operator-(const SVector2& vec)
 	SVector2 vTemp(x - vec.x, y - vec.y);
 	return vTemp;
 }
-SVector2 SVector2::operator*(float dist)
+SVector2 SVector2::operator*(const float dist)
 {
 	SVector2 vTemp(x * dist, y * dist);
+	return vTemp;
+}
+SVector2 SVector2::operator*(SMatrix3x3& mat)
+{
+	SVector2 vTemp = *this;
+	vTemp = mat * vTemp;
 	return vTemp;
 }
 //SVector2 operator+(const SVector2& a, const SVector2& b)
@@ -59,7 +66,14 @@ D2D1_POINT_2F SVector2::ToPoint()
 const char* SVector2::GetChar(const char* msg)
 {
 	static char strName[256];
-	sprintf_s(strName, sizeof(strName), "%s(%f,%f)", msg, x, y);
+	sprintf_s(strName, sizeof(strName), "%s(%f,%f)\n", msg, x, y);
+	return strName;
+}
+
+const char* SVector2::GetChar(const D2D1_POINT_2F& pos, const char* msg)
+{
+	static char strName[256];
+	sprintf_s(strName, sizeof(strName), "%s(%f,%f)\n", msg, pos.x, pos.y);
 	return strName;
 }
 
@@ -96,9 +110,8 @@ SVector2 SVector2::CrossZ(const SVector2& dir)
 
 float SVector2::Angle(const SVector2& a, const SVector2& b)
 {
-	const float fRad2Deg = 57.29578f;
 	int fTheta = Dot(a, b);
-	return acosf(fTheta) * fRad2Deg;
+	return acosf(fTheta) * RAD2DEG;
 }
 
 float SVector2::Distance(SVector2& a, const SVector2& b)

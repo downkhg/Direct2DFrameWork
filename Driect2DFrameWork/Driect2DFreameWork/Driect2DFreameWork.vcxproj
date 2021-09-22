@@ -134,6 +134,8 @@
     <ClCompile Include="DX2DClasses\GameObject.cpp" />
     <ClCompile Include="DX2DClasses\Image.cpp" />
     <ClCompile Include="DX2DClasses\InputManager.cpp" />
+    <ClCompile Include="DX2DClasses\Matrix3.cpp" />
+    <ClCompile Include="DX2DClasses\Matrix3x3.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="DX2DClasses\ColorBrush.cpp" />
     <ClCompile Include="DX2DClasses\SingletonRenderTarget.cpp" />
@@ -152,6 +154,9 @@
     <ClInclude Include="DX2DClasses\GameObject.h" />
     <ClInclude Include="DX2DClasses\Image.h" />
     <ClInclude Include="DX2DClasses\InputManager.h" />
+    <ClInclude Include="DX2DClasses\Matrix3.h" />
+    <ClInclude Include="DX2DClasses\Matrix3x3.h" />
+    <ClInclude Include="DX2DClasses\UtilityDefine.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="DX2DClasses\ColorBrush.h" />
     <ClInclude Include="DX2DClasses\SceneManager.h" />
@@ -162,7 +167,6 @@
     <ClInclude Include="MoveSampleScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="UtilityDefine.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Direct2D.ico" />
