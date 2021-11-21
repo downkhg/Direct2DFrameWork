@@ -887,7 +887,7 @@ bool CCollisionCheck::OverlapOBBtoOBB(SVector2& vTL_A, SVector2& vTR_A, SVector2
 		if (i < nSizeA - 1)//1-0,2-1,3-2
 			vLine = boxAPoints[i + 1] - boxAPoints[i];//1-0, 2-1, 3-2, 0 - 3
 		else //3 - 0
-			vLine = boxAPoints[i] - boxAPoints[0];
+			vLine = boxAPoints[0] - boxAPoints[i];
 		SVector2 vNormal = SVector2::CrossZ(vLine).Normalize();
 		//각도형의 내적의 최소 최대값을 구한다.
 		float boxAMin, boxAMax, boxBMin, boxBMax;

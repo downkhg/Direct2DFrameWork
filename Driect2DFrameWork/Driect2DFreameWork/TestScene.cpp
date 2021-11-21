@@ -243,7 +243,7 @@ void CTestScene::Draw()
 
 void CTestScene::MatrixTest()
 {
-	float fScale = 1;
+	float fScale = 2;
 	D2D1_POINT_2F sPos = D2D1::Point2F(100,100);
 	D2D1_POINT_2F sTrans = D2D1::Point2F(50, 50);
 	//D2D1::Matrix3x2F sMat = D2D1::Matrix3x2F::Identity();

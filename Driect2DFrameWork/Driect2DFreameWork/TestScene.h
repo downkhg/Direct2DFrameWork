@@ -15,7 +15,6 @@ namespace DX2DClasses
 
 	class CTestScene : public ISceneManager
 	{
-		
 		CColorBrushPalettet* m_pColorBrushPalettet;
 
 		CImage* m_pPlayer;

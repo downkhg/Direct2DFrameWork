@@ -149,11 +149,11 @@ void CollisionTestScene::Draw()
 {
 	ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();
 
-	//m_pPlayerObject->Draw();
+	m_pPlayerObject->Draw();
 
-	//m_pOpossumObject->Draw();
+	m_pOpossumObject->Draw();
 
-	//m_pEagleObject->Draw();
+	m_pEagleObject->Draw();
 
 	CollisionCheckDraw(); //오브젝트 드로우와 함깨 사용시 포인트들의 위치가 어긋남
 	//ColliderDraw();

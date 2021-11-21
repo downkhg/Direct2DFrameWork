@@ -147,7 +147,9 @@ void CMoveSampleScene::Update()
 		cTrnasform.SetTRS(vEaglePos, 0, vScale);
 
 		SVector2 vDir = vPlayerPos - vEaglePos;
-		vEaglePos = vEaglePos + vDir.Normalize() * fEangleSpeed;
+		//SVector2 vDir = vEaglePos - vPlayerPos;
+		vDir = vDir.Normalize();
+		vEaglePos = vEaglePos + vDir * fEangleSpeed;
 	}
 	m_pEagleObject->Update();
 

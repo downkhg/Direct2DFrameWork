@@ -11,13 +11,13 @@ namespace DX2DClasses
 		//공용체를 응용하여 각맴버에 배열과 일반맴버접근 인터페이스를 모두 제공한다.
 		union
 		{
-			float m[3][3];
 			struct
 			{
 				float m11, m12, m13;
 				float m21, m22, m23;
 				float m31, m32, m33;
 			};
+			float m[3][3];
 		};
 		SMatrix3x3();
 		SMatrix3x3(const D2D1::Matrix3x2F& mat);
@@ -34,6 +34,7 @@ namespace DX2DClasses
 		void Translation(const float x, const float y);
 		void Translation(const SVector2& pos);
 		void Rotate(const float fAngle);
+		void Rotate(const float fAngle, SVector2& center);
 		void Scale(float x, float y);
 		void Scale(const SVector2& size);
 

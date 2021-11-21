@@ -4,6 +4,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
+#include "DebugHelper.h"
 
 //https://webgl2fundamentals.org/webgl/lessons/ko/webgl-2d-matrices.html
 using namespace DX2DClasses;
@@ -32,54 +33,74 @@ SMatrix3x3 SMatrix3x3::operator*(SMatrix3x3& mat)
 	//https://github.com/choisb/Study-GameProgCpp/blob/master/Ch05_OpenGL/Game/Math.h
 	SMatrix3x3 matResult;
 	//
-	matResult.m[0][0] =
-		m[0][0] * mat.m[0][0] +
-		m[0][1] * mat.m[1][0] +
-		m[0][2] * mat.m[2][0];
+	//matResult.m[0][0] = m[0][0] * mat.m[0][0] + m[0][1] * mat.m[1][0] + m[0][2] * mat.m[2][0];
 
-	matResult.m[0][1] =
-		m[0][0] * mat.m[0][1] +
-		m[0][1] * mat.m[1][1] +
-		m[0][2] * mat.m[2][1];
+	//matResult.m[0][1] = m[0][0] * mat.m[0][1] + m[0][1] * mat.m[1][1] + m[0][2] * mat.m[2][1];
 
-	matResult.m[0][2] =
-		m[0][0] * mat.m[0][2] +
-		m[0][1] * mat.m[1][2] +
-		m[0][2] * mat.m[2][2];
-	//
-	matResult.m[1][0] =
-		m[1][0] * mat.m[0][0] +
-		m[1][1] * mat.m[1][0] +
-		m[1][2] * mat.m[2][0];
+	//matResult.m[0][2] = m[0][0] * mat.m[0][2] + m[0][1] * mat.m[1][2] +m[0][2] * mat.m[2][2];
+	////
+	//matResult.m[1][0] =
+	//	m[1][0] * mat.m[0][0] +
+	//	m[1][1] * mat.m[1][0] +
+	//	m[1][2] * mat.m[2][0];
 
-	matResult.m[1][1] =
-		m[1][0] * mat.m[0][1] +
-		m[1][1] * mat.m[1][1] +
-		m[1][2] * mat.m[2][1];
+	//matResult.m[1][1] =
+	//	m[1][0] * mat.m[0][1] +
+	//	m[1][1] * mat.m[1][1] +
+	//	m[1][2] * mat.m[2][1];
 
-	matResult.m[1][2] =
-		m[1][0] * mat.m[0][2] +
-		m[1][1] * mat.m[1][2] +
-		m[1][2] * mat.m[2][2];
-	//
-	matResult.m[2][0] =
-		m[2][0] * mat.m[0][0] +
-		m[2][1] * mat.m[1][0] +
-		m[2][2] * mat.m[2][0];
+	//matResult.m[1][2] =
+	//	m[1][0] * mat.m[0][2] +
+	//	m[1][1] * mat.m[1][2] +
+	//	m[1][2] * mat.m[2][2];
+	////
+	//matResult.m[2][0] =
+	//	m[2][0] * mat.m[0][0] +
+	//	m[2][1] * mat.m[1][0] +
+	//	m[2][2] * mat.m[2][0];
 
-	matResult.m[2][1] =
-		m[2][0] * mat.m[0][1] +
-		m[2][1] * mat.m[1][1] +
-		m[2][2] * mat.m[2][1];
+	//matResult.m[2][1] =
+	//	m[2][0] * mat.m[0][1] +
+	//	m[2][1] * mat.m[1][1] +
+	//	m[2][2] * mat.m[2][1];
 
-	matResult.m[2][2] =
-		m[2][0] * mat.m[0][2] +
-		m[2][1] * mat.m[1][2] +
-		m[2][2] * mat.m[2][2];
-	//for (int y = 0; y < 3; y++) 
-	//	for (int x = 0; x < 3; x++) 
-	//		for (int k = 0; k < 3; k++) 
-	//			matResult.m[y][x] = m[y][k] * mat.m[k][x];
+	//matResult.m[2][2] =
+	//	m[2][0] * mat.m[0][2] +
+	//	m[2][1] * mat.m[1][2] +
+	//	m[2][2] * mat.m[2][2];
+
+
+	//CDebugHelper::LogConsole("###################\n");
+	/*for (int y = 0; y < 3; y++) 
+		for (int x = 0; x < 3; x++) 
+			for (int k = 0; k < 3; k++)
+			{
+				matResult.m[y][x] = m[y][k] * mat.m[k][x];
+				CDebugHelper::LogConsole("[%d][%d] = [%d][%d] * [%d][%d]\n", y, x, y, k, k, x);
+			}*/
+	//for (int y = 0; y < 3; y++)
+	//	for (int x = 0; x < 3; x++)
+	//		//for (int k = 0; k < 3; k++)
+	//		{
+	//			//matResult.m[0][0] = m[0][0] * mat.m[0][0] + m[0][1] * mat.m[1][0] + m[0][2] * mat.m[2][0];
+	//			matResult.m[y][x] = m[y][0] * mat.m[0][x] + m[y][1] * mat.m[1][x] + m[y][2] * mat.m[2][x];
+	//			//CDebugHelper::LogConsole("[%d][%d] = [%d][%d] * [%d][%d]\n", y, x, y, k, k, x);
+	//		}
+	//검산결과 위공식과 루프가 다른점을 찾아내고 고침.
+	for (int y = 0; y < 3; y++)
+		for (int x = 0; x < 3; x++)
+		{
+			CDebugHelper::LogConsole("[%d][%d] = ", y, x);
+			double sum = 0;
+			for (int k = 0; k < 3; k++)
+			{
+				sum += (double)m[y][k] * (double)mat.m[k][x];
+				CDebugHelper::LogConsole(" [%d][%d] * [%d][%d] +", y, k, k ,x);
+			}
+			matResult.m[y][x] = sum;
+			CDebugHelper::LogConsole("\n");
+		}
+	//CDebugHelper::LogConsole("###################\n");
 	/*m31 += mat.m31;
 	m32 += mat.m32;*/
 
@@ -156,20 +177,33 @@ void SMatrix3x3::Rotate(const float fAngle)
 	m12 = -s; 
 	m21 = s; 
 	m22 = c;*/
-	m11 = c;
-	m12 = s;
-	m21 = -s;
-	m22 = c;
 
 	//https://github.com/choisb/Study-GameProgCpp/blob/master/Ch05_OpenGL/Game/Math.h
 	//D2D1의 함수와 결과가 같음을 확인함. Matrix3함수 참조.
 	/*float temp[3][3] =
 	{
-		{ cosf(theta), sinf(theta), 0.0f },
-		{ -sinf(theta), cosf(theta), 0.0f },
+		{ c, s, 0.0f },
+		{ -s, c, 0.0f },
 		{ 0.0f, 0.0f, 1.0f },
 	};
 	memcpy_s(m, sizeof(m), temp, sizeof(temp));*/
+	m11 = c; m12 = s;
+	m21 = -s; m22 = c;
+}
+void SMatrix3x3::Rotate(const float fAngle, SVector2& vCenter )
+{
+	//http://egloos.zum.com/scripter/v/1618411
+	double theta = fAngle * DEG2RAD;
+	float s = sinf(theta);
+	float c = cosf(theta);
+	
+	//float a
+	//x = (x-vCenter.x) * c - (y -vCenter.y)s
+	//y = (x-vCenter.x) * s + (y- vCenter.y)c
+
+
+	m11 = c; m12 = s;
+	m21 = -s; m22 = c;
 }
 void SMatrix3x3::Scale(const SVector2& size)
 {
