@@ -165,10 +165,15 @@ SVector2& CBoxCollider::GetWorldBR()
 
 void CBoxCollider::DrawOutline(CColorBrush* pColorBrush, float stroke)
 {
-	SVector2 vTL = GetWorldTL();
+	/*SVector2 vTL = GetWorldTL();
 	SVector2 vTR = GetWorldTR();
 	SVector2 vBL = GetWorldBL();
-	SVector2 vBR = GetWorldBR();
+	SVector2 vBR = GetWorldBR();*/
+
+	SVector2 vTL = GetTopLeft();
+	SVector2 vTR = GetTopRight();
+	SVector2 vBL = GetBottomLeft();
+	SVector2 vBR = GetBottomRight();
 
 	CDebugHelper::DrawLine(vTL, vTR, pColorBrush, stroke);
 	CDebugHelper::DrawLine(vTR, vBR, pColorBrush, stroke);
@@ -178,20 +183,24 @@ void CBoxCollider::DrawOutline(CColorBrush* pColorBrush, float stroke)
 
 bool CBoxCollider::ToPoint(SVector2& pos)
 {
+	//return CCollisionCheck::OverlapPointToOBB(pos, GetTopLeft(), GetTopRight(), GetBottomRight(), GetBottomLeft());
 	return CCollisionCheck::OverlapPointToOBB(pos, GetWorldTL(), GetWorldTR(), GetWorldBL(), GetWorldBR());
 }
 
 bool CBoxCollider::ToRect(CRectCollider* pRect)
 {
+	//return CCollisionCheck::OverlapAABBtoOBB(pRect->GetTopLeft(), pRect->GetBottomRight(), GetTopLeft(), GetTopRight(), GetBottomRight(), GetBottomLeft());
 	return CCollisionCheck::OverlapAABBtoOBB(pRect->GetWorldTL(), pRect->GetWorldBR(), GetWorldTL(), GetWorldTR(), GetWorldBR(), GetWorldBL());
 }
 
 bool CBoxCollider::ToBox(CBoxCollider* pBox)
 {
+	//return CCollisionCheck::OverlapOBBtoOBB(GetTopLeft(), GetTopRight(), GetBottomRight(), GetBottomLeft(), pBox->GetTopLeft(), pBox->GetTopRight(), pBox->GetBottomRight(), pBox->GetBottomLeft());
 	return CCollisionCheck::OverlapOBBtoOBB(GetWorldTL(), GetWorldTR(), GetWorldBR(), GetWorldBL(), pBox->GetWorldTL(), pBox->GetWorldTR(), pBox->GetWorldBR(), pBox->GetWorldBL());
 }
 
 bool CBoxCollider::ToCircle(CCircleCollider* pCircle)
 {
+	//return CCollisionCheck::OverlapCircleToOBB(pCircle->GetPos(), pCircle->GetRadius(), GetTopLeft(), GetTopRight(), GetBottomRight(), GetBottomLeft());
 	return CCollisionCheck::OverlapCircleToOBB(pCircle->GetWorldPos(), pCircle->GetRadius(), GetWorldTL(), GetWorldTR(), GetWorldBR(), GetWorldBL());
 }

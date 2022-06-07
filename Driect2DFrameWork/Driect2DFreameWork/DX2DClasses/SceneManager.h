@@ -8,7 +8,7 @@ namespace DX2DClasses
 	__interface ISceneManager
 	{
 	public:
-		virtual void Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework) = 0; //초기화
+		virtual void Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework) ; //초기화
 		virtual void Release() = 0; //동적객체 제거
 
 		virtual void Update() = 0; //정보변경

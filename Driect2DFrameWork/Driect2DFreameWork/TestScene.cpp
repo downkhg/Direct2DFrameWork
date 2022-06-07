@@ -157,6 +157,7 @@ void CTestScene::Draw()
 	vRU = vRU.Normalize();
 	SVector2 vLineStart(100, 100);
 	SVector2 vLineEnd;
+	SVector2 vLineCenter;
 	float fLineDist = 100;
 
 	vLineEnd = vLineStart + vRight * fLineDist;
@@ -181,19 +182,18 @@ void CTestScene::Draw()
 	SVector2 vCrossZ = SVector2::CrossZ(vDir);
 	vLineEnd = vLineStart + vCrossZ * fLineDist;
 	CDebugHelper::DrawLine(vLineStart, vLineEnd, pYellowBrush);
-	
+	vLineCenter = vLineStart + vCrossZ * fLineDist*0.5f;
 	vLineEnd = vLineStart + (SVector2::left() * fLineDist);
-	//CDebugHelper::DrawLine(vLineStart, vLineEnd, pBlackBrush);
+	CDebugHelper::DrawLine(vLineStart, vLineEnd, pBlackBrush);
 
-	//CDebugHelper::DrawCircle(m_vPos, 1, pRedBrush);
+	CDebugHelper::DrawCircle(m_vPos, 1, pRedBrush);
 	int nCheck;
-	//CCollisionCheck::OverlapPointToLine(m_vPos, vLineStart, vLineEnd, nCheck);
-
 	
+
 	if (CCollisionCheck::OverlapPointToOBB(vCirclePos, vTL_A, vTR_A, vBR_A, vBL_A))
 	{
 		CDebugHelper::DrawRect(vTL_A, vBR_A, pRedBrush);
-		CDebugHelper::DrawCircle(vCirclePos, fCircleRadius, pRedBrush);
+		//CDebugHelper::DrawCircle(vCirclePos, fCircleRadius, pRedBrush);
 
 	}
 	else
@@ -228,6 +228,21 @@ void CTestScene::Draw()
 	{
 		CDebugHelper::DrawRect(vTL_A, vBR_A, pBlackBrush);
 		CDebugHelper::DrawRect(vTL_B, vBR_B, pBlackBrush);
+	}
+
+	CCollisionCheck::OverlapPointToLine(m_vPos, vLineStart, vLineEnd, nCheck);
+
+	switch (nCheck)
+	{
+	case CCollisionCheck::E_LINE_CHECK::UP:
+		CDebugHelper::DrawLine(m_vPos, vLineCenter, pYellowBrush);
+		break;
+	case CCollisionCheck::E_LINE_CHECK::ON:
+		CDebugHelper::DrawLine(m_vPos, vLineCenter, pGreenBrush);
+		break;
+	case CCollisionCheck::E_LINE_CHECK::DOWN:
+		CDebugHelper::DrawLine(m_vPos, vLineCenter, pRedBrush);
+		break;
 	}
 
 	if (nAniIdx < m_pPlayer->GetAnimationCount() - 1)

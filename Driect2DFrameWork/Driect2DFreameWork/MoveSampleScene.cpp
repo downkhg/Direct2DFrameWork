@@ -121,6 +121,7 @@ void CMoveSampleScene::Update()
 		cTrnasform.SetAsixPoint(vAsix);
 		cTrnasform.SetTRS(vPlayerPos, fAngle, vScale);
 	}
+	fAngle+=10;
 	m_pPlayerObject->Update();
 
 	static SVector2 vOpossumPos(1000, 0);
@@ -146,8 +147,8 @@ void CMoveSampleScene::Update()
 		cTrnasform.SetAsixPoint(vAsix);
 		cTrnasform.SetTRS(vEaglePos, 0, vScale);
 
-		SVector2 vDir = vPlayerPos - vEaglePos;
-		//SVector2 vDir = vEaglePos - vPlayerPos;
+		//SVector2 vDir = vPlayerPos - vEaglePos;
+		SVector2 vDir = vEaglePos - vPlayerPos;
 		vDir = vDir.Normalize();
 		vEaglePos = vEaglePos + vDir * fEangleSpeed;
 	}

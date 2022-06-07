@@ -155,8 +155,8 @@ void CollisionTestScene::Draw()
 
 	m_pEagleObject->Draw();
 
-	CollisionCheckDraw(); //오브젝트 드로우와 함깨 사용시 포인트들의 위치가 어긋남
-	//ColliderDraw();
+	//CollisionCheckDraw(); //오브젝트 드로우와 함깨 사용시 포인트들의 위치가 어긋남
+	ColliderDraw();
 }
 
 void CollisionTestScene::CollisionCheckDraw()
@@ -215,7 +215,7 @@ void CollisionTestScene::CollisionCheckDraw()
 	/*SVector2 vOpossumTopLeft = m_pOpossumRectCollider->GetWorldTL();
 	SVector2 vOpossumBottomRight = m_pOpossumRectCollider->GetWorldBR();*/
 
-	if (CCollisionCheck::OverlapAABBtoOBB(vOpossumTopLeft, vOpossumBottomRight, vPlayerTopLeft, vPlayerTopRight, vPlayerBottomRight, vPlayerBottomLeft))
+	/*if (CCollisionCheck::OverlapAABBtoOBB(vOpossumTopLeft, vOpossumBottomRight, vPlayerTopLeft, vPlayerTopRight, vPlayerBottomRight, vPlayerBottomLeft))
 	{
 		CDebugHelper::DrawLine(vPlayerTopLeft, vPlayerTopRight, pRedBrush);
 		CDebugHelper::DrawLine(vPlayerTopRight, vPlayerBottomRight, pRedBrush);
@@ -228,7 +228,7 @@ void CollisionTestScene::CollisionCheckDraw()
 		CDebugHelper::DrawLine(vPlayerTopRight, vPlayerBottomRight, pBlackBrush);
 		CDebugHelper::DrawLine(vPlayerBottomRight, vPlayerBottomLeft, pBlackBrush);
 		CDebugHelper::DrawLine(vPlayerBottomLeft, vPlayerTopLeft, pBlackBrush);
-	}
+	}*/
 	////독수리와 주머니쥐 충돌체크
 	//if (CCollisionCheck::OverlapCircleToAABB(vEaglePos, fEagleRad, vOpossumTopLeft, vOpossumBottomRight))
 	//{
@@ -259,40 +259,40 @@ void CollisionTestScene::ColliderDraw()
 	CColorBrush* pYellowBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::YELLOW);
 	CColorBrush* pBlackBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::BLACK);
 
-	//플레이어 충돌테스트
-	if (m_pPlayerBoxCollider->ToRect(m_pOpossumRectCollider))
-		m_pPlayerBoxCollider->DrawOutline(pRedBrush);
-	else
-		m_pPlayerBoxCollider->DrawOutline(pBlackBrush);
+	////플레이어 충돌테스트
+	//if (m_pPlayerBoxCollider->ToRect(m_pOpossumRectCollider))
+	//	m_pPlayerBoxCollider->DrawOutline(pRedBrush);
+	//else
+	//	m_pPlayerBoxCollider->DrawOutline(pBlackBrush);
 
-	if (m_pPlayerBoxCollider->ToBox(m_pOpossumBoxCollider))
-		m_pPlayerBoxCollider->DrawOutline(pRedBrush);
-	else
-		m_pPlayerBoxCollider->DrawOutline(pBlackBrush);
+	//if (m_pPlayerBoxCollider->ToBox(m_pOpossumBoxCollider))
+	//	m_pPlayerBoxCollider->DrawOutline(pRedBrush);
+	//else
+	//	m_pPlayerBoxCollider->DrawOutline(pBlackBrush);
 
-	if(m_pPlayerBoxCollider->ToCircle(m_pEagleCircleCollider))
-		m_pPlayerBoxCollider->DrawOutline(pRedBrush);
-	else
-		m_pPlayerBoxCollider->DrawOutline(pBlackBrush);
+	//if(m_pPlayerBoxCollider->ToCircle(m_pEagleCircleCollider))
+	//	m_pPlayerBoxCollider->DrawOutline(pRedBrush);
+	//else
+	//	m_pPlayerBoxCollider->DrawOutline(pBlackBrush);
 	//m_pPlayerBoxCollider->DrawOutline(pBlackBrush);
 
-	////주머니쥐 충돌테스트
-	//if (m_pOpossumBoxCollider->ToRect(m_pPlayerRectCollider))
-	//	m_pOpossumBoxCollider->DrawOutline(pRedBrush);
-	//else
-	//	m_pOpossumBoxCollider->DrawOutline(pBlackBrush);
+	//주머니쥐 충돌테스트
+	if (m_pOpossumBoxCollider->ToRect(m_pPlayerRectCollider))
+		m_pOpossumBoxCollider->DrawOutline(pRedBrush);
+	else
+		m_pOpossumBoxCollider->DrawOutline(pBlackBrush);
 
-	//if (m_pOpossumBoxCollider->ToBox(m_pPlayerBoxCollider))
-	//	m_pOpossumBoxCollider->DrawOutline(pRedBrush);
-	//else
-	//	m_pOpossumBoxCollider->DrawOutline(pBlackBrush);
+	if (m_pOpossumBoxCollider->ToBox(m_pPlayerBoxCollider))
+		m_pOpossumBoxCollider->DrawOutline(pRedBrush);
+	else
+		m_pOpossumBoxCollider->DrawOutline(pBlackBrush);
 
-	//if (m_pOpossumBoxCollider->ToCircle(m_pEagleCircleCollider))
-	//	m_pOpossumBoxCollider->DrawOutline(pRedBrush);
-	//else
-	//	m_pOpossumBoxCollider->DrawOutline(pBlackBrush);
+	if (m_pOpossumBoxCollider->ToCircle(m_pEagleCircleCollider))
+		m_pOpossumBoxCollider->DrawOutline(pRedBrush);
+	else
+		m_pOpossumBoxCollider->DrawOutline(pBlackBrush);
 
-	m_pOpossumBoxCollider->DrawOutline(pBlackBrush);
+	//m_pOpossumBoxCollider->DrawOutline(pBlackBrush);
 
 	////독수리 충돌테스트
 	//if(m_pEagleCircleCollider->ToRect(m_pOpossumRectCollider))
@@ -310,6 +310,6 @@ void CollisionTestScene::ColliderDraw()
 	//else
 	//	m_pEagleCircleCollider->DrawOutline(pRedBrush);
 
-	m_pEagleCircleCollider->DrawOutline(pBlackBrush);
+	//m_pEagleCircleCollider->DrawOutline(pBlackBrush);
 	
 }

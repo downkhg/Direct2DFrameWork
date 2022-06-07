@@ -3,28 +3,28 @@
   <Class Name="DX2DClasses::CCircleCollider">
     <Position X="0.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gAAAAAAAABAAAAAAAAAACQoAAACEAAAAAAAAgAoAAAA=</HashCode>
+      <HashCode>gAAAAAAAABAAAAAAAAAACQoAAACACAAAAAAAgAoABAA=</HashCode>
       <FileName>DX2DClasses\Colliders.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DX2DClasses::CRectCollider">
     <Position X="2.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAAAAAAAACAAAAACQIAAASEAAAAAAAACAMBEAA=</HashCode>
+      <HashCode>AAAAgAAAAAAAAACAAAAACQYQAACACAAAAAAAAAMBEAA=</HashCode>
       <FileName>DX2DClasses\Colliders.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DX2DClasses::CBoxCollider">
     <Position X="4.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAAAAAAAACAAkCACQIAAASEAAAAAAAACAMAEAA=</HashCode>
+      <HashCode>AAAAgAAAAAAAAACAAkCACQYQAASACAAAAAAACAMAEAA=</HashCode>
       <FileName>DX2DClasses\Colliders.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DX2DClasses::CTransform">
     <Position X="11" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAIAAAAAACIAEBAAEQABAEAAAAAFAgAAEAA=</HashCode>
+      <HashCode>AAAAAAAAAAIEAAAAACIAEBAAEQABAEAAIAAFAgABEAA=</HashCode>
       <FileName>DX2DClasses\GameObject.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -38,7 +38,7 @@
   <Class Name="DX2DClasses::CCollider">
     <Position X="2.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAACQIAAACEAAAAAAAAAAIAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACQIAAACACAAAgAQAAAIAAAA=</HashCode>
       <FileName>DX2DClasses\Colliders.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -55,7 +55,7 @@
       </Enum>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>ACAAAAgABAQgAAAAAAAAAAAgAUAAAAAAEQAAAAAAAAA=</HashCode>
+      <HashCode>CCAAAAgABAQgAQAAAAAAAAAgAUAAEAAAEQAAAAAAAAA=</HashCode>
       <FileName>DX2DClasses\CollisionCheck.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -133,9 +133,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="DX2DClasses::CTestScene">
-    <Position X="8.75" Y="6" Width="1.5" />
+    <Position X="8.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>wQQAIAAAQAABBxAIMAAAAAAAAQAAAwAAAACAgBAAQAA=</HashCode>
+      <HashCode>wQQAIAQAQAABBxAIMAAAAAQACQAAAQAAAACAgBAAQAA=</HashCode>
       <FileName>TestScene.h</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -143,7 +143,7 @@
   <Struct Name="DX2DClasses::SVector2" Collapsed="true">
     <Position X="14.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAgCAAAAEAAAAAAACACIAAAAAEDgCgEAgQA=</HashCode>
+      <HashCode>gAAMAAAAAAgCAAAAEAAAAAAACACIAABAAEDgCgEAgQA=</HashCode>
       <FileName>DX2DClasses\Vector2.h</FileName>
     </TypeIdentifier>
   </Struct>
