@@ -19,10 +19,10 @@ void CTransform::SetAsixPoint(SVector2& asix)
 void CTransform::SetTRS(const SVector2& pos, const float angle, const SVector2& size)
 {
 	D2D1::Matrix3x2F matT = D2D1::Matrix3x2F::Translation(pos.x, pos.y);
-	D2D1::Matrix3x2F matR = D2D1::Matrix3x2F::Rotation(angle, D2D1::Point2F(sAsixPoint.x, sAsixPoint.y));
+	D2D1::Matrix3x2F matR = D2D1::Matrix3x2F::Rotation(angle, D2D1::Point2F(pos.x + sAsixPoint.x, pos.y + sAsixPoint.y));
 	D2D1::Matrix3x2F matS = D2D1::Matrix3x2F::Scale(size.x, size.y);
 
-	matTransform = matR * matT  * matS;
+	matTransform = matR  * matT * matS;
 }
 
 void CTransform::SetTransrate(const SVector2& pos)
@@ -50,7 +50,7 @@ void CTransform::Transrate(const SVector2& pos)
 void CTransform::Rotate(const float angle)
 {
 	D2D1::Matrix3x2F matR = D2D1::Matrix3x2F::Rotation(angle, D2D1::Point2F(sAsixPoint.x, sAsixPoint.y));
-	matTransform = matTransform * matR;
+	matTransform = matR * matTransform;
 }
 void CTransform::Scale(const SVector2& size)
 {

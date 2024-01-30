@@ -51,6 +51,7 @@ namespace DX2DClasses
 		~CMoveSampleScene();
 
 		void Reset(); //초기위치를 설정하는 함수
+
 		void Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework) override; //초기화
 		void Release() override; //동적객체 제거
 

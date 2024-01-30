@@ -141,23 +141,29 @@ void CMoveSampleScene::Update()
 {
 	CDebugHelper::OpenConsole();
 	//블록을 활용하여 각 오브젝트 처리시 지역변수를 동일한 이름으로 활용가능하도록 함.
+
+	static float fAngle = 0;
 	{
 		CTransform& cTrnasform = m_pPlayerObject->GetTransform();
 		SVector2 vPos = cTrnasform.GetTransrate();
+		SVector2 vSize = m_pOpossumObject->GetImage()->GetImageSize();
+		SVector2 vAsix = vSize * 0.5f;
+		SVector2 vScale = cTrnasform.GetScale();
 
 		//벡터방식 연산보다는 효률적이다.
 		if (CInputManager::GetAsyncKeyStatePress(VK_RIGHT))
-			vPos.x += m_fPlayerSpeed; 
+			cTrnasform.Transrate(SVector2::right() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
 		if (CInputManager::GetAsyncKeyStatePress(VK_LEFT))
-			vPos = vPos + SVector2::left() * m_fPlayerSpeed;//vPlayerPos.x -= fPlayerSpeed;
+			cTrnasform.Transrate(SVector2::left() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
 		if (CInputManager::GetAsyncKeyStatePress(VK_DOWN))
-			vPos = vPos + SVector2::down() * m_fPlayerSpeed;//vPlayerPos.y += fPlayerSpeed;
+			cTrnasform.Transrate(SVector2::down() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
 		if (CInputManager::GetAsyncKeyStatePress(VK_UP))
-			vPos.y -= m_fPlayerSpeed;
+			cTrnasform.Transrate(SVector2::up() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
 		if (CInputManager::GetAsyncKeyStatePress(90))
-			vPos.y -= m_fPlayerJumpHigher;
+			cTrnasform.Transrate(SVector2::left() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
 
-		cTrnasform.SetTransrate(vPos);
+		cTrnasform.SetAsixPoint(vAsix);
+		cTrnasform.Rotate(10);
 	}
 	m_pPlayerObject->Update();
 
@@ -206,10 +212,13 @@ void CMoveSampleScene::Draw()
 	ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();
 
 	m_pPlayerObject->Draw();
+	CDebugHelper::DrawBox(m_pPlayerObject, CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::BLACK));
 
 	m_pOpossumObject->Draw();
+	CDebugHelper::DrawRect(m_pOpossumObject, CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::RED));
 
 	m_pEagleObject->Draw();
+	CDebugHelper::DrawCircle(m_pEagleObject, CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::YELLOW));
 
 	m_pCherryObject->Draw();
 	m_pGemObject->Draw();

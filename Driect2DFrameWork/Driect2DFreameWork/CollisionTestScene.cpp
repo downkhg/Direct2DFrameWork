@@ -124,7 +124,7 @@ void CollisionTestScene::Update()
 		SVector2 vAsix = vSize * 0.5f;
 		cTrnasform.SetAsixPoint(vAsix);
 		cTrnasform.SetTRS(vOpossumPos, fAngle, vScale);
-		//fAngle++;
+		fAngle+=10;
 	}
 	//vOpossumPos = vOpossumPos + SVector2::left() * fOpossumSpeed;
 	m_pOpossumObject->Update();
