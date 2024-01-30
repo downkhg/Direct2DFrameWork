@@ -37,5 +37,6 @@ namespace DX2DClasses
 
 		void DrawBitmap(const SVector2& pos, const SVector2& size, const float& angle, int idx);
 		void DrawBitmap(const D2D1::Matrix3x2F &mat, int idx);
+		void DrawBitmap(const D2D1::Matrix3x2F* mat, int idx);
 	};
 }

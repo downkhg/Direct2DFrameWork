@@ -130,3 +130,13 @@ void CImage::DrawBitmap(const D2D1::Matrix3x2F &mat, int idx)
 	m_pRenderTarget->SetTransform(mat);//트랜스폼을 셋팅하여 위치를 이동한다.
 	m_pRenderTarget->DrawBitmap(bitmap, sArea);//비트맵을 그릴 영역은 회전을 적용한 랜더링이 되지않음.
 }
+
+void CImage::DrawBitmap(const D2D1::Matrix3x2F* mat, int idx)
+{
+	const SVector2 size = m_sPointSize;
+	ID2D1Bitmap* bitmap = m_pD2DBitmap[idx];
+
+	D2D1_RECT_F sArea = D2D1::RectF(0, 0, m_sPointSize.x, m_sPointSize.y);
+	m_pRenderTarget->SetTransform(mat);//트랜스폼을 셋팅하여 위치를 이동한다.
+	m_pRenderTarget->DrawBitmap(bitmap, sArea);//비트맵을 그릴 영역은 회전을 적용한 랜더링이 되지않음.
+}

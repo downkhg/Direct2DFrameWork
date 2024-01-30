@@ -27,12 +27,14 @@ namespace DX2DClasses
 		void Scale(const SVector2& size);
 
 		D2D1::Matrix3x2F& GetTransfrom();
+		D2D1::Matrix3x2F* GetTransfromPtr();
 
 		SVector2 GetTransrate();
 		D2D1::Matrix3x2F GetRotate();
 		SVector2 GetScale();
 
 		static SVector2 MutipleVectorToMatrix(SVector2& vec, D2D1::Matrix3x2F& mat);
+		static SVector2 MutipleVectorToMatrix(SVector2& vec, D2D1::Matrix3x2F* mat);
 	};
 
 	class CAnimator2D
@@ -59,6 +61,7 @@ namespace DX2DClasses
 		bool m_isActive;
 	public:
 		CTransform& GetTransform();
+		CTransform* GetTransformPtr();
 		void SetImage(CImage* img);
 		CImage* GetImage();
 

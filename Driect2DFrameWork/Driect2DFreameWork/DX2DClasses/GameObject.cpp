@@ -63,6 +63,11 @@ D2D1::Matrix3x2F& CTransform::GetTransfrom()
 	return matTransform;
 }
 
+D2D1::Matrix3x2F* CTransform::GetTransfromPtr()
+{
+	return &matTransform;
+}
+
 SVector2 CTransform::GetTransrate()
 {
 	return SVector2(matTransform.dx, matTransform.dy);
@@ -87,6 +92,13 @@ SVector2 CTransform::MutipleVectorToMatrix(SVector2& vec, D2D1::Matrix3x2F& mat)
 {
 	D2D1_POINT_2F sPos = vec.ToPoint();
 	sPos = sPos * mat;
+	return SVector2(sPos);
+}
+
+SVector2 CTransform::MutipleVectorToMatrix(SVector2& vec, D2D1::Matrix3x2F* pMat)
+{
+	D2D1_POINT_2F sPos = vec.ToPoint();
+	sPos = sPos * (*pMat);
 	return SVector2(sPos);
 }
 
@@ -124,6 +136,11 @@ CTransform& CGameObject::GetTransform()
 {
 	return m_cTransform;
 }
+CTransform* CGameObject::GetTransformPtr()
+{
+	return& m_cTransform;
+}
+
 void CGameObject::SetImage(CImage* img)
 {
 	m_pImage = img;

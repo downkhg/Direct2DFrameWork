@@ -40,11 +40,17 @@ namespace DX2DClasses
 
 		CGameObject* m_pItemEffectObject;
 		CGameObject* m_pDeathEffectObject;
+
+		float m_fPlayerSpeed = 2;
+		float m_fPlayerJumpHigher = 7;
+		float m_fOpossumSpeed = 3;
+		float m_fEangleSpeed = 5;
 		
 	public:
 		CMoveSampleScene();
 		~CMoveSampleScene();
 
+		void Reset(); //초기위치를 설정하는 함수
 		void Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework) override; //초기화
 		void Release() override; //동적객체 제거
 

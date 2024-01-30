@@ -33,7 +33,7 @@ void CCircleCollider::InitCollider(CTransform* pTransform, SVector2 pos, SVector
 SVector2& CCircleCollider::GetWorldPos()
 {
 	static SVector2 vPos;
-	vPos = CTransform::MutipleVectorToMatrix(m_vPos, m_pTransform->GetTransfrom());
+	vPos = CTransform::MutipleVectorToMatrix(m_vPos, m_pTransform->GetTransfromPtr());
 	return vPos;
 }
 

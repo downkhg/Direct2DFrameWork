@@ -37,6 +37,10 @@ SVector2 SVector2::operator*(SMatrix3x3& mat)
 	vTemp = mat * vTemp;
 	return vTemp;
 }
+bool SVector2::operator==(SVector2& vec)
+{
+	return (this->x == vec.x && this->y == vec.y);
+}
 //SVector2 operator+(const SVector2& a, const SVector2& b)
 //{
 //	return SVector2(a.x + b.x, a.y + b.y);

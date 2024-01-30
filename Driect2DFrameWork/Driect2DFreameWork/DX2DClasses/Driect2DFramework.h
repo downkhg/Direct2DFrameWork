@@ -17,10 +17,10 @@ namespace DX2DClasses
 		ID2D1HwndRenderTarget* GetD2DRenderTarget() { return m_pRenderTarget; }
 		IWICImagingFactory* GetImagingFactory(){ return m_pWICImagingFactory; }
 
-		void Initialize(HWND hWnd);
+		void Initialize(HWND hWnd, int width = 0, int height = 0);
 		void Release();
 	private:
 		void _InitializeD2D(ID2D1Factory* &pD2DFactory, IWICImagingFactory* &pWICImagingFactory);
-		void _InitializeRect(HWND hWnd, ID2D1HwndRenderTarget* &pRenderTaget);
+		void _InitializeRect(HWND hWnd, ID2D1HwndRenderTarget*& pRenderTaget, int width = 0, int height = 0);
 	};
 }

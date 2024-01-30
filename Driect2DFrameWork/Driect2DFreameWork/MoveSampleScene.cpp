@@ -10,6 +10,8 @@
 #include "DX2DClasses/DebugHelper.h"
 #include "DX2DClasses/GameObject.h"
 #include <conio.h>
+#include <iostream>
+#include <string>
 
 using namespace DX2DClasses;
 
@@ -21,6 +23,42 @@ CMoveSampleScene::CMoveSampleScene()
 CMoveSampleScene::~CMoveSampleScene()
 {
 	//Release();
+}
+
+void CMoveSampleScene::Reset()
+{
+	float fPlayerSpeed = 2;
+	float fPlayerJumpHigher = 7;
+	float fOpossumSpeed = 3;
+	float fEangleSpeed = 5;
+
+	float fAngle = 0;
+	{
+		CTransform& cTrnasform = m_pPlayerObject->GetTransform();
+		SVector2 vPos = cTrnasform.GetTransrate();
+		SVector2 vSize = m_pPlayerObject->GetImage()->GetImageSize();
+		SVector2 vScale(1, 1);
+		cTrnasform.SetTransrate(vPos);
+	}
+
+	//
+	{
+		CTransform& cTrnasform = m_pOpossumObject->GetTransform();
+		SVector2 vPos = SVector2(250,0);
+		cTrnasform.SetTransrate(vPos);
+	}
+
+
+	{
+		CTransform& cTrnasform = m_pEagleObject->GetTransform();
+		SVector2 vSize = m_pEagleObject->GetImage()->GetImageSize();
+		SVector2 vPos = SVector2(300, 300);
+		//SVector2 vScale(1, 1);
+		cTrnasform.SetTransrate(vPos);
+		//SVector2 vAsix = vSize * 0.5f;
+		//cTrnasform.SetAsixPoint(vAsix);
+		//cTrnasform.SetTRS(vPos, 0, vScale);
+	}
 }
 
 void CMoveSampleScene::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
@@ -35,7 +73,7 @@ void CMoveSampleScene::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 	m_pPlayerObject = new CGameObject();
 	m_pPlayerObject->Initialize(m_pPlayerImage, true);
 
-	m_pOpossumImage = new CImage(pDX2DFramework->GetD2DRenderTarget(), pDX2DFramework->GetImagingFactory(),6);
+	m_pOpossumImage = new CImage(pDX2DFramework->GetD2DRenderTarget(), pDX2DFramework->GetImagingFactory(), 6);
 	m_pOpossumImage->ManualLoadImage(hWnd, L"Images\\opossum%02d.png");
 	m_pOpossumObject = new CGameObject();
 	m_pOpossumObject->Initialize(m_pOpossumImage, true);
@@ -64,6 +102,8 @@ void CMoveSampleScene::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 	m_pDeathEffectImage->ManualLoadImage(hWnd, L"Images\\death%02d.png");
 	m_pDeathEffectObject = new CGameObject();
 	m_pDeathEffectObject->Initialize(m_pDeathEffectImage, true);
+
+	Reset();
 }
 
 void CMoveSampleScene::Release()
@@ -93,73 +133,70 @@ void CMoveSampleScene::Release()
 
 	m_pColorBrushPalettet->Release();
 	delete m_pColorBrushPalettet;
+
+	CDebugHelper::CloseConsole();
 }
 
 void CMoveSampleScene::Update()
 {
-	static SVector2 vPlayerPos;
-	float fPlayerSpeed = 2;
-	float fOpossumSpeed = 3;
-	float fEangleSpeed = 5;
-	//벡터방식 연산보다는 효률적이다.
-	if (CInputManager::GetAsyncKeyStatePress(VK_RIGHT))
-		vPlayerPos.x += fPlayerSpeed; //vPlayerPos = vPlayerPos + SVector2::right() * fPlayerSpeed;
-	if (CInputManager::GetAsyncKeyStatePress(VK_LEFT))
-		vPlayerPos = vPlayerPos + SVector2::left()* fPlayerSpeed;//vPlayerPos.x -= fPlayerSpeed;
-	if (CInputManager::GetAsyncKeyStatePress(VK_DOWN))
-		vPlayerPos = vPlayerPos + SVector2::down() * fPlayerSpeed;//vPlayerPos.y += fPlayerSpeed;
-	if (CInputManager::GetAsyncKeyStatePress(VK_UP))
-		vPlayerPos.y -= fPlayerSpeed;//vPlayerPos = vPlayerPos + SVector2::up() * fPlayerSpeed;
-
-	static float fAngle = 0;
+	CDebugHelper::OpenConsole();
+	//블록을 활용하여 각 오브젝트 처리시 지역변수를 동일한 이름으로 활용가능하도록 함.
 	{
 		CTransform& cTrnasform = m_pPlayerObject->GetTransform();
-		SVector2 vSize = m_pPlayerObject->GetImage()->GetImageSize();
-		SVector2 vScale(1, 1);
-		cTrnasform.SetTransrate(vPlayerPos);
-		SVector2 vAsix = vSize * 0.5f;
-		cTrnasform.SetAsixPoint(vAsix);
-		cTrnasform.SetTRS(vPlayerPos, fAngle, vScale);
+		SVector2 vPos = cTrnasform.GetTransrate();
+
+		//벡터방식 연산보다는 효률적이다.
+		if (CInputManager::GetAsyncKeyStatePress(VK_RIGHT))
+			vPos.x += m_fPlayerSpeed; 
+		if (CInputManager::GetAsyncKeyStatePress(VK_LEFT))
+			vPos = vPos + SVector2::left() * m_fPlayerSpeed;//vPlayerPos.x -= fPlayerSpeed;
+		if (CInputManager::GetAsyncKeyStatePress(VK_DOWN))
+			vPos = vPos + SVector2::down() * m_fPlayerSpeed;//vPlayerPos.y += fPlayerSpeed;
+		if (CInputManager::GetAsyncKeyStatePress(VK_UP))
+			vPos.y -= m_fPlayerSpeed;
+		if (CInputManager::GetAsyncKeyStatePress(90))
+			vPos.y -= m_fPlayerJumpHigher;
+
+		cTrnasform.SetTransrate(vPos);
 	}
-	fAngle+=10;
 	m_pPlayerObject->Update();
 
-	static SVector2 vOpossumPos(1000, 0);
 	{
 		CTransform& cTrnasform = m_pOpossumObject->GetTransform();
 		SVector2 vSize = m_pOpossumObject->GetImage()->GetImageSize();
-		SVector2 vScale(1, 1);
-		cTrnasform.SetTransrate(vOpossumPos);
+		SVector2 vScale = cTrnasform.GetScale();
 		SVector2 vAsix = vSize * 0.5f;
-		cTrnasform.SetAsixPoint(vAsix);
-		cTrnasform.SetTRS(vOpossumPos, 0, vScale);
-	}
-	vOpossumPos = vOpossumPos + SVector2::left() * fOpossumSpeed;
-	m_pOpossumObject->Update();
+		SVector2 vPos = cTrnasform.GetTransrate();
 
-	static SVector2 vEaglePos(1000, 500);
+		vPos = vPos + SVector2::left() * m_fOpossumSpeed;
+
+		if (vPos.x <= 0) vPos.x = 250;
+
+		cTrnasform.SetAsixPoint(vAsix);
+		cTrnasform.SetTRS(vPos, 0, vScale);
+	}
+	m_pOpossumObject->Update();
+	
 	{
 		CTransform& cTrnasform = m_pEagleObject->GetTransform();
-		SVector2 vSize = m_pEagleObject->GetImage()->GetImageSize();
-		SVector2 vScale(1, 1);
-		cTrnasform.SetTransrate(vEaglePos);
-		SVector2 vAsix = vSize * 0.5f;
-		cTrnasform.SetAsixPoint(vAsix);
-		cTrnasform.SetTRS(vEaglePos, 0, vScale);
-
-		//SVector2 vDir = vPlayerPos - vEaglePos;
-		SVector2 vDir = vEaglePos - vPlayerPos;
+		SVector2 vPos = m_pEagleObject->GetTransform().GetTransrate();
+		SVector2 vTargetPos = m_pPlayerObject->GetTransform().GetTransrate();
+		SVector2 vDir = vTargetPos - vPos;
 		vDir = vDir.Normalize();
-		vEaglePos = vEaglePos + vDir * fEangleSpeed;
+		vPos = vPos + vDir * m_fEangleSpeed;
+		cTrnasform.SetTransrate(vPos);	
 	}
 	m_pEagleObject->Update();
-
+	
 	m_pCherryObject->Update();
 	m_pCherryObject->GetTransform().SetTransrate(0, 50);
+
 	m_pGemObject->Update();
 	m_pGemObject->GetTransform().SetTransrate(0, 80);
+
 	m_pItemEffectObject->Update();
 	m_pItemEffectObject->GetTransform().SetTransrate(0, 100);
+
 	m_pDeathEffectObject->Update();
 	m_pDeathEffectObject->GetTransform().SetTransrate(0, 120);
 }
@@ -167,7 +204,7 @@ void CMoveSampleScene::Update()
 void CMoveSampleScene::Draw()
 {
 	ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();
-	
+
 	m_pPlayerObject->Draw();
 
 	m_pOpossumObject->Draw();

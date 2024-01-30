@@ -16,6 +16,7 @@ namespace DX2DClasses
 		SVector2 operator-(const SVector2& vec);
 		SVector2 operator*(const float dist);
 		SVector2 operator*(SMatrix3x3& mat);
+		bool operator==(SVector2& vec);
 		//friend SVector2 operator+(const SVector2& a, const SVector2& b);
 		//friend SVector2 operator-(const SVector2& a, const SVector2& b);
 		float Magnitude();

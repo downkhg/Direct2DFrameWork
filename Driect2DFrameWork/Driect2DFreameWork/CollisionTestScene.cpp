@@ -48,18 +48,18 @@ void CollisionTestScene::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework
 	m_pEagleObject->Initialize(m_pEagleImage, true);
 
 	m_pPlayerBoxCollider = new CBoxCollider();
-	m_pPlayerBoxCollider->InitCollider(&m_pPlayerObject->GetTransform(), SVector2(), m_pPlayerImage->GetImageSize());
+	m_pPlayerBoxCollider->InitCollider(m_pPlayerObject->GetTransformPtr(), SVector2(), m_pPlayerImage->GetImageSize());
 	m_pPlayerRectCollider = new CRectCollider();
-	m_pPlayerRectCollider->InitCollider(&m_pPlayerObject->GetTransform(), SVector2(), m_pPlayerImage->GetImageSize());
+	m_pPlayerRectCollider->InitCollider(m_pPlayerObject->GetTransformPtr(), SVector2(), m_pPlayerImage->GetImageSize());
 	m_pPlayerCircleCollider = new CCircleCollider();
-	m_pPlayerCircleCollider->InitCollider(&m_pPlayerObject->GetTransform(), SVector2(), m_pPlayerImage->GetImageSize());
+	m_pPlayerCircleCollider->InitCollider(m_pPlayerObject->GetTransformPtr(), SVector2(), m_pPlayerImage->GetImageSize());
 
 	m_pOpossumBoxCollider = new CBoxCollider();
-	m_pOpossumBoxCollider->InitCollider(&m_pOpossumObject->GetTransform(), SVector2(), m_pOpossumImage->GetImageSize());
+	m_pOpossumBoxCollider->InitCollider(m_pOpossumObject->GetTransformPtr(), SVector2(), m_pOpossumImage->GetImageSize());
 	m_pOpossumRectCollider = new CRectCollider();
-	m_pOpossumRectCollider->InitCollider(&m_pOpossumObject->GetTransform(), SVector2(), m_pOpossumImage->GetImageSize());
+	m_pOpossumRectCollider->InitCollider(m_pOpossumObject->GetTransformPtr(), SVector2(), m_pOpossumImage->GetImageSize());
 	m_pEagleCircleCollider = new CCircleCollider();
-	m_pEagleCircleCollider->InitCollider(&m_pEagleObject->GetTransform(), SVector2(), m_pEagleImage->GetImageSize());
+	m_pEagleCircleCollider->InitCollider(m_pEagleObject->GetTransformPtr(), SVector2(), m_pEagleImage->GetImageSize());
 }
 
 void CollisionTestScene::Release()
