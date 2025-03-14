@@ -75,6 +75,9 @@
     <ClCompile Include="DX2DClasses\Matrix3.cpp">
       <Filter>소스 파일\DX2DClasses</Filter>
     </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>소스 파일\UserDefine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX2DClasses\SingletonRenderTarget.h">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="DX2DClasses\UtilityDefine.h">
       <Filter>소스 파일\DX2DClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>소스 파일\UserDefine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

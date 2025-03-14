@@ -136,6 +136,7 @@
     <ClCompile Include="DX2DClasses\InputManager.cpp" />
     <ClCompile Include="DX2DClasses\Matrix3.cpp" />
     <ClCompile Include="DX2DClasses\Matrix3x3.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="DX2DClasses\ColorBrush.cpp" />
     <ClCompile Include="DX2DClasses\SingletonRenderTarget.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="DX2DClasses\Matrix3.h" />
     <ClInclude Include="DX2DClasses\Matrix3x3.h" />
     <ClInclude Include="DX2DClasses\UtilityDefine.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="DX2DClasses\ColorBrush.h" />
     <ClInclude Include="DX2DClasses\SceneManager.h" />
