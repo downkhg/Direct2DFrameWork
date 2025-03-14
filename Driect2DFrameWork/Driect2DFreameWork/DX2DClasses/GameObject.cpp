@@ -174,11 +174,16 @@ void CGameObject::Release()
 }
 void CGameObject::Update()
 {
-	if (m_isActive)
+	if (m_pAnimator && m_isActive)
 		m_pAnimator->UpdateFrame();
 }
 void CGameObject::Draw()
 {
-	if(m_isActive)
-		m_pAnimator->DrawImage(m_pImage, m_cTransform);
+	if (m_isActive)
+	{
+		if (m_pAnimator)
+			m_pAnimator->DrawImage(m_pImage, m_cTransform);
+		else if(m_pImage)
+			m_pImage->DrawBitmap(m_cTransform.GetTransfrom(), 0);
+	}
 }

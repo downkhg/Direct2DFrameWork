@@ -1,6 +1,7 @@
 #pragma once
 #include "DX2DClasses/SceneManager.h"
 #include "DX2DClasses/Vector2.h"
+#include <vector>
 
 namespace DX2DClasses
 {
@@ -45,7 +46,10 @@ namespace DX2DClasses
 		float m_fPlayerJumpHigher = 7;
 		float m_fOpossumSpeed = 3;
 		float m_fEangleSpeed = 5;
-		
+	private:
+		std::vector<CGameObject*> m_listItems;
+
+		int m_nScore;
 	public:
 		CMoveSampleScene();
 		~CMoveSampleScene();

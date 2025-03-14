@@ -39,7 +39,7 @@ SVector2& CCircleCollider::GetWorldPos()
 
 void CCircleCollider::DrawOutline(CColorBrush* pColorBrush, float stroke)
 {
-	return CDebugHelper::DrawCircle(GetWorldPos(), m_fRadius, pColorBrush, stroke);
+	return CDebugHelper::DrawCircle(m_pTransform->GetTransfrom(), m_vPos, m_fRadius, pColorBrush, stroke);
 }
 
 bool CCircleCollider::ToPoint(SVector2& pos)
@@ -94,7 +94,7 @@ void CRectCollider::DrawOutline(CColorBrush* pColorBrush, float stroke)
 {
 	SVector2 vTL = CTransform::MutipleVectorToMatrix(m_vTopLeft, m_pTransform->GetTransfrom());
 	SVector2 vBR = CTransform::MutipleVectorToMatrix(m_vBottomRigth, m_pTransform->GetTransfrom());
-	return CDebugHelper::DrawRect(vTL, vBR, pColorBrush, stroke);
+	return CDebugHelper::DrawRect(m_pTransform->GetTransfrom(),vTL, vBR, pColorBrush, stroke);
 }
 
 bool CRectCollider::ToPoint(SVector2& pos)
@@ -165,20 +165,10 @@ SVector2& CBoxCollider::GetWorldBR()
 
 void CBoxCollider::DrawOutline(CColorBrush* pColorBrush, float stroke)
 {
-	/*SVector2 vTL = GetWorldTL();
-	SVector2 vTR = GetWorldTR();
-	SVector2 vBL = GetWorldBL();
-	SVector2 vBR = GetWorldBR();*/
-
-	SVector2 vTL = GetTopLeft();
-	SVector2 vTR = GetTopRight();
-	SVector2 vBL = GetBottomLeft();
-	SVector2 vBR = GetBottomRight();
-
-	CDebugHelper::DrawLine(vTL, vTR, pColorBrush, stroke);
-	CDebugHelper::DrawLine(vTR, vBR, pColorBrush, stroke);
-	CDebugHelper::DrawLine(vBR, vBL, pColorBrush, stroke);
-	CDebugHelper::DrawLine(vBL, vTL, pColorBrush, stroke);
+	CDebugHelper::DrawLine(m_pTransform->GetTransfrom(), m_vTopLeft, m_vTopRight, pColorBrush, stroke);
+	CDebugHelper::DrawLine(m_pTransform->GetTransfrom(), m_vTopLeft, m_vBottomRigth, pColorBrush, stroke);
+	CDebugHelper::DrawLine(m_pTransform->GetTransfrom(), m_vBottomRigth, m_vBottomLeft, pColorBrush, stroke);
+	CDebugHelper::DrawLine(m_pTransform->GetTransfrom(), m_vBottomLeft, m_vTopLeft, pColorBrush, stroke);
 }
 
 bool CBoxCollider::ToPoint(SVector2& pos)
