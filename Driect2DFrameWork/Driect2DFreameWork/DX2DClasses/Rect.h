@@ -32,15 +32,20 @@ namespace DX2DClasses
 			return  D2D1::RectF(left, top, right, bottom);
 		}
 
+		SVector2 GetHalfSiz()
+		{
+			return SVector2(right - left, bottom - top) * 0.5f;
+		}
+
 		SVector2 GetCenter()
 		{
-			SVector2 vSizeHalf = SVector2(right - left, bottom - right) * 0.5f;
+			SVector2 vSizeHalf = GetHalfSiz();
 			return SVector2(left + vSizeHalf.x, top + vSizeHalf.y);
 		}
 
 		float GetRadius()
 		{
-			SVector2 vSizeHalf = SVector2(right - left, bottom - right) * 0.5f;
+			SVector2 vSizeHalf = GetHalfSiz();
 			return vSizeHalf.Magnitude();
 		}
 	};

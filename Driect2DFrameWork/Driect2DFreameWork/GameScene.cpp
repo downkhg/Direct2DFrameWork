@@ -125,6 +125,7 @@ void CGameScene::Update()
 
 	SVector2 vPlayerPos = m_pPlayerObject->GetTransform().GetTransrate();
 	SVector2 vPlayerSize = m_pPlayerObject->GetImage()->GetImageSize() * 0.5f;
+	SVector2 vPlayerCenterPos = vPlayerPos + vPlayerSize;
 	float fPlayerRad = vPlayerSize.Magnitude();
 
 	for (auto it = m_listItem.begin();
@@ -136,14 +137,12 @@ void CGameScene::Update()
 		{
 			SVector2 vItemPos = pObjItem->GetTransform().GetTransrate();
 			SVector2 vItemSize = pObjItem->GetImage()->GetImageSize() * 0.5f;
+			SVector2 vItemCenterPos = vItemPos + vItemSize;
 			float fItemRad = vItemSize.Magnitude();
 
-			SVector2 vDist = (vItemPos - vPlayerPos);
-			float fDist = vDist.Magnitude();
-
-			if (CCollisionCheck::OverlapCircleToCircle(vPlayerPos, fPlayerRad, vItemPos, fItemRad))
+			if (CCollisionCheck::OverlapCircleToCircle(vPlayerCenterPos, fPlayerRad, vItemCenterPos, fItemRad))
 			{
-				CDebugHelper::LogConsole("[%x] PlayerPos[%f](%f,%f) ItemPos[%f](%f,%f) Dist:%f \n", pObjItem, fPlayerRad, vPlayerPos.x, vPlayerPos.y, fItemRad, vItemPos.x, vItemPos.y, fDist);
+				CDebugHelper::LogConsole("[%x] PlayerPos[%f](%f,%f) ItemPos[%f](%f,%f)\n", pObjItem, fPlayerRad, vPlayerPos.x, vPlayerPos.y, fItemRad, vItemPos.x, vItemPos.y);
 				CGameObject* colItem = *it;
 				auto itFind = find(m_listEnableItem.begin(), m_listEnableItem.end(), colItem);
 				colItem->SetActive(false);
@@ -158,12 +157,13 @@ void CGameScene::Update()
 void CGameScene::Draw()
 {
 	m_pPlayerObject->Draw();
-	CColorBrush* pBlackBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::BLACK);
 	CDebugHelper::DrawRect(m_pPlayerObject, m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::BLACK));
-
+	CDebugHelper::DrawCircle(m_pPlayerObject, m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::RED));
 	for (auto it = m_listItem.begin();
 		it != m_listItem.end(); it++)
 	{
-		(*it)->Draw();
+		CGameObject* pItem = (*it);
+		CDebugHelper::DrawCircle(pItem, m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::RED));
+		pItem->Draw();
 	}
 }
