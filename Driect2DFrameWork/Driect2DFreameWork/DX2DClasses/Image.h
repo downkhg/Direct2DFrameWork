@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <vector>
 #include "Vector2.h"
+#include "Rect.h"
 
 struct ID2D1HwndRenderTarget;
 struct IWICImagingFactory;
@@ -22,6 +23,7 @@ namespace DX2DClasses
 		SVector2				m_sPointSize;
 		int m_nAnimSize;
 
+		SRect	m_sDrawRect;
 		ID2D1HwndRenderTarget*		m_pRenderTarget;
 		IWICImagingFactory*			m_pWICFactory;
 
@@ -32,6 +34,7 @@ namespace DX2DClasses
 		SVector2 GetImageSize();
 		SVector2 GetImageCenter();
 		int GetAnimationCount();
+		SRect GetDrawRect() { return m_sDrawRect; };
 
 		void ManualLoadImage(HWND hWnd, const TCHAR* format);
 

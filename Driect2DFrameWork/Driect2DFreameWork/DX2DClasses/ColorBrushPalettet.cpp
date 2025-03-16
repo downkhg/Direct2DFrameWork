@@ -32,7 +32,7 @@ void CColorBrushPalettet::Initialize(ID2D1HwndRenderTarget* pRenderTarget)
 
 void CColorBrushPalettet::Release()
 {
-	for (int i = 0; i < m_ColorBlushs.size(); i++)
+	for (int i = 0; i < (int)m_ColorBlushs.size(); i++)
 		delete m_ColorBlushs[i];
 	m_ColorBlushs.clear();
 }

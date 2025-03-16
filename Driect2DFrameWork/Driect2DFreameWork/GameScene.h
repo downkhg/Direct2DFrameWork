@@ -2,6 +2,7 @@
 #include "DX2DClasses/SceneManager.h"
 #include "DX2DClasses/Vector2.h"
 #include <vector>
+#include <list>
 #include <queue>
 
 namespace DX2DClasses
@@ -31,8 +32,8 @@ namespace DX2DClasses
 		std::vector<CImage*> m_listImages;
 		
 		std::vector<CGameObject*> m_listItem;
-		std::queue<CGameObject*> m_queueEnableItem;
-		std::queue<CGameObject*> m_queueDiableItem;
+		std::list<CGameObject*> m_listEnableItem;
+		std::queue<CGameObject*> m_listDiableItem;
 
 		std::vector<CGameObject*> m_listBullet;
 		std::queue<CGameObject*> m_queueEnableBullet;

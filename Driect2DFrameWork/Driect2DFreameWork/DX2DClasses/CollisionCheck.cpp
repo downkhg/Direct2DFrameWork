@@ -11,7 +11,7 @@ using namespace DX2DClasses;
 //선분의 노말과 각 변의 점들을 내적하고 그중 가장 큰값과 작은 값을 구한다. 여기서 내적은 선분의 길이로 보면된다.
 void SATtest(const SVector2& axis, const SVector2 ptSet[], int size, float& minAlong, float& maxAlong, int& minIdx, int& maxIdx)
 {
-	minAlong = HUGE, maxAlong = -HUGE;
+	minAlong = (float)HUGE, maxAlong = -(float)HUGE;
 	for (int i = 0; i < size; i++)
 	{
 		// just dot it to get the min/max along this axis.
@@ -243,12 +243,12 @@ bool CCollisionCheck::OverlapCircleToLine(SVector2& vPos, float fRadius, SVector
 	//p2.x = p2.x - p1.x;               // p2-p1을 원점기준으로 옮긴 것
 	//p2.y = p2.y - p1.y;
 
-	float dec_cp_p1 = atan2(vPosToStart.y, vPosToStart.x);  // cp_p1의 각도
-	float dec_p2 = atan2(vStartToEnd.y, vStartToEnd.x);       // p2의 각도
+	double dec_cp_p1 = atan2(vPosToStart.y, vPosToStart.x);  // cp_p1의 각도
+	double dec_p2 = atan2(vStartToEnd.y, vStartToEnd.x);       // p2의 각도
 
 	// 원의 중심에서 직선의 수직인 거리.
 	//float D = sqrt(cp_p1.x * cp_p1.x + cp_p1.y * cp_p1.y) * sin(dec_p2 - dec_cp_p1);
-	float D = sqrt(vPosToStart.x * vPosToStart.x + vPosToStart.y * vPosToStart.y) * sin(dec_p2 - dec_cp_p1);
+	double D = sqrt(vPosToStart.x * vPosToStart.x + vPosToStart.y * vPosToStart.y) * sin(dec_p2 - dec_cp_p1);
 
 	if (D < 0)
 		D = -D;
@@ -717,7 +717,7 @@ bool CCollisionCheck::OverlapAABBtoAABB(SVector2& vTL_A, SVector2& vBR_A, SVecto
 int ArrayMinIdx(float arr[], int size)
 {
 	int nMinIdx = -1;
-	float fMin = 999999999;
+	float fMin = 999999999.0f;
 	for (int i = 0; i < 4; i++)
 	{
 		if (arr[i] < fMin)

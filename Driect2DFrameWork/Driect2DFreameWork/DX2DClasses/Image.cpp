@@ -114,11 +114,14 @@ void CImage::DrawBitmap(const SVector2& pos, const SVector2& size, const float& 
 	D2D1::Matrix3x2F matTS = matT * matS;
 	D2D1::Matrix3x2F matTrans = matT * matR * matS; //회전을 먼저시키고 이동시킬 경우, 2D에서 케릭터의 모양만 회전시키는 식으로 처리가 가능하다. 
 
-	D2D1_RECT_F sArea = D2D1::RectF(0, 0, m_sPointSize.x, m_sPointSize.y);
+	m_sDrawRect = D2D1::RectF(0, 0, m_sPointSize.x, m_sPointSize.y);
 
 	m_pRenderTarget->SetTransform(matTrans);
-	m_pRenderTarget->DrawBitmap(bitmap, sArea);//비트맵을 그릴 영역은 회전을 적용한 랜더링이 되지않음.
-
+	m_pRenderTarget->DrawBitmap(bitmap, m_sDrawRect.ToD2D1Rect());//비트맵을 그릴 영역은 회전을 적용한 랜더링이 되지않음.
+	
+	//ID2D1SolidColorBrush* pBrush = nullptr;
+	//m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Red), &pBrush);
+	//m_pRenderTarget->DrawRectangle(m_sDrawRect.ToD2D1Rect(), pBrush, 1, 0);
 }
 
 void CImage::DrawBitmap(const D2D1::Matrix3x2F &mat, int idx)
@@ -126,9 +129,13 @@ void CImage::DrawBitmap(const D2D1::Matrix3x2F &mat, int idx)
 	const SVector2 size = m_sPointSize;
 	ID2D1Bitmap* bitmap = m_pD2DBitmap[idx];
 
-	D2D1_RECT_F sArea = D2D1::RectF(0, 0, m_sPointSize.x, m_sPointSize.y);
+	m_sDrawRect = D2D1::RectF(0, 0, m_sPointSize.x, m_sPointSize.y);
 	m_pRenderTarget->SetTransform(mat);//트랜스폼을 셋팅하여 위치를 이동한다.
-	m_pRenderTarget->DrawBitmap(bitmap, sArea);//비트맵을 그릴 영역은 회전을 적용한 랜더링이 되지않음.
+	m_pRenderTarget->DrawBitmap(bitmap, m_sDrawRect.ToD2D1Rect());//비트맵을 그릴 영역은 회전을 적용한 랜더링이 되지않음.
+	
+	/*ID2D1SolidColorBrush* pBrush = nullptr;
+	m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Red), &pBrush);
+	m_pRenderTarget->DrawRectangle(m_sDrawRect.ToD2D1Rect(), pBrush, 1, 0);*/
 }
 
 void CImage::DrawBitmap(const D2D1::Matrix3x2F* mat, int idx)
@@ -136,7 +143,11 @@ void CImage::DrawBitmap(const D2D1::Matrix3x2F* mat, int idx)
 	const SVector2 size = m_sPointSize;
 	ID2D1Bitmap* bitmap = m_pD2DBitmap[idx];
 
-	D2D1_RECT_F sArea = D2D1::RectF(0, 0, m_sPointSize.x, m_sPointSize.y);
+	m_sDrawRect = D2D1::RectF(0, 0, m_sPointSize.x, m_sPointSize.y);
 	m_pRenderTarget->SetTransform(mat);//트랜스폼을 셋팅하여 위치를 이동한다.
-	m_pRenderTarget->DrawBitmap(bitmap, sArea);//비트맵을 그릴 영역은 회전을 적용한 랜더링이 되지않음.
+	m_pRenderTarget->DrawBitmap(bitmap, m_sDrawRect.ToD2D1Rect());//비트맵을 그릴 영역은 회전을 적용한 랜더링이 되지않음.
+
+	/*ID2D1SolidColorBrush* pBrush = nullptr;
+	m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Red), &pBrush);
+	m_pRenderTarget->DrawRectangle(m_sDrawRect.ToD2D1Rect(), pBrush, 1, 0);*/
 }

@@ -157,6 +157,7 @@
     <ClInclude Include="DX2DClasses\InputManager.h" />
     <ClInclude Include="DX2DClasses\Matrix3.h" />
     <ClInclude Include="DX2DClasses\Matrix3x3.h" />
+    <ClInclude Include="DX2DClasses\Rect.h" />
     <ClInclude Include="DX2DClasses\UtilityDefine.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="main.h" />

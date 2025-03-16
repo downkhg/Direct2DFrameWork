@@ -105,18 +105,15 @@ void CDebugHelper::DrawPolygon(D2D1::Matrix3x2F& mat, SVector2 posArr[],  int si
 
 void CDebugHelper::DrawCircle(CGameObject* pGameObject, CColorBrush* pColorBrush, float stroke)
 {
-	SVector2 vCenter = pGameObject->GetImage()->GetImageCenter();
-	SVector2 vSize = pGameObject->GetImage()->GetImageSize() * 0.5f;
-	float fRad = vSize.Magnitude();
+	SVector2 vCenter = pGameObject->GetImage()->GetDrawRect().GetCenter();
+	float fRad = pGameObject->GetImage()->GetDrawRect().GetRadius();
 	DrawCircle(vCenter, fRad, pColorBrush, stroke);
 }
 
 void CDebugHelper::DrawRect(CGameObject* pGameObject, CColorBrush* pColorBrush, float stroke)
 {
 	ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();
-	SVector2 vSize = pGameObject->GetImage()->GetImageSize();
-	pRenderTarget->SetTransform(pGameObject->GetTransform().GetTransfrom());
-	pRenderTarget->DrawRectangle(D2D1::RectF(0, 0, vSize.x, vSize.y), pColorBrush->GetColorBrush(), stroke);
+	pRenderTarget->DrawRectangle(pGameObject->GetImage()->GetDrawRect().ToD2D1Rect(), pColorBrush->GetColorBrush(), stroke);
 }
 
 void CDebugHelper::DrawBox(CGameObject* pGameObject, CColorBrush* pColorBrush, float stroke)

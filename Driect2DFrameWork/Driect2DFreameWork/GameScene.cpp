@@ -5,6 +5,9 @@
 #include "DX2DClasses/InputManager.h"
 #include "DX2DClasses/DebugHelper.h"
 #include "DX2DClasses/CollisionCheck.h"
+#include "DX2DClasses/ColorBrushPalettet.h"
+#include "DX2DClasses/SingletonRenderTarget.h"
+#include <algorithm>
 
 using namespace DX2DClasses;
 
@@ -53,6 +56,11 @@ void CGameScene::_InitImagesList(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 
 void CGameScene::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 {
+	ID2D1HwndRenderTarget* pRenderTarget = CSingletonRenderTarget::GetRenderTarget();
+
+	m_pColorBrushPalettet = new CColorBrushPalettet();
+	m_pColorBrushPalettet->Initialize(pRenderTarget);
+
 	_InitImagesList(hWnd,pDX2DFramework);
 
 	m_pPlayerObject = new CGameObject();
@@ -67,7 +75,7 @@ void CGameScene::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 		pObjectItem->Initialize(m_listImages[E_SUNNYLAND_IMAGE::Cherry], true);
 		pObjectItem->GetTransform().SetTransrate(100 * i, 100);
 		m_listItem[i] = pObjectItem;
-		m_queueEnableItem.push(pObjectItem);
+		m_listEnableItem.push_back(pObjectItem);
 	}
 }
 
@@ -92,26 +100,26 @@ void CGameScene::Update()
 {
 	static float fAngle = 0;
 	{
-		CTransform& cTrnasform = m_pPlayerObject->GetTransform();
-		SVector2 vPos = cTrnasform.GetTransrate();
+		CTransform& refTrnasform = m_pPlayerObject->GetTransform();
+		SVector2 vPos = refTrnasform.GetTransrate();
 		SVector2 vSize = m_pPlayerObject->GetImage()->GetImageSize();
 		SVector2 vAsix = vSize * 0.5f;
-		SVector2 vScale = cTrnasform.GetScale();
+		SVector2 vScale = refTrnasform.GetScale();
 
 		//벡터방식 연산보다는 효률적이다.
 		if (CInputManager::GetAsyncKeyStatePress(VK_RIGHT))
-			cTrnasform.Transrate(SVector2::right() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
+			refTrnasform.Transrate(SVector2::right() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
 		if (CInputManager::GetAsyncKeyStatePress(VK_LEFT))
-			cTrnasform.Transrate(SVector2::left() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
+			refTrnasform.Transrate(SVector2::left() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
 		if (CInputManager::GetAsyncKeyStatePress(VK_DOWN))
-			cTrnasform.Transrate(SVector2::down() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
+			refTrnasform.Transrate(SVector2::down() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
 		if (CInputManager::GetAsyncKeyStatePress(VK_UP))
-			cTrnasform.Transrate(SVector2::up() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
+			refTrnasform.Transrate(SVector2::up() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
 		if (CInputManager::GetAsyncKeyStatePress(90))
-			cTrnasform.Transrate(SVector2::left() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
+			refTrnasform.Transrate(SVector2::left() * m_fPlayerSpeed);//vPlayerPos.x -= fPlayerSpeed;
 
-		cTrnasform.SetAsixPoint(vAsix);
-		//cTrnasform.Rotate(10);
+		refTrnasform.SetAsixPoint(vAsix);
+		refTrnasform.Rotate(10);
 	}
 	m_pPlayerObject->Update();
 
@@ -136,10 +144,11 @@ void CGameScene::Update()
 			if (CCollisionCheck::OverlapCircleToCircle(vPlayerPos, fPlayerRad, vItemPos, fItemRad))
 			{
 				CDebugHelper::LogConsole("[%x] PlayerPos[%f](%f,%f) ItemPos[%f](%f,%f) Dist:%f \n", pObjItem, fPlayerRad, vPlayerPos.x, vPlayerPos.y, fItemRad, vItemPos.x, vItemPos.y, fDist);
-				CGameObject* colItem = m_queueEnableItem.front();
+				CGameObject* colItem = *it;
+				auto itFind = find(m_listEnableItem.begin(), m_listEnableItem.end(), colItem);
 				colItem->SetActive(false);
-				m_queueDiableItem.push(colItem);
-				m_queueEnableItem.pop();
+				m_listDiableItem.push(colItem);
+				m_listEnableItem.remove(colItem);
 			}
 		}
 		pObjItem->Update();
@@ -149,6 +158,8 @@ void CGameScene::Update()
 void CGameScene::Draw()
 {
 	m_pPlayerObject->Draw();
+	CColorBrush* pBlackBrush = m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::BLACK);
+	CDebugHelper::DrawRect(m_pPlayerObject, m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::BLACK));
 
 	for (auto it = m_listItem.begin();
 		it != m_listItem.end(); it++)

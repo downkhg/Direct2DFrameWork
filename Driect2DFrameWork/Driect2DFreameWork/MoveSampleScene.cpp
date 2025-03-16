@@ -129,7 +129,7 @@ void CMoveSampleScene::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 
 void CMoveSampleScene::Release()
 {
-	for (int i = 0; i < m_listItems.size(); i++)
+	for (int i = 0; i < (int)m_listItems.size(); i++)
 	{
 		m_listItems[i]->Release();
 		delete m_listItems[i];

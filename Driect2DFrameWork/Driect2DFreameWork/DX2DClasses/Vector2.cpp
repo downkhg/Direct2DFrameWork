@@ -150,8 +150,8 @@ void SVector2::TestMain()
 	SVector2 vTan = SVector2::up() + SVector2::right();
 	vTan.Normalize();
 	float fTanA = vTan.y / vTan.x;
-	float fTanAToRad = atanf(fTanA) * fRad2Deg;
-	float fTanA2ToRad = atan2(vTan.y, vTan.x) * fRad2Deg;
+	double fTanAToRad = atanf(fTanA) * fRad2Deg;
+	double fTanA2ToRad = atan2(vTan.y, vTan.x) * fRad2Deg;
 
 	_cprintf("dot: %f / cosA: %f / cosAtoRad: %f \n", fDot, fCosA, fCosAtoRad);
 	_cprintf("vTan %s / tanA: %f / tanAtoRad1/2: %f/%f \n", vTan.GetChar(), fTanA, fTanAToRad, fTanA2ToRad);

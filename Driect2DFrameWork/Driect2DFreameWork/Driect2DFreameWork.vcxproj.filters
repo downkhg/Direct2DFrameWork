@@ -149,6 +149,9 @@
     <ClInclude Include="GameScene.h">
       <Filter>소스 파일\UserDefine</Filter>
     </ClInclude>
+    <ClInclude Include="DX2DClasses\Rect.h">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Direct2D.ico">
