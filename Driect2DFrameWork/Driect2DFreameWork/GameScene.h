@@ -10,6 +10,8 @@ namespace DX2DClasses
 	class CImage;
 	class CColorBrushPalettet;
 	class CGameObject;
+	class CCircleCollider;
+	class CRigidbody;
 
 	class CGameScene : public ISceneManager
 	{
@@ -48,6 +50,12 @@ namespace DX2DClasses
 
 		std::vector<CGameObject*> m_listItemEffectObject;
 		std::vector<CGameObject*> m_listpDeathEffectObject;
+
+		CCircleCollider* m_pPlayerCollider;
+		CCircleCollider* m_pItemCollider;
+
+		CGameObject* m_pRigidBodyObject;
+		CRigidbody* m_pRigidBody;
 
 		float m_fPlayerSpeed = 2;
 		float m_fPlayerJumpHigher = 7;

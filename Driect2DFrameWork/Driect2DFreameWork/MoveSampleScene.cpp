@@ -170,6 +170,17 @@ void CMoveSampleScene::Update()
 	CDebugHelper::OpenConsole();
 	//블록을 활용하여 각 오브젝트 처리시 지역변수를 동일한 이름으로 활용가능하도록 함.
 
+
+	if (CInputManager::GetAsyncKeyStatePress(VK_F1))
+	{
+		CDebugHelper::LogConsole("GetAsyncKeyStatePress(VK_F1)");
+	}
+
+	if (CInputManager::GetAsyncKeyStateRelease(VK_F1))
+	{
+		CDebugHelper::LogConsole("GetAsyncKeyStateRelease(VK_F1)");
+	}
+
 	static float fAngle = 0;
 	{
 		CTransform& cTrnasform = m_pPlayerObject->GetTransform();
@@ -211,7 +222,7 @@ void CMoveSampleScene::Update()
 	}
 	m_pOpossumObject->Update();
 	
-	/*{
+	{
 		CTransform& cTrnasform = m_pEagleObject->GetTransform();
 		SVector2 vPos = m_pEagleObject->GetTransform().GetTransrate();
 		SVector2 vTargetPos = m_pPlayerObject->GetTransform().GetTransrate();
@@ -219,7 +230,7 @@ void CMoveSampleScene::Update()
 		vDir = vDir.Normalize();
 		vPos = vPos + vDir * m_fEangleSpeed;
 		cTrnasform.SetTransrate(vPos);	
-	}*/
+	}
 	m_pEagleObject->Update();
 	
 	m_pCherryObject->Update();

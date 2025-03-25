@@ -9,7 +9,7 @@ using namespace std;
 using namespace DX2DClasses;
 //https://gamedev.stackexchange.com/questions/25397/obb-vs-obb-collision-detection
 //선분의 노말과 각 변의 점들을 내적하고 그중 가장 큰값과 작은 값을 구한다. 여기서 내적은 선분의 길이로 보면된다.
-void SATtest(const SVector2& axis, const SVector2 ptSet[], int size, float& minAlong, float& maxAlong, int& minIdx, int& maxIdx)
+void SATtest(const SVector2 axis, const SVector2 ptSet[], int size, float& minAlong, float& maxAlong, int& minIdx, int& maxIdx)
 {
 	minAlong = (float)HUGE, maxAlong = -(float)HUGE;
 	for (int i = 0; i < size; i++)
@@ -70,7 +70,7 @@ bool intersects(SVector2 shapeA_Corners[],int a_size, SVector2 shapeB_Corners[],
 }
 
 
-bool CCollisionCheck::OverlapPointToLine(SVector2& vPos, SVector2& vStart, SVector2& vEnd, int& check)
+bool CCollisionCheck::OverlapPointToLine(SVector2 vPos, SVector2 vStart, SVector2 vEnd, int& check)
 {
 #ifdef DEBUG_OVERLAP
 	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::E_BRUSH_COLOR::RED);
@@ -115,7 +115,7 @@ bool CCollisionCheck::OverlapPointToLine(SVector2& vPos, SVector2& vStart, SVect
 	return false;
 }
 
-bool CCollisionCheck::OverlapPointToCircle(SVector2& vPos, SVector2& vCenter, const float fRad)
+bool CCollisionCheck::OverlapPointToCircle(SVector2 vPos, SVector2 vCenter, const float fRad)
 {
 #ifdef DEBUG_OVERLAP
 	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::E_BRUSH_COLOR::RED);
@@ -142,7 +142,7 @@ bool CCollisionCheck::OverlapPointToCircle(SVector2& vPos, SVector2& vCenter, co
 	}
 }
 
-bool CCollisionCheck::OverlapPointToAABB(SVector2& vPos, SVector2& vTL, SVector2& vBR)
+bool CCollisionCheck::OverlapPointToAABB(SVector2 vPos, SVector2 vTL, SVector2 vBR)
 {
 #ifdef DEBUG_OVERLAP
 	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::E_BRUSH_COLOR::RED);
@@ -167,7 +167,7 @@ bool CCollisionCheck::OverlapPointToAABB(SVector2& vPos, SVector2& vTL, SVector2
 	}
 }
 
-bool CCollisionCheck::OverlapPointToOBB(SVector2& vPos, SVector2& vTL, SVector2& vTR, SVector2& vBR, SVector2& vBL)
+bool CCollisionCheck::OverlapPointToOBB(SVector2 vPos, SVector2 vTL, SVector2 vTR, SVector2 vBR, SVector2 vBL)
 {
 	SVector2 vTLtoTR = vTR - vTL;
 	SVector2 vTRtoBR = vBR - vTR;
@@ -218,17 +218,17 @@ bool CCollisionCheck::OverlapPointToOBB(SVector2& vPos, SVector2& vTL, SVector2&
 	return false;
 }
 
-bool CCollisionCheck::OverlapLineToAABB(SVector2& vStart, SVector2& vEnd, SVector2& vTL, SVector2& vBR)
+bool CCollisionCheck::OverlapLineToAABB(SVector2 vStart, SVector2 vEnd, SVector2 vTL, SVector2 vBR)
 {
 	return false;
 }
 
-bool CCollisionCheck::OverlapLineToOBB(SVector2& vStart, SVector2& vEnd, SVector2& vTL, SVector2& vTR,  SVector2& vBR, SVector2& vBL)
+bool CCollisionCheck::OverlapLineToOBB(SVector2 vStart, SVector2 vEnd, SVector2 vTL, SVector2 vTR,  SVector2 vBR, SVector2 vBL)
 {
 	return false;
 }
 
-bool CCollisionCheck::OverlapCircleToLine(SVector2& vPos, float fRadius, SVector2& vStart, SVector2& vEnd)
+bool CCollisionCheck::OverlapCircleToLine(SVector2 vPos, float fRadius, SVector2 vStart, SVector2 vEnd)
 {
 #ifdef DEBUG_OVERLAP	
 	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::RED);
@@ -284,34 +284,22 @@ bool CCollisionCheck::OverlapCircleToLine(SVector2& vPos, float fRadius, SVector
 	return false;
 }
 
-bool CCollisionCheck::OverlapCircleToCircle(SVector2& vCenterA, const float fRadA, SVector2& vCenterB, const float fRadB)
+bool CCollisionCheck::OverlapCircleToCircle(SVector2 vCenterA, const float fRadA, SVector2 vCenterB, const float fRadB)
 {
-#ifdef DEBUG_OVERLAP	
-	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::RED);
-	CColorBrush* pBlackBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::BLACK);
-#endif
 	SVector2 vDist = vCenterB - vCenterA;
 	float fDist = vDist.Magnitude();
 
 	if (fDist < (fRadA + fRadB))
 	{
-#ifdef DEBUG_OVERLAP	
-		CDebugHelper::DrawCircle(vCenterA, fRadA, pRedBrush);
-		CDebugHelper::DrawCircle(vCenterA, fRadA, pRedBrush);
-#endif
 		return true;
 	}
 	else
 	{
-#ifdef DEBUG_OVERLAP	
-		CDebugHelper::DrawCircle(vCenterB, fRadB, pBlackBrush);
-		CDebugHelper::DrawCircle(vCenterB, fRadB, pBlackBrush);
-#endif
 		return false;
 	}
 }
 
-bool CCollisionCheck::OverlapCircleToAABB(SVector2& vPos, float fRadius, SVector2& vTL, SVector2& vBR)
+bool CCollisionCheck::OverlapCircleToAABB(SVector2 vPos, float fRadius, SVector2 vTL, SVector2 vBR)
 {
 	bool bCheck = false;
 	SVector2 vTR = SVector2::RectTR(vTL, vBR);
@@ -393,7 +381,7 @@ bool CCollisionCheck::OverlapCircleToAABB(SVector2& vPos, float fRadius, SVector
 	return bCheck;
 }
 
-bool CCollisionCheck::OverlapCircleToOBB(SVector2& vPos, float fRadius, SVector2& vTL, SVector2& vTR, SVector2& vBR, SVector2& vBL)
+bool CCollisionCheck::OverlapCircleToOBB(SVector2 vPos, float fRadius, SVector2 vTL, SVector2 vTR, SVector2 vBR, SVector2 vBL)
 {
 #ifdef DEBUG_OVERLAP	
 	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::RED);
@@ -658,7 +646,7 @@ bool CCollisionCheck::OverlapCircleToOBB(SVector2& vPos, float fRadius, SVector2
 	return bCheck;
 }
 
-bool CCollisionCheck::OverlapAABBtoAABB(SVector2& vTL_A, SVector2& vBR_A, SVector2& vTL_B, SVector2& vBR_B)
+bool CCollisionCheck::OverlapAABBtoAABB(SVector2 vTL_A, SVector2 vBR_A, SVector2 vTL_B, SVector2 vBR_B)
 {
 #ifdef DEBUG_OVERLAP	
 	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::RED);
@@ -675,7 +663,7 @@ bool CCollisionCheck::OverlapAABBtoAABB(SVector2& vTL_A, SVector2& vBR_A, SVecto
 	return true;
 }
 
-//bool CCollisionCheck::OverlapAABBtoCircle(SVector2& vTL, SVector2& vBR, SVector2& vPos, float fRad)
+//bool CCollisionCheck::OverlapAABBtoCircle(SVector2 vTL, SVector2 vBR, SVector2 vPos, float fRad)
 //{
 //	float fRadHalf = fRad * 0.5f;
 //	SVector2 sCircleTL = vPos - SVector2(fRadHalf, fRadHalf);
@@ -758,7 +746,7 @@ bool CheckOBB(SVector2 vPos, SVector2 vCenter, SVector2 vBoxCenter, SVector2 vTL
 		return false;
 }
 
-bool CCollisionCheck::OverlapAABBtoOBB(SVector2& vTL_A, SVector2& vBR_A, SVector2& vTL_B, SVector2& vTR_B, SVector2& vBR_B, SVector2& vBL_B)
+bool CCollisionCheck::OverlapAABBtoOBB(SVector2 vTL_A, SVector2 vBR_A, SVector2 vTL_B, SVector2 vTR_B, SVector2 vBR_B, SVector2 vBL_B)
 {
 	SVector2 vTR_A = SVector2::RectTR(vTL_A, vBR_A);
 	SVector2 vBL_A = SVector2::RectBL(vTL_A, vBR_A);
@@ -766,7 +754,7 @@ bool CCollisionCheck::OverlapAABBtoOBB(SVector2& vTL_A, SVector2& vBR_A, SVector
 	return OverlapOBBtoOBB(vTL_A, vTR_A, vBR_A, vBL_A, vTL_B, vTR_B, vBR_B, vBL_B);;
 }
 
-//bool CCollisionCheck::OverlapOBBtoOBB(SVector2& vTL_A, SVector2& vTR_A, SVector2& vBR_A, SVector2& vBL_A, SVector2& vTL_B, SVector2& vTR_B, SVector2& vBR_B, SVector2& vBL_B)
+//bool CCollisionCheck::OverlapOBBtoOBB(SVector2 vTL_A, SVector2 vTR_A, SVector2 vBR_A, SVector2 vBL_A, SVector2 vTL_B, SVector2 vTR_B, SVector2 vBR_B, SVector2 vBL_B)
 //{
 //#ifdef DEBUG_OVERLAP	
 //	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::RED);
@@ -864,7 +852,7 @@ bool CCollisionCheck::OverlapAABBtoOBB(SVector2& vTL_A, SVector2& vBR_A, SVector
 //	return false;
 //}
 
-bool CCollisionCheck::OverlapOBBtoOBB(SVector2& vTL_A, SVector2& vTR_A, SVector2& vBR_A, SVector2& vBL_A, SVector2& vTL_B, SVector2& vTR_B, SVector2& vBR_B, SVector2& vBL_B)
+bool CCollisionCheck::OverlapOBBtoOBB(SVector2 vTL_A, SVector2 vTR_A, SVector2 vBR_A, SVector2 vBL_A, SVector2 vTL_B, SVector2 vTR_B, SVector2 vBR_B, SVector2 vBL_B)
 {
 #ifdef DEBUG_OVERLAP	
 	CColorBrush* pRedBrush = CColorBrushPalettet::GetInstance()->GetBrushClass(CColorBrushPalettet::RED);

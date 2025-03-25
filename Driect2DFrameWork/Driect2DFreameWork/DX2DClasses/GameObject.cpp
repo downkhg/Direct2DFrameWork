@@ -149,7 +149,14 @@ CImage* CGameObject::GetImage()
 {
 	return m_pImage;
 }
-
+CCollider* CGameObject::GetCollider()
+{
+	return m_pCollier;
+}
+void CGameObject::SetCollider(CCollider* pCollider)
+{
+	m_pCollier = pCollider;
+}
 CGameObject::CGameObject()
 {
 	m_pAnimator = NULL;

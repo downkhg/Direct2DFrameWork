@@ -78,6 +78,9 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>소스 파일\UserDefine</Filter>
     </ClCompile>
+    <ClCompile Include="MemoryLeakTestScene.cpp">
+      <Filter>소스 파일\UserDefine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX2DClasses\SingletonRenderTarget.h">
@@ -151,6 +154,15 @@
     </ClInclude>
     <ClInclude Include="DX2DClasses\Rect.h">
       <Filter>소스 파일\DX2DClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="DX2DClasses\Rigidbody.h">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="DX2DClasses\Time.h">
+      <Filter>소스 파일\DX2DClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryLeakTestScene.h">
+      <Filter>소스 파일\UserDefine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

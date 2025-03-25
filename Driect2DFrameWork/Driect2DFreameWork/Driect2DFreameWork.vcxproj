@@ -141,6 +141,7 @@
     <ClCompile Include="DX2DClasses\ColorBrush.cpp" />
     <ClCompile Include="DX2DClasses\SingletonRenderTarget.cpp" />
     <ClCompile Include="DX2DClasses\Vector2.cpp" />
+    <ClCompile Include="MemoryLeakTestScene.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="MoveSampleScene.cpp" />
     <ClCompile Include="stdafx.cpp" />
@@ -158,6 +159,8 @@
     <ClInclude Include="DX2DClasses\Matrix3.h" />
     <ClInclude Include="DX2DClasses\Matrix3x3.h" />
     <ClInclude Include="DX2DClasses\Rect.h" />
+    <ClInclude Include="DX2DClasses\Rigidbody.h" />
+    <ClInclude Include="DX2DClasses\Time.h" />
     <ClInclude Include="DX2DClasses\UtilityDefine.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="main.h" />
@@ -165,6 +168,7 @@
     <ClInclude Include="DX2DClasses\SceneManager.h" />
     <ClInclude Include="DX2DClasses\SingletonRenderTarget.h" />
     <ClInclude Include="DX2DClasses\Vector2.h" />
+    <ClInclude Include="MemoryLeakTestScene.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="MoveSampleScene.h" />

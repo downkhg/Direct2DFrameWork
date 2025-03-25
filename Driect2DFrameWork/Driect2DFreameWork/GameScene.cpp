@@ -7,6 +7,8 @@
 #include "DX2DClasses/CollisionCheck.h"
 #include "DX2DClasses/ColorBrushPalettet.h"
 #include "DX2DClasses/SingletonRenderTarget.h"
+#include "DX2DClasses/Colliders.h"
+#include "DX2DClasses/Rigidbody.h"
 #include <algorithm>
 
 using namespace DX2DClasses;
@@ -61,26 +63,39 @@ void CGameScene::Initialize(HWND hWnd, CDriect2DFramwork* pDX2DFramework)
 	m_pColorBrushPalettet = new CColorBrushPalettet();
 	m_pColorBrushPalettet->Initialize(pRenderTarget);
 
-	_InitImagesList(hWnd,pDX2DFramework);
+	CImage* pPlayerImage = new CImage(pDX2DFramework->GetD2DRenderTarget(), pDX2DFramework->GetImagingFactory(), 6);
+	pPlayerImage->ManualLoadImage(hWnd, L"Images\\Player\\player%02d.png");
+	m_listImages.push_back(pPlayerImage);
+	//_InitImagesList(hWnd,pDX2DFramework);
 
 	m_pPlayerObject = new CGameObject();
 	m_pPlayerObject->Initialize(m_listImages[E_SUNNYLAND_IMAGE::Player], true);
+	SRect sPlayerRect = m_pPlayerObject->GetImage()->GetDrawRect();
+	m_pPlayerCollider = new CCircleCollider(m_pPlayerObject->GetTransformPtr(), sPlayerRect.GetCenter(), sPlayerRect.GetRadius());
+	m_pPlayerObject->SetCollider(m_pPlayerCollider);
 
-	int nSize = 10;
-	m_listItem.resize(nSize);
+	//int nSize = 10;
+	////m_listItem.resize(nSize);
 
-	for (int i = 0; i < m_listItem.size(); i++)
-	{
-		CGameObject* pObjectItem = new CGameObject();
-		pObjectItem->Initialize(m_listImages[E_SUNNYLAND_IMAGE::Cherry], true);
-		pObjectItem->GetTransform().SetTransrate(100 * i, 100);
-		m_listItem[i] = pObjectItem;
-		m_listEnableItem.push_back(pObjectItem);
-	}
+	//for (int i = 0; i < nSize; i++)
+	//{
+	//	CGameObject* pObjectItem = new CGameObject();
+	//	pObjectItem->Initialize(m_listImages[E_SUNNYLAND_IMAGE::Cherry], true);
+	//	pObjectItem->GetTransform().SetTransrate(100.0f * i, 100.0f);
+	//	m_listEnableItem.push_back(pObjectItem);
+	//	m_listItem.push_back(pObjectItem);
+	//}
+
+	//m_pRigidBody = new CRigidbody();
 }
 
 void CGameScene::Release()
 {
+	//delete m_pRigidBody;
+
+	//m_pRigidBodyObject->Release();
+	//delete m_pRigidBodyObject;
+	
 	for(auto it = m_listImages.begin(); 
 		it != m_listImages.end(); it++)
 	{
@@ -94,6 +109,13 @@ void CGameScene::Release()
 		delete *it;
 	}
 	m_listItem.clear();
+
+	delete m_pPlayerCollider;
+	m_pPlayerObject->Release();
+	delete m_pPlayerObject;
+
+	m_pColorBrushPalettet->Release();
+	delete m_pColorBrushPalettet;
 }
 
 void CGameScene::Update()
@@ -136,8 +158,8 @@ void CGameScene::Update()
 		if (pObjItem->GetActive())
 		{
 			SVector2 vItemPos = pObjItem->GetTransform().GetTransrate();
-			SVector2 vItemSize = pObjItem->GetImage()->GetImageSize() * 0.5f;
-			SVector2 vItemCenterPos = vItemPos + vItemSize;
+			SVector2 vItemSize = pObjItem->GetImage()->GetImageSize();
+			SVector2 vItemCenterPos = vItemPos + vItemSize * 0.5f;
 			float fItemRad = vItemSize.Magnitude();
 
 			if (CCollisionCheck::OverlapCircleToCircle(vPlayerCenterPos, fPlayerRad, vItemCenterPos, fItemRad))
@@ -163,7 +185,7 @@ void CGameScene::Draw()
 		it != m_listItem.end(); it++)
 	{
 		CGameObject* pItem = (*it);
-		CDebugHelper::DrawCircle(pItem, m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::RED));
 		pItem->Draw();
+		CDebugHelper::DrawCircle(pItem, m_pColorBrushPalettet->GetBrushClass(CColorBrushPalettet::RED));
 	}
 }

@@ -6,6 +6,7 @@ namespace DX2DClasses
 {
 	struct SVector2;
 	class CImage;
+	class CCollider;
 
 	class CTransform
 	{
@@ -58,13 +59,15 @@ namespace DX2DClasses
 		CTransform m_cTransform;
 		CAnimator2D* m_pAnimator = NULL;
 		CImage* m_pImage = NULL;
+		CCollider* m_pCollier = NULL;
 		bool m_isActive;
 	public:
 		CTransform& GetTransform();
 		CTransform* GetTransformPtr();
 		void SetImage(CImage* img);
 		CImage* GetImage();
-
+		CCollider* GetCollider();
+		void SetCollider(CCollider* collider);
 		void SetActive(bool use) { m_isActive = use; };
 		bool GetActive() { return m_isActive; };
 	public:

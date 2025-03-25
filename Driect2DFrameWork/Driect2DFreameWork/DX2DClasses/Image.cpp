@@ -24,11 +24,14 @@ CImage::CImage(ID2D1HwndRenderTarget* pRenderTarget, IWICImagingFactory* pWICFac
 }
 CImage::~CImage()
 {
-	/*if (m_pD2DBitmap)
+	for (auto& bitmap : m_pD2DBitmap)
 	{
-		delete[] m_pD2DBitmap;
-		m_pD2DBitmap = NULL;
-	}*/
+		if (bitmap)
+		{
+			bitmap->Release();
+			bitmap = nullptr;
+		}
+	}
 	m_pD2DBitmap.clear();
 }
 
